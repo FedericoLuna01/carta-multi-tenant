@@ -4,7 +4,6 @@ import Image from "next/image"
 
 import useProductModal from "@/hooks/use-product-modal"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog"
-import { formatter } from "@/lib/utils"
 import AddProductForm from "../forms/add-product-form"
 
 const ProductModal = () => {
@@ -38,11 +37,6 @@ const ProductModal = () => {
           <DialogDescription>
             {data?.description}
           </DialogDescription>
-          <p
-            className="text-lg font-bold text-black"
-          >
-            {formatter.format(data?.price)}
-          </p>
           <div>
             <AddProductForm
               data={data}

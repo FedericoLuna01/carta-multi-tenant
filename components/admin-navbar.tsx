@@ -1,5 +1,7 @@
 import Link from "next/link"
+
 import { Button } from "./ui/button"
+import LogoutButton from "./ui/logout-button"
 
 const NavItems = [
   {
@@ -66,6 +68,9 @@ const AdminNavbar = () => {
                 </li>
               ))
             }
+            <li>
+              <LogoutButton />
+            </li>
           </ul>
         </nav>
       </div>

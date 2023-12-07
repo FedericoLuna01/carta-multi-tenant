@@ -8,12 +8,11 @@ import { formatter } from '@/lib/utils'
 import { Trash } from 'lucide-react'
 import useDeleteProductModal from '@/hooks/use-delete-product-modal'
 import { CartProduct } from '@/types/types'
+import { getTotalProductPrice } from '@/actions/getTotalPrice'
 
 const CartProductsTable = () => {
   const { onOpen } = useDeleteProductModal()
   const cart = useCart()
-
-  const total = cart.items.reduce((acc, item) => acc + (item.quantity * item.price), 0)
 
   const handleRemove = (item: CartProduct) => {
     if (item.quantity === 1) {
@@ -21,6 +20,8 @@ const CartProductsTable = () => {
     }
     onOpen(item)
   }
+
+  const total = cart.items.reduce((acc, item) => acc + getTotalProductPrice(item), 0)
 
   return (
     <Table
@@ -65,7 +66,7 @@ const CartProductsTable = () => {
               <TableCell
                 className="text-right"
               >
-                {formatter.format(item.price * item.quantity)}
+                {formatter.format(getTotalProductPrice(item))}
               </TableCell>
               <TableCell
                 className="text-right"

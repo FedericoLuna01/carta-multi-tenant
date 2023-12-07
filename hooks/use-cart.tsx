@@ -24,7 +24,9 @@ const useCart = create(
         const newData = {
           ...existingItems,
           quantity: data.quantity,
-          options: data.options
+          options: data.options,
+          size: data.size,
+          extras: data.extras
         }
 
         // Remuevo el item anterior y agrego el nuevo

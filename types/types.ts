@@ -4,6 +4,14 @@ export type Product = {
   description: string;
   image: string;
   price: number;
+  sizes?: {
+    name: string;
+    price: number;
+  }[];
+  extras?: {
+    name: string;
+    price: number;
+  }[];
 }
 
 export type CartProduct = {
@@ -14,6 +22,14 @@ export type CartProduct = {
   price: number;
   quantity: number;
   options?: string;
+  size?: {
+    name: string;
+    price: number;
+  };
+  extras?: {
+    name: string;
+    price: number;
+  }[];
 }
 
 export type Category = {
