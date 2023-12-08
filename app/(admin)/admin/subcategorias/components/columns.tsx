@@ -2,12 +2,16 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import CellAction from './cell-action'
-import { Category } from '@prisma/client'
+import { Subcategory } from '@prisma/client'
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Subcategory>[] = [
   {
     accessorKey: 'name',
     header: 'Nombre',
+  },
+  {
+    accessorKey: 'category.name',
+    header: 'Categoría',
   },
   {
     accessorKey: 'actions',

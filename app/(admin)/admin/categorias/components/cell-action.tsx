@@ -4,10 +4,12 @@ import { useState } from "react"
 import toast from "react-hot-toast"
 import Link from "next/link"
 import { Pencil, Trash } from "lucide-react"
+import axios from "axios"
 
-import { Category } from "@/types/types"
 import { Button } from "@/components/ui/button"
 import { AlertModal } from "@/components/modals/alert-modal"
+import { type Category } from "@prisma/client"
+import { useRouter } from "next/navigation"
 
 interface CellActionProps {
   data: Category
@@ -15,28 +17,21 @@ interface CellActionProps {
 
 const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
-  const onDelete = () => {
-    // Hacer que la categoría se elimine
-    // axios.delete(`/api/categorias/${data.id}`)
-    // try {
-    //   setLoading(true)
-    //   await axios.delete(`/api/${params.storeId}/colors/${data.id}`)
-    //   router.refresh()
-    //   toast.success('Color eliminado')
-    // } catch (error) {
-    //   toast.error('Asegurate de haber eliminado todos los productos que esten usando este color')
-    // } finally {
-    //   setLoading(false)
-    //   setOpen(false)
-    // }
-    setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-      setIsOpen(false)
+  const onDelete = async () => {
+    try {
+      setLoading(true)
+      await axios.delete(`/api/categories/${data.id}`)
+      router.refresh()
       toast.success('Categoría eliminada')
-    }, 2000)
+    } catch (error) {
+      toast.error('Asegurate de haber eliminado todas las subcategorias que esten usando esta categoría')
+    } finally {
+      setLoading(false)
+      setIsOpen(false)
+    }
   }
   return (
     <>
@@ -44,7 +39,7 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onConfirm={onDelete}
-        loading={isLoading}
+        loading={loading}
       />
       <div
         className="space-x-2"

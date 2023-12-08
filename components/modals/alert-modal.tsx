@@ -47,24 +47,24 @@ export const AlertModal: React.FC<AlertModalProps> = ({
             className="text-center"
           >
             La accion que estás a punto de realizar es irreversible.
-            <div
-              className="flex justify-center mt-4 space-x-4"
-            >
-              <Button
-                variant="secondary"
-                onClick={onClose}
-              >
-                Cancelar
-              </Button>
-              <Button
-                variant="destructive"
-                disabled={loading}
-                onClick={onConfirm}
-              >
-                Eliminar
-              </Button>
-            </div>
           </DialogDescription>
+          <div
+            className="flex justify-center mt-4 space-x-4"
+          >
+            <Button
+              variant="secondary"
+              onClick={onClose}
+            >
+                Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              disabled={loading}
+              onClick={onConfirm}
+            >
+                Eliminar
+            </Button>
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>

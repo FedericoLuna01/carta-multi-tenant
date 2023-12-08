@@ -3,6 +3,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFieldArray } from "react-hook-form"
 import * as z from 'zod'
+import { Trash } from "lucide-react"
+import axios from "axios"
+import { useState } from "react"
+import { useParams, useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 import Heading from '../ui/heading'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
@@ -12,14 +17,17 @@ import { Checkbox } from "../ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Separator } from "../ui/separator"
 import ImageUpload from "../ui/image-upload"
-import { Trash } from "lucide-react"
+import { Product, Subcategory } from "@prisma/client"
+import { AlertModal } from "../modals/alert-modal"
 
 const formSchema = z.object({
   name: z
     .string()
     .min(1, { message: 'El nombre es requerido' })
     .max(50),
-  description: z.string(),
+  description: z
+    .string()
+    .optional(),
   price: z.
     coerce
     .number()
@@ -27,7 +35,7 @@ const formSchema = z.object({
   image: z
     .string()
     .min(1, { message: 'La imagen es requerida' }),
-  category: z
+  subcategoryId: z
     .string()
     .min(1, { message: 'La categoria es requerida' }),
   sizes: z
@@ -54,10 +62,9 @@ const formSchema = z.object({
           .min(1, { message: 'El precio es requerido' })
       })
     ),
-  discount: z
+  promoPrice: z
     .coerce
     .number()
-    .max(50)
     .optional(),
   isPromo: z
     .boolean()
@@ -69,22 +76,38 @@ const formSchema = z.object({
     .default(false),
 })
 
-const ProductForm = () => {
+interface ProductFormProps {
+  subcategories: Subcategory[]
+  initialData: Product | null
+}
+
+const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData }) => {
+  const [loading, setLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
+  const params = useParams()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    //TODO: Fixear el error de typescript
+    defaultValues: initialData || {
       name: "",
       description: "",
       price: 0,
       image: "",
-      category: "",
+      subcategoryId: "",
       sizes: [],
       extras: [],
-      discount: 0,
+      promoPrice: 0,
       isPromo: false,
       isArchived: false,
     },
   })
+
+  const title = initialData ? 'Editar producto' : 'Crear producto'
+  const description = initialData ? 'Edita un producto en tu tienda' : 'Agrega un nuevo producto en tu tienda'
+  const buttonText = initialData ? 'Editar producto' : 'Crear producto'
+  const toastText = initialData ? 'Producto editado con exito' : 'Producto creado con exito'
 
   // Controlador de los tamaños
   const {
@@ -106,16 +129,69 @@ const ProductForm = () => {
     control: form.control,
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data)
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    try {
+      setLoading(true)
+      if(initialData) {
+        await axios.patch(`/api/products/${params.productId}`, data)
+      } else {
+        await axios.post('/api/products', data)
+      }
+      router.push('/admin/productos')
+      router.refresh()
+      toast.success(toastText)
+    } catch (error: any) {
+      toast.error('Algo salio mal')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function onDelete() {
+    try {
+      setLoading(true)
+      const res = await axios.delete(`/api/products/${params.productId}`)
+      console.log(res)
+      router.push('/admin/productos')
+      router.refresh()
+      toast.success('Producto eliminado con exito')
+    } catch (error: any) {
+      console.log(error)
+      toast.error('Algo salio mal')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <div>
-      <Heading
-        title='Crear producto'
-        description='Agrega un nuevo producto en tu tienda'
+    <div
+      className="pb-10"
+    >
+      <AlertModal
+        isOpen={isOpen}
+        loading={loading}
+        onClose={() => setIsOpen(false)}
+        onConfirm={onDelete}
       />
+      <div
+        className="flex justify-between items-center"
+      >
+        <Heading
+          title={title}
+          description={description}
+        />
+        {
+          initialData && (
+            <Button
+              size='icon'
+              variant='destructive'
+              onClick={() => setIsOpen(true)}
+            >
+              <Trash className="w-5 h-5" />
+            </Button>
+          )
+        }
+      </div>
       <Separator />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mt-5">
@@ -182,14 +258,14 @@ const ProductForm = () => {
             />
             <FormField
               control={form.control}
-              name='category'
+              name='subcategoryId'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
                     Categoría
                   </FormLabel>
                   <Select
-                  // disabled={loading}
+                    disabled={loading}
                     onValueChange={field.onChange}
                     value={field.value}
                     defaultValue={field.value}
@@ -198,26 +274,21 @@ const ProductForm = () => {
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder='Selecciona una categoría'
+                          placeholder='Selecciona una subcategoría'
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem
-                        value='Hola'
-                      >
-                          Categoria 1
-                      </SelectItem>
-                      {/* {
-                      colors.map((color) => (
-                        <SelectItem
-                          key={color.id}
-                          value={color.id}
-                        >
-                          {color.name}
-                        </SelectItem>
-                      ))
-                    } */}
+                      {
+                        subcategories.map((item) => (
+                          <SelectItem
+                            key={item.id}
+                            value={item.id}
+                          >
+                            {item.name}
+                          </SelectItem>
+                        ))
+                      }
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -264,7 +335,7 @@ const ProductForm = () => {
                           )}
                         />
                         <Button
-                          // disabled={loading}
+                          disabled={loading}
                           onClick={() => removeSize(index)}
                           variant='destructive'
                           size='sm'
@@ -386,7 +457,7 @@ const ProductForm = () => {
               form.watch('isPromo') && (
                 <FormField
                   control={form.control}
-                  name="discount"
+                  name="promoPrice"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Descuento</FormLabel>
@@ -431,11 +502,11 @@ const ProductForm = () => {
             />
           </div>
           <Button
-            // disabled={loading}
+            disabled={loading}
             className='mt-5'
             type='submit'
           >
-            Crear producto
+            {buttonText}
           </Button>
         </form>
       </Form>

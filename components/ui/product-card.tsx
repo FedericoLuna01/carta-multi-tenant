@@ -2,10 +2,10 @@
 
 import Image from "next/image"
 
-import { type Product } from "@/types/types"
 import useProductModal from "@/hooks/use-product-modal"
 import { formatter } from "@/lib/utils"
 import { Button } from "./button"
+import { type Product } from "@prisma/client"
 
 interface ProductCardProps {
   product: Product

@@ -1,3 +1,4 @@
+import AdminAccordion from "@/components/admin-accordion"
 import Header from "@/components/header"
 import { Button } from "@/components/ui/button"
 
@@ -21,6 +22,11 @@ const AdminPage = () => {
         >
           Cambiar fondo
         </Button>
+      </div>
+      <div
+        className="w-full"
+      >
+        <AdminAccordion />
       </div>
     </section>
   )

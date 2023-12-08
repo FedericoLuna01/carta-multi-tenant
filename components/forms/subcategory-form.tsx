@@ -6,6 +6,7 @@ import * as z from 'zod'
 import { useState } from "react"
 import axios from "axios"
 import toast from "react-hot-toast"
+import { Trash } from "lucide-react"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import Heading from "../ui/heading"
@@ -13,19 +14,21 @@ import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { Separator } from "../ui/separator"
 import { useRouter } from "next/navigation"
-import { Category } from "@prisma/client"
-import { Trash } from "lucide-react"
+import { Category, type Subcategory } from "@prisma/client"
 import { AlertModal } from "../modals/alert-modal"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 const formSchema = z.object({
   name: z.string().min(1, { message: 'El nombre es requerido' }).max(50),
+  categoryId: z.string().min(1, { message: 'La categoría es requerida' }),
 })
 
-interface CategoryFormProps {
-  initialData: Category | null
+interface SubcategoryFormProps {
+  initialData: Subcategory | null
+  categories: Category[]
 }
 
-const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
+const SubcategoryForm: React.FC<SubcategoryFormProps> = ({ initialData, categories }) => {
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -35,23 +38,24 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
+      categoryId: ""
     },
   })
 
-  const title = initialData ? 'Editar categoria' : 'Crear categoria'
-  const description = initialData ? 'Edita una categoria en tu tienda' : 'Agrega una nueva categoria en tu tienda'
-  const buttonText = initialData ? 'Editar categoria' : 'Crear categoria'
-  const toastText = initialData ? 'Categoria editada con exito' : 'Categoria creada con exito'
+  const title = initialData ? 'Editar subcategoria' : 'Crear subcategoria'
+  const description = initialData ? 'Edita una subcategoria en tu tienda' : 'Agrega una nueva subcategoria en tu tienda'
+  const buttonText = initialData ? 'Editar subcategoria' : 'Crear subcategoria'
+  const toastText = initialData ? 'Subcategoría editada con exito' : 'Subcategoría creada con exito'
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
       setLoading(true)
       if(initialData) {
-        await axios.patch(`/api/categories/${initialData?.id}`, data)
+        await axios.patch(`/api/subcategories/${initialData?.id}`, data)
       } else {
-        await axios.post('/api/categories', data)
+        await axios.post('/api/subcategories', data)
       }
-      router.push('/admin/categorias')
+      router.push('/admin/subcategorias')
       router.refresh()
       toast.success(toastText)
     } catch (error: any) {
@@ -64,11 +68,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   async function onDelete() {
     try {
       setLoading(true)
-      const res = await axios.delete(`/api/categories/${initialData?.id}`)
+      const res = await axios.delete(`/api/subcategories/${initialData?.id}`)
       console.log(res)
-      router.push('/admin/categorias')
+      router.push('/admin/subcategorias')
       router.refresh()
-      toast.success('Categoria eliminada con exito')
+      toast.success('Subcategoria eliminada con exito')
     } catch (error: any) {
       toast.error('Algo salio mal')
     } finally {
@@ -107,7 +111,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mt-5">
           <div
-            className="grid grid-cols-1 md:grid-cols-3"
+            className="grid grid-cols-1 md:grid-cols-3 gap-4"
           >
             <FormField
               control={form.control}
@@ -118,6 +122,35 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input placeholder="Tragos" {...field} className="grid-span-1" />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Categoría</FormLabel>
+                  <Select value={field.value} onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Categoría a la que va a pertenecer" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {
+                        categories.map((item) => (
+                          <SelectItem
+                            key={item.id}
+                            value={item.id}
+                          >
+                            {item.name}
+                          </SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -136,4 +169,4 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   )
 }
 
-export default CategoryForm
+export default SubcategoryForm

@@ -1,15 +1,29 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
-import { categories, products } from '@/data/data'
 import ProductCard from './ui/product-card'
+import prismadb from '@/lib/prismadb'
 
-const Main = () => {
+const Main = async () => {
+  const data = await prismadb.category.findMany({
+    include: {
+      subcategories: {
+        include: {
+          products: {
+            include: {
+              sizes: true,
+              extras: true
+            }
+          }
+        }
+      }
+    }
+  })
   return (
     <main
       className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-28'
     >
       <Accordion type="single" collapsible >
         {
-          categories.map((category) => (
+          data.map((category) => (
             <AccordionItem
               value={`item-${category.id}`}
               key={category.id}
@@ -26,21 +40,29 @@ const Main = () => {
               >
                 {category.name}
               </AccordionTrigger>
-              <AccordionContent>
-                <h3
-                  className='text-2xl font-semibold ml-4 mt-2 text-slate-800'
-                >Subcategoria</h3>
-                <div>
-                  {
-                    products.map((product) => (
-                      <ProductCard
-                        key={product.name}
-                        product={product}
-                      />
-                    ))
-                  }
-                </div>
-              </AccordionContent>
+              {
+                category.subcategories.map((subcategory) => (
+                  <AccordionContent
+                    key={subcategory.id}
+                  >
+                    <h3
+                      className='text-2xl text-center font-bold uppercase mt-8'
+                    >
+                      {subcategory.name}
+                    </h3>
+                    <div>
+                      {
+                        subcategory.products.map((product) => (
+                          <ProductCard
+                            key={product.name}
+                            product={product}
+                          />
+                        ))
+                      }
+                    </div>
+                  </AccordionContent>
+                ))
+              }
             </AccordionItem>
           ))
         }

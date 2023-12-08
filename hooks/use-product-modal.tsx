@@ -1,4 +1,4 @@
-import { Product } from '@/types/types'
+import { type Product } from '@prisma/client'
 import { create } from 'zustand'
 
 interface ProductModalStore {

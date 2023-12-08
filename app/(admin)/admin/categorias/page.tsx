@@ -1,13 +1,13 @@
 import { DataTable } from "@/components/ui/data-table"
-import { categories } from "@/data/data"
 import { columns } from "./components/columns"
 import { Separator } from "@/components/ui/separator"
 import Heading from "@/components/ui/heading"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import prismadb from "@/lib/prismadb"
 
-const CategoriesPage = () => {
-  const data = categories
+const CategoriesPage = async () => {
+  const categories = await prismadb.category.findMany()
   return (
     <div>
       <div
@@ -30,7 +30,7 @@ const CategoriesPage = () => {
       <Separator />
       <DataTable
         columns={columns}
-        data={data}
+        data={categories}
       />
     </div>
   )

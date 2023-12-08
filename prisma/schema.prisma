@@ -6,6 +6,72 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Product {
+  id            String      @id @default(uuid())
+  name          String
+  description   String?
+  price         Float
+  image         String
+  sizes         Size[]      @relation("SizeToProduct")
+  extras        Extra[]     @relation("ExtraToProduct")
+  subcategoryId String
+  subcategory   Subcategory @relation("SubcategoryToProduct", fields: [subcategoryId], references: [id])
+  isArchived    Boolean     @default(false)
+  isPromo       Boolean     @default(false)
+  promoPrice    Float?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([subcategoryId])
+}
+
+model Size {
+  id        String   @id @default(uuid())
+  name      String
+  price     Float
+  productId String
+  product   Product  @relation("SizeToProduct", fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+}
+
+model Extra {
+  id        String   @id @default(uuid())
+  name      String
+  price     Float
+  productId String
+  product   Product  @relation("ExtraToProduct", fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+}
+
+model Category {
+  id            String        @id @default(uuid())
+  name          String
+  subcategories Subcategory[] @relation("SubcategoryToCategory")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subcategory {
+  id         String    @id @default(uuid())
+  name       String
+  categoryId String
+  category   Category  @relation("SubcategoryToCategory", fields: [categoryId], references: [id])
+  products   Product[] @relation("SubcategoryToProduct")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
 }

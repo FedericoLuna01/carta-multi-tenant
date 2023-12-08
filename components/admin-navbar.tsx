@@ -20,6 +20,11 @@ const NavItems = [
     href: '/admin/categorias',
   },
   {
+    id: 6,
+    label: 'Subcategorías',
+    href: '/admin/subcategorias'
+  },
+  {
     id: 4,
     label: 'Pedidos',
     href: '/admin/pedidos',
@@ -41,7 +46,7 @@ const AdminNavbar = () => {
       >
         <h1 className="text-2xl font-bold">
           <Link
-            href='/'
+            href='/admin'
           >
               Logo
           </Link>

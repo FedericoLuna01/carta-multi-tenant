@@ -7,40 +7,39 @@ import { Separator } from "@/components/ui/separator"
 import { columns } from "./components/columns"
 import prismadb from "@/lib/prismadb"
 
-const ProductsPage = async () => {
-  const products = await prismadb.product.findMany({
+const SubcategoriasPage = async () => {
+  const subcategories = await prismadb.subcategory.findMany({
     include: {
-      sizes: true,
-      extras: true,
-      subcategory: true
+      category: true
     }
   })
+
   return (
-    <section>
+    <div>
       <div
         className="flex justify-between items-center"
       >
         <Heading
-          title="Productos"
-          description="Administra tus productos"
+          title='Subcategorias'
+          description="Acá podrás ver todas las subcategorías que tienes en tu tienda."
         />
         <Button
           asChild
         >
           <Link
-            href='/admin/productos/nuevo'
+            href='/admin/subcategorias/nuevo'
           >
-          Crear producto
+            Crear subcategoría
           </Link>
         </Button>
       </div>
       <Separator />
       <DataTable
-        data={products}
         columns={columns}
+        data={subcategories}
       />
-    </section>
+    </div>
   )
 }
 
-export default ProductsPage
+export default SubcategoriasPage

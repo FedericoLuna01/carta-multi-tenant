@@ -1,8 +1,22 @@
 import ProductForm from "@/components/forms/product-form"
+import prismadb from "@/lib/prismadb"
 
-const ProductPage = () => {
+const ProductPage = async ({ params }: { params: { productId: string } }) => {
+  const subcategories = await prismadb.subcategory.findMany()
+  const product = await prismadb.product.findUnique({
+    where: {
+      id: params.productId
+    },
+    include: {
+      sizes: true,
+      extras: true,
+    }
+  })
   return (
-    <ProductForm />
+    <ProductForm
+      subcategories={subcategories}
+      initialData={product}
+    />
   )
 }
 
