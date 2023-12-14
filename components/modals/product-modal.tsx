@@ -24,16 +24,18 @@ const ProductModal = () => {
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle
-            className="text-2xl font-bold text-black"
-          >{data?.name}</DialogTitle>
           <Image
             src={data?.image}
             alt={data?.name}
             width={680}
             height={150}
-            className="rounded-md my-3"
+            className="rounded-md mt-5"
           />
+          <DialogTitle
+            className="text-2xl font-bold text-black"
+          >
+            {data?.name}
+          </DialogTitle>
           <DialogDescription>
             {data?.description}
           </DialogDescription>

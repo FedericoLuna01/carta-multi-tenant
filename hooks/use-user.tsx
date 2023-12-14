@@ -12,9 +12,10 @@ const useUser = create(
     user: {
       name: "",
       phone: "",
-      options: "",
+      comment: "",
       delivery: false,
-      address: "",
+      table: false,
+      place: "",
     },
     setUser: (user: User) => set({ user }),
   }),

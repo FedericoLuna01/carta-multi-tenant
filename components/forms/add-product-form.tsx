@@ -17,11 +17,11 @@ import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button"
 import useProductModal from "@/hooks/use-product-modal"
 import useCart from "@/hooks/use-cart"
-import { Product } from "@/types/types"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { formatter } from "@/lib/utils"
 import { Checkbox } from "../ui/checkbox"
 import { useEffect, useState } from "react"
+import { Extra, Product, Size } from "@prisma/client"
 
 const formSchema = z.object({
   quantity: z
@@ -55,7 +55,10 @@ const formSchema = z.object({
 
 
 interface AddProductFormProps {
-  data: Product
+  data: Product & {
+    sizes: Size[],
+    extras: Extra[]
+  }
 }
 
 const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
@@ -66,24 +69,26 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
   // Check si el item ya está en el carrito
   const existingItem = items.find(item => item.id === data.id)
   const updatedInfo = existingItem ? {
-    quantity: existingItem?.quantity,
-    options: existingItem?.options,
-    size: existingItem?.size,
-    extras: existingItem?.extras,
+    quantity: existingItem.quantity,
+    options: existingItem.options,
+    size: existingItem.size,
+    extras: existingItem.extras,
   } : undefined
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     // Si el item ya está en el carrito, setear la cantidad y opciones
+    // TODO: Arreglar tipado
     defaultValues: updatedInfo || {
       quantity: 1,
       options: "",
-      size: data.sizes ? data.sizes[0] : undefined,
+      size: data.sizes[0],
       extras: undefined,
     },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values)
     addItem({
       ...data,
       quantity: values.quantity,

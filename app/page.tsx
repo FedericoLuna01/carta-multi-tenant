@@ -15,17 +15,21 @@ export default async function Home() {
       extras: true
     }
   })
+
   return (
     <>
       <CartBar />
       <div
-        className='mt-24'
+        className={`mt-24 ${products.length > 0 ? '0' : 'mb-10'}`}
       >
         <Header />
       </div>
-      <Carousel
-        slides={products}
-      />
+      {
+        products.length > 0 &&
+        <Carousel
+          slides={products}
+        />
+      }
       <Main />
     </>
   )

@@ -1,9 +1,11 @@
 'use client'
 
-import { formatter } from '@/lib/utils'
 import { ColumnDef } from '@tanstack/react-table'
-import CellAction from './cell-action'
+
+import { formatter } from '@/lib/utils'
 import { Extra, Product, Size, Subcategory } from '@prisma/client'
+import CellAction from './cell-action'
+import ExtrasTable from './extras-table'
 
 type ProductColumn = Product & {
   sizes: Size[]
@@ -41,18 +43,24 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'extras',
     header: () => <div className=' text-center'>Extras</div>,
-    cell: ({ row }) => (
-      //TODO: Agregar el popover
-      <p className=' text-center'>{row.original.extras[0].name}</p>
-    )
+    cell: ({ row }) => {
+      if (!row.original.extras || row.original.extras.length <= 0) return (<p className='text-center'>-</p>)
+      return (
+        <ExtrasTable
+          data={row.original.extras}
+        />
+      )
+    }
   },
   {
     accessorKey: 'sizes',
     header: () => <div className=' text-center'>Tamaños</div>,
     cell: ({ row }) => {
-      if (!row.original.sizes || row.original.sizes.length <= 0) return null
+      if (!row.original.sizes || row.original.sizes.length <= 0) return (<p className='text-center'>-</p>)
       return (
-        <p className=' text-center'>{row.original.sizes[0].name}</p>
+        <ExtrasTable
+          data={row.original.sizes}
+        />
       )
     }
   },

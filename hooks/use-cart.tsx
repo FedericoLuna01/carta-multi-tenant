@@ -1,21 +1,35 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-
 import toast from 'react-hot-toast'
-import { CartProduct } from '@/types/types'
+
+type SafeOrderItem = {
+  id: string
+  name: string
+  price: number
+  quantity: number
+  options?: string
+  size?: {
+    name: string
+    price: number
+  }
+  extras?: {
+    name: string
+    price: number
+  }[]
+}
 
 interface CartStore {
-  items: CartProduct[]
-  addItem: (data: CartProduct) => void
-  removeItem: (id: number) => void
+  items: SafeOrderItem[]
+  addItem: (data: SafeOrderItem) => void
+  removeItem: (id: string) => void
   removeAll: () => void
-  removeQuantity: (id: number, quantity: number) => void
+  removeQuantity: (id: string, quantity: number) => void
 }
 
 const useCart = create(
   persist<CartStore>((set, get) => ({
     items: [],
-    addItem: (data: CartProduct) => {
+    addItem: (data: SafeOrderItem) => {
       const currentItems = get().items
       const existingItems = currentItems.find((item) => item.id === data.id)
 
@@ -38,11 +52,11 @@ const useCart = create(
       set({ items: [...get().items, data] })
       toast.success('Producto agregado al carrito')
     },
-    removeItem: (id: number) => {
+    removeItem: (id: string) => {
       set({ items: [...get().items.filter((item) => item.id !== id)] })
       toast.success('Producto eliminado correctamente')
     },
-    removeQuantity: (id: number, quantity: number) => {
+    removeQuantity: (id: string, quantity: number) => {
       const currentItems = get().items
       const existingItems = currentItems.find((item) => item.id === id)
 

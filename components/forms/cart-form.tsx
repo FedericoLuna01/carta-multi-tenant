@@ -18,31 +18,34 @@ import useUser from "@/hooks/use-user"
 import { Button } from "../ui/button"
 import CartProductsTable from "../cart-products-table"
 import { Checkbox } from "../ui/checkbox"
+import useCart from "@/hooks/use-cart"
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
   phone: z.string().min(2).max(10),
-  options: z.string().max(50).optional(),
+  comment: z.string().max(50).optional(),
   delivery: z.boolean().optional().default(false),
-  address: z.string().max(50).optional(),
+  table: z.boolean().optional().default(false),
+  place: z.string().max(50).optional(),
 })
 
 const CartForm = () => {
   const { user, setUser } = useUser()
+  const { items } = useCart()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: user || {
       name: "",
       phone: "",
-      options: "",
+      comment: "",
       delivery: false,
-      address: ""
+      place: ""
     },
   })
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data)
+    console.log(data, items)
   }
 
   return (
@@ -94,7 +97,7 @@ const CartForm = () => {
         />
         <FormField
           control={form.control}
-          name="options"
+          name="comment"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Aclaraciones</FormLabel>
@@ -105,7 +108,7 @@ const CartForm = () => {
                   onChange={(e) => {
                     field.onChange(e)
                     setUser({ ...user,
-                      options: e.target.value
+                      comment: e.target.value
                     })
                   }}
                 />
@@ -124,8 +127,20 @@ const CartForm = () => {
               <FormControl>
                 <Checkbox
                   checked={field.value}
-                  // @ts-ignore
-                  onCheckedChange={field.onChange}
+                  onCheckedChange={(e) => {
+                    field.onChange(e)
+                    if (e) {
+                      form.setValue('table', false)
+                      setUser({ ...user,
+                        table: false,
+                        delivery: true,
+                      })
+                    } else {
+                      setUser({ ...user,
+                        delivery: false,
+                      })
+                    }
+                  }}
                 />
               </FormControl>
               <div
@@ -141,22 +156,61 @@ const CartForm = () => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name='table'
+          render={({ field }) => (
+            <FormItem
+              className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'
+            >
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={(e) => {
+                    field.onChange(e)
+                    if (e) {
+                      form.setValue('delivery', false)
+                      setUser({ ...user,
+                        delivery: false,
+                        table: true,
+                      })
+                    } else {
+                      setUser({ ...user,
+                        table: false,
+                      })
+                    }
+                  }}
+                />
+              </FormControl>
+              <div
+                className='space-y-1 leading-none'
+              >
+                <FormLabel>
+                  Mesa
+                </FormLabel>
+                <FormDescription>
+                  El pedido se está haciendo desde el restaurant?
+                </FormDescription>
+              </div>
+            </FormItem>
+          )}
+        />
         {
-          form.watch('delivery') && (
+          form.watch('delivery') || form.watch('table') ? (
             <FormField
               control={form.control}
-              name="address"
+              name="place"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Dirección</FormLabel>
+                  <FormLabel>Dirección o Mesa</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="San martín 2153"
+                      placeholder="San martín 2153 / Mesa 3"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e)
                         setUser({ ...user,
-                          address: e.target.value
+                          place: e.target.value
                         })
                       }}
                     />
@@ -165,7 +219,8 @@ const CartForm = () => {
                 </FormItem>
               )}
             />
-          )
+          ) :
+            null
         }
         <CartProductsTable />
         <div

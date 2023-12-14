@@ -28,7 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             alt="food"
             width={320}
             height={150}
-            className="rounded-md group-hover:filter group-hover:brightness-90 transition-all duration-100"
+            className="aspect-[16/10]  rounded-md group-hover:filter group-hover:brightness-90 transition-all duration-100"
           />
           <div
             className="flex flex-col text-left px-6 justify-between py-6 "
@@ -43,11 +43,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 {product.description}
               </p>
             </div>
-            <p
-              className="font-semibold text-[1rem]"
+            <div
+              className="flex items-center gap-2"
             >
-              {formatter.format(product.price)}
-            </p>
+              <p
+                className={`font-semibold text-[1rem] ${product.isPromo ? 'text-gray-400 line-through' : 'text-slate-800'}`}
+              >
+                {formatter.format(product.price)}
+              </p>
+              {
+                product.isPromo && (
+                  <p
+                    className="font-semibold text-[1rem] text-green-600"
+                  >
+                    {formatter.format(product.price)}
+                  </p>
+                )
+              }
+            </div>
           </div>
         </div>
         <div

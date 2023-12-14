@@ -40,6 +40,8 @@ export type Category = {
 export type User = {
   name: string;
   phone: string
-  options: string
-  address: string
+  comment: string
+  delivery: boolean
+  table: boolean
+  place: string
 }

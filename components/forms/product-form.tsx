@@ -186,6 +186,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData })
               size='icon'
               variant='destructive'
               onClick={() => setIsOpen(true)}
+              disabled={loading}
             >
               <Trash className="w-5 h-5" />
             </Button>
@@ -350,7 +351,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData })
                   }
                 </div>
                 <Button
-                  // disabled={loading}
+                  disabled={loading}
                   onClick={() => appendSize({ name: '', price: 0 })}
                   type='button'
                   size='sm'
@@ -401,7 +402,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData })
                           )}
                         />
                         <Button
-                          // disabled={loading}
+                          disabled={loading}
                           onClick={() => removeExtra(index)}
                           variant='destructive'
                           size='sm'
@@ -416,7 +417,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData })
                   }
                 </div>
                 <Button
-                  // disabled={loading}
+                  disabled={loading}
                   onClick={() => appendExtra({ name: '', price: 0 })}
                   type='button'
                   size='sm'
