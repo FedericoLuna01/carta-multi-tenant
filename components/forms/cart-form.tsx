@@ -19,6 +19,10 @@ import { Button } from "../ui/button"
 import CartProductsTable from "../cart-products-table"
 import { Checkbox } from "../ui/checkbox"
 import useCart from "@/hooks/use-cart"
+import { useState } from "react"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -30,6 +34,9 @@ const formSchema = z.object({
 })
 
 const CartForm = () => {
+  const [loading, setLoading] = useState(false)
+
+  const router = useRouter()
   const { user, setUser } = useUser()
   const { items } = useCart()
 
@@ -44,8 +51,41 @@ const CartForm = () => {
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data, items)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { name, phone, comment, delivery, table, place } = values
+    const formattedProducts = items.map(product => {
+      return {
+        productId: product.id,
+        quantity: product.quantity,
+        price: product.price,
+        options: product.options,
+        extras: product.extras,
+        size: product.size,
+      }
+    })
+    const data = {
+      name,
+      phone,
+      comment,
+      delivery,
+      table,
+      place,
+      products: formattedProducts
+    }
+    console.log(data)
+
+    try {
+      setLoading(true)
+      await axios.post('/api/orders', data)
+      // router.push('/admin/productos')
+      // router.refresh()
+      toast.success("Pedido realizado con éxito")
+    } catch (error: any) {
+      toast.error('Algo salio mal')
+    } finally {
+      setLoading(false)
+    }
+
   }
 
   return (

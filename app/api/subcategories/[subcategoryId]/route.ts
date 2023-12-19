@@ -1,8 +1,14 @@
+import getAuth from "@/actions/getAuth";
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 export async function DELETE(req:Request, { params }: { params: { subcategoryId: string }}) {
   const { subcategoryId } = params;
+
+  const user = await getAuth()
+  if (!user) {
+    return new NextResponse('Unauthorized', { status: 401 })
+  }
 
   if(!subcategoryId) {
     return new NextResponse('Bad request', { status: 400 })
@@ -27,6 +33,11 @@ export async function PATCH(req: Request, {
   const { subcategoryId } = params;
   const body = await req.json()
   const { name, categoryId } = body
+
+  const user = await getAuth()
+  if (!user) {
+    return new NextResponse('Unauthorized', { status: 401 })
+  }
 
   if(!subcategoryId) {
     return new NextResponse('Missing subcategoryId', { status: 400 })

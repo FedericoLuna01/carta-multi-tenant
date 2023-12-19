@@ -26,7 +26,7 @@ const NavItems = [
   },
   {
     id: 4,
-    label: 'Pedidos',
+    label: 'Ordenes',
     href: '/admin/pedidos',
   },
   {

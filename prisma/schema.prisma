@@ -80,9 +80,10 @@ model Order {
   phone    String
   place    String?
   comment  String?
-  delivery Boolean
-  table    Boolean
-  status   OrderStatus
+  //TODO: Cambiar delivery y table a un enum
+  delivery Boolean     @default(false)
+  table    Boolean     @default(false)
+  status   OrderStatus @default(PENDING)
   products OrderItem[] @relation("OrderItemToOrder")
 
   createdAt DateTime @default(now())
@@ -102,13 +103,13 @@ enum OrderStatus {
 model OrderItem {
   id        String           @id @default(uuid())
   productId String
-  product   Product          @relation("OrderItemToProduct", fields: [productId], references: [id])
+  product   Product          @relation("OrderItemToProduct", fields: [productId], references: [id], onDelete: Cascade)
   quantity  Int
   options   String?
   extras    OrderItemExtra[] @relation("OrderItemExtraToOrderItem")
   size      OrderItemSize?
   orderId   String
-  order     Order            @relation("OrderItemToOrder", fields: [orderId], references: [id])
+  order     Order            @relation("OrderItemToOrder", fields: [orderId], references: [id], onDelete: Cascade)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
 
@@ -121,7 +122,7 @@ model OrderItemExtra {
   name        String
   price       Float
   orderItemId String
-  orderItem   OrderItem @relation("OrderItemExtraToOrderItem", fields: [orderItemId], references: [id])
+  orderItem   OrderItem @relation("OrderItemExtraToOrderItem", fields: [orderItemId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
