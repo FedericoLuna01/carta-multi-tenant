@@ -80,14 +80,18 @@ model Order {
   phone    String
   place    String?
   comment  String?
-  //TODO: Cambiar delivery y table a un enum
-  delivery Boolean     @default(false)
-  table    Boolean     @default(false)
+  type     OrderType
   status   OrderStatus @default(PENDING)
   products OrderItem[] @relation("OrderItemToOrder")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum OrderType {
+  DELIVERY
+  TABLE
+  TAKEAWAY
 }
 
 enum OrderStatus {

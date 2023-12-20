@@ -6,12 +6,15 @@ import useProductModal from "@/hooks/use-product-modal"
 import { formatter } from "@/lib/utils"
 import { Button } from "./button"
 import { type Product } from "@prisma/client"
+import { Pencil, Trash } from "lucide-react"
+import Link from "next/link"
 
 interface ProductCardProps {
   product: Product
+  isAdmin?: boolean
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, isAdmin = false }) => {
   const productModal = useProductModal()
 
   return (
@@ -66,12 +69,38 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div
           className="place-self-end p-4"
         >
-          <Button
-            onClick={() => productModal.onOpen(product)}
-            size='lg'
-          >
-            Agregar
-          </Button>
+          {
+            isAdmin ? (
+              <div
+                className="flex flex-col gap-2"
+              >
+                <Button
+                  asChild
+                  className=""
+                >
+                  <Link
+                    href={`/admin/productos/${product.id}`}
+                  >
+                    <Pencil className="w-4 h-4 mr-2" />
+                      Editar
+                  </Link>
+                </Button>
+                <Button
+                  variant='destructive'
+                >
+                  <Trash className="w-4 h-4 mr-2" />
+                  Eliminar
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={() => productModal.onOpen(product)}
+                size='lg'
+              >
+              Agregar
+              </Button>
+            )
+          }
         </div>
       </div>
     </article>

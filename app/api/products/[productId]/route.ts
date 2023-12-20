@@ -37,10 +37,11 @@ export async function PATCH(req: Request, { params }: { params: { productId: str
     return new NextResponse('Missing product image', { status: 400 })
   }
 
-  const user = await getAuth()
-  if (!user) {
-    return new NextResponse('Unauthorized', { status: 401 })
-  }
+  // const user = await getAuth()
+  // console.log(user)
+  // if (!user) {
+  //   return new NextResponse('Unauthorized', { status: 401 })
+  // }
 
   try {
     await prismadb.product.update({

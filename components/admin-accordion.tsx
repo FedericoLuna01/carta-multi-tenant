@@ -3,6 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./
 import ProductCard from "./ui/product-card"
 import { Button } from "./ui/button"
 import Link from "next/link"
+import { Pencil, Plus, Trash } from "lucide-react"
 
 const AdminAccordion = async () => {
   const data = await prismadb.category.findMany({
@@ -37,26 +38,37 @@ const AdminAccordion = async () => {
                 px-4
                 rounded-md
                 text-3xl
-                uppercase
                 font-bold
                 '
               >
                 <div
-                  className="grid grid-cols-[600px,1fr,1fr] gap-4 text-left"
+                  className="text-left flex items-center gap-4"
                 >
-                  {category.name}
-                  <div>
-                    <Button
-                      asChild
-                      className="col-start-3"
+                  <p
+                    className="uppercase"
+                  >
+                    {category.name}
+                  </p>
+                  <Button
+                    asChild
+                  >
+                    <Link
+                      href={`/admin/categorias/${category.id}`}
                     >
-                      <Link
-                        href={`/admin/categorias/${category.id}`}
-                      >
+                      <Pencil className="w-4 h-4 mr-2" />
                         Editar
-                      </Link>
-                    </Button>
-                  </div>
+                    </Link>
+                  </Button>
+                  <Button
+                    variant='destructive'
+                    className="hover:no-underline"
+                    asChild
+                  >
+                    <span>
+                      <Trash className="w-4 h-4 mr-2" />
+                    Eliminar
+                    </span>
+                  </Button>
                 </div>
               </AccordionTrigger>
               {
@@ -65,7 +77,7 @@ const AdminAccordion = async () => {
                     key={subcategory.id}
                   >
                     <div
-                      className="flex items-center justify-center mt-8"
+                      className="flex items-center justify-center mt-8 gap-4"
                     >
                       <h3
                         className='text-2xl text-center font-bold uppercase'
@@ -79,8 +91,15 @@ const AdminAccordion = async () => {
                         <Link
                           href={`/admin/subcategorias/${subcategory.id}`}
                         >
+                          <Pencil className="w-4 h-4 mr-2" />
                           Editar
                         </Link>
+                      </Button>
+                      <Button
+                        variant='destructive'
+                      >
+                        <Trash className="w-4 h-4 mr-2" />
+                        Eliminar
                       </Button>
                     </div>
                     <div>
@@ -89,9 +108,24 @@ const AdminAccordion = async () => {
                           <ProductCard
                             key={product.name}
                             product={product}
+                            isAdmin
                           />
                         ))
                       }
+                      <div
+                        className="flex justify-center mt-8"
+                      >
+                        <Button
+                          asChild
+                        >
+                          <Link
+                            href="/admin/subcategorias/nueva"
+                          >
+                            <Plus className="w-4 h-4 mr-2" />
+                            Nueva Subcategoría
+                          </Link>
+                        </Button>
+                      </div>
                     </div>
                   </AccordionContent>
                 ))
@@ -100,13 +134,20 @@ const AdminAccordion = async () => {
           ))
         }
       </Accordion>
-      <Button>
-        <Link
-          href="/admin/categorias/nueva"
+      <div
+        className="flex justify-center mt-8"
+      >
+        <Button
+          asChild
         >
-          Nueva Categoría
-        </Link>
-      </Button>
+          <Link
+            href="/admin/categorias/nueva"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Nueva Categoría
+          </Link>
+        </Button>
+      </div>
     </div>
   )
 }

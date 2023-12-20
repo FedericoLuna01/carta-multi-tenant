@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from 'zod'
 import toast from "react-hot-toast"
+import { useEffect, useState } from "react"
 
 import {
   Form,
@@ -20,7 +21,6 @@ import useCart from "@/hooks/use-cart"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { formatter } from "@/lib/utils"
 import { Checkbox } from "../ui/checkbox"
-import { useEffect, useState } from "react"
 import { Extra, Product, Size } from "@prisma/client"
 
 const formSchema = z.object({

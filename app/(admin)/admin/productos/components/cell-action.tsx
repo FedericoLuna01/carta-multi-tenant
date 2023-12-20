@@ -49,7 +49,7 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
           size='icon'
           variant='outline'
           asChild
-          title='Editar categoría'
+          title='Editar producto'
         >
           <Link
             href={`/admin/productos/${data.id}`}
@@ -60,7 +60,7 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <Button
           size='icon'
           variant='destructive'
-          title='Borrar categoría'
+          title='Borrar producto'
         >
           <Trash
             className="w-5 h-5"

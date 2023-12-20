@@ -38,6 +38,7 @@ const ProductsPage = async () => {
       <DataTable
         data={products}
         columns={columns}
+        visibility
       />
     </section>
   )

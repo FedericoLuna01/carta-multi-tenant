@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import toast from 'react-hot-toast'
 
-type SafeOrderItem = {
+export type SafeOrderItem = {
   id: string
   name: string
   price: number

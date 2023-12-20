@@ -1,20 +1,20 @@
 'use client'
 
-import useCart from '@/hooks/use-cart'
+import { Trash } from 'lucide-react'
+
+import useCart, { SafeOrderItem } from '@/hooks/use-cart'
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from './ui/table'
 import DeleteProductModal from './modals/delete-products-modal'
 import { Button } from './ui/button'
 import { formatter } from '@/lib/utils'
-import { Trash } from 'lucide-react'
 import useDeleteProductModal from '@/hooks/use-delete-product-modal'
-import { CartProduct } from '@/types/types'
 import { getTotalProductPrice } from '@/actions/getTotalPrice'
 
 const CartProductsTable = () => {
   const { onOpen } = useDeleteProductModal()
   const cart = useCart()
 
-  const handleRemove = (item: CartProduct) => {
+  const handleRemove = (item: SafeOrderItem) => {
     if (item.quantity === 1) {
       return cart.removeItem(item.id)
     }
@@ -22,6 +22,21 @@ const CartProductsTable = () => {
   }
 
   const total = cart.items.reduce((acc, item) => acc + getTotalProductPrice(item), 0)
+
+  const getProductName = (item: SafeOrderItem) => {
+    let name = item.name
+    if(item.size) {
+      name += ` (${item.size.name})`
+    }
+    if (!item.extras) return name
+
+    if(item.extras.length > 0) {
+      name += ` + ${item.extras.map(extra => extra.name).join(', ')}`
+    }
+
+    return name
+
+  }
 
   return (
     <Table
@@ -53,7 +68,7 @@ const CartProductsTable = () => {
               {/* Modal para eliminar una cantidad especifica */}
               <DeleteProductModal />
               <TableCell>
-                {item.name}
+                {getProductName(item)}
               </TableCell>
               <TableCell>
                 {item.options}

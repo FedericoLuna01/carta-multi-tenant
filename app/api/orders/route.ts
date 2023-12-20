@@ -1,9 +1,10 @@
 import prismadb from "@/lib/prismadb"
+import { revalidatePath } from "next/cache"
 import { NextResponse } from "next/server"
 
 export async function POST (req: Request) {
   const body = await req.json()
-  const { name, phone, comment, delivery, table, place, products } = body
+  const { name, phone, comment, type, place, products } = body
 
   try {
     const order = await prismadb.order.create({
@@ -11,41 +12,58 @@ export async function POST (req: Request) {
         name,
         phone,
         comment,
-        delivery,
-        table,
+        type,
         place,
       }
     })
 
-    const orderItems = await prismadb.orderItem.createMany({
-      data: products.map((product: any) => {
-        return {
+    // TODO: Refactor esto y arreglar tipado
+
+    products.map(async (product: any) => {
+      const orderItem = await prismadb.orderItem.create({
+        data: {
           productId: product.productId,
           quantity: product.quantity,
           options: product.options,
           orderId: order.id,
         }
       })
+      if(product.size) {
+        await prismadb.orderItemSize.create({
+          data: {
+            orderItemId: orderItem.id,
+            name: product.size.name,
+            price: product.size.price,
+          }
+        })
+      }
+      if(!product.extras) return
+      product.extras.map(async (extra: any) => {
+        await prismadb.orderItemExtra.create({
+          data: {
+            orderItemId: orderItem.id,
+            name: extra.name,
+            price: extra.price,
+          }
+        })
+      })
     })
 
-    //TODO: crear extras y sizes
+    revalidatePath("/admin/ordenes")
 
-    // const assingExtras = await prismadb.orderItemExtra.createMany({
-    //   data: products.map((product: any) => {
-    //     return product.extras.map((extra: any) => {
-    //       return {
-    //         orderItemId: "a0b92603-aeda-4523-9ea1-2c196cc31835",
-    //         name: extra.name,
-    //         price: extra.price,
-    //       }
-    //     })
-    //   }).flat()
-    // })
-
-    return NextResponse.json({ order, orderItems })
-
+    return NextResponse.json({ order })
   } catch (error) {
     console.log("[ORDERS_POST]", error)
+    return new NextResponse("Something went wrong", { status: 500 })
+  }
+}
+
+export async function DELETE() {
+  try {
+    const orders = await prismadb.order.deleteMany({})
+    return NextResponse.json(orders)
+  } catch (error) {
+    console.log("[ORDERS_DELETE]", error)
     return new NextResponse("Something went wrong", { status: 500 })
   }
 }

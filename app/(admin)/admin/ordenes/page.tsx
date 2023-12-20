@@ -5,8 +5,21 @@ import prismadb from "@/lib/prismadb"
 import { columns } from "./components/columns"
 
 const OrdersPage = async () => {
-  const orders = await prismadb.order.findMany({})
-  console.log(orders)
+  const orders = await prismadb.order.findMany({
+    orderBy: {
+      createdAt: 'desc'
+    },
+    include: {
+      products: {
+        include: {
+          extras: true,
+          size: true,
+          product: true
+        }
+      }
+    }
+  })
+
   return (
     <section>
       <div
@@ -21,6 +34,8 @@ const OrdersPage = async () => {
       <DataTable
         data={orders}
         columns={columns}
+        visibility
+        order
       />
     </section>
   )

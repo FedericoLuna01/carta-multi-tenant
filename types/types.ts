@@ -1,3 +1,5 @@
+import { OrderType } from "@prisma/client";
+
 export type Product = {
   id: number;
   name: string;
@@ -15,7 +17,7 @@ export type Product = {
 }
 
 export type CartProduct = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   image: string;
@@ -41,7 +43,6 @@ export type User = {
   name: string;
   phone: string
   comment: string
-  delivery: boolean
-  table: boolean
+  type: OrderType
   place: string
 }

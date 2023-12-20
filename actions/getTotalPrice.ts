@@ -1,6 +1,6 @@
-import { CartProduct } from "@/types/types"
+import { SafeOrderItem } from "@/hooks/use-cart"
 
-export const getTotalProductPrice = (item: CartProduct) => {
+export const getTotalProductPrice = (item: SafeOrderItem) => {
   const extrasPrice = item.extras?.reduce((acc, item) => acc + item.price, 0) || 0
   const sizePrice = item.size?.price || 0
   const quantity = item.quantity || 0

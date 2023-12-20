@@ -1,22 +1,28 @@
-import { Category, Product } from "@/types/types"
+import { Product } from "@/types/types"
 
-export const categories: Category[] = [
+export const typeOptions = [
   {
-    id: 1,
-    name: 'Bebidas',
+    label: "Retiro",
+    value: "TAKEAWAY",
   },
   {
-    id: 2,
-    name: 'Hambuguesas',
+    label: "Mesa",
+    value: "TABLE",
   },
   {
-    id: 3,
-    name: 'Pastas',
-  },
-  {
-    id: 4,
-    name: 'Carnes',
-  },
+    label: "Delivery",
+    value: "DELIVERY",
+  }
+]
+
+export const statusOptions = [
+  { label: 'Pendiente', value: 'PENDING' },
+  { label: 'En progreso', value: 'IN_PROGRESS' },
+  { label: 'En camino', value: 'ON_THE_WAY' },
+  { label: 'Pagado', value: 'PAID' },
+  { label: 'Listo', value: 'READY' },
+  { label: 'Entregado', value: 'DONE' },
+  { label: 'Cancelado', value: 'CANCELED' }
 ]
 
 export const products: Product[] = [

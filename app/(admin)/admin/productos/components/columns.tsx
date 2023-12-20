@@ -17,6 +17,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'name',
     header: 'Nombre',
+    enableHiding: false
   },
   {
     accessorKey: 'description',
@@ -35,7 +36,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     accessorKey: 'Subcategoría',
-    header: () => <div >Subcategoría</div>,
+    header: () => <div>Subcategoría</div>,
     cell: ({ row }) => (
       <p >{row.original.subcategory.name}</p>
     )
@@ -86,8 +87,9 @@ export const columns: ColumnDef<ProductColumn>[] = [
     )
   },
   {
-    accessorKey: 'actions',
+    id: 'actions',
     header: 'Acciones',
+    enableHiding: false,
     cell: ({ row }) => {
       return (
         <CellAction

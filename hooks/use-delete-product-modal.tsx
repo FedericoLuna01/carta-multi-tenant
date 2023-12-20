@@ -1,17 +1,17 @@
-import { type CartProduct } from '@/types/types'
 import { create } from 'zustand'
+import { SafeOrderItem } from './use-cart'
 
 interface DeleteProductModalStore {
   isOpen: boolean
-  data?: CartProduct
-  onOpen: (data: CartProduct) => void
+  data?: SafeOrderItem
+  onOpen: (data: SafeOrderItem) => void
   onClose: () => void
 }
 
 const useDeleteProductModal = create<DeleteProductModalStore>((set) => ({
   isOpen: false,
   data: undefined,
-  onOpen: (data: CartProduct) => set({ data, isOpen: true }),
+  onOpen: (data: SafeOrderItem) => set({ data, isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }))
 

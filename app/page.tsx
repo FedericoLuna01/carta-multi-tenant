@@ -2,7 +2,7 @@ import Carousel from '@/components/carousel/carousel'
 import CartBar from '@/components/cart-bar'
 import Header from '@/components/header'
 import Main from '@/components/main'
-// import { products } from '@/data/data'
+import UserInfo from '@/components/user-info'
 import prismadb from '@/lib/prismadb'
 
 export default async function Home() {
@@ -24,6 +24,7 @@ export default async function Home() {
       >
         <Header />
       </div>
+      <UserInfo />
       {
         products.length > 0 &&
         <Carousel

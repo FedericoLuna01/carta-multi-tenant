@@ -3,11 +3,14 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from 'zod'
+import { useState } from "react"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,28 +20,22 @@ import { Input } from "@/components/ui/input"
 import useUser from "@/hooks/use-user"
 import { Button } from "../ui/button"
 import CartProductsTable from "../cart-products-table"
-import { Checkbox } from "../ui/checkbox"
 import useCart from "@/hooks/use-cart"
-import { useState } from "react"
-import axios from "axios"
-import { useRouter } from "next/navigation"
-import toast from "react-hot-toast"
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
   phone: z.string().min(2).max(10),
   comment: z.string().max(50).optional(),
-  delivery: z.boolean().optional().default(false),
-  table: z.boolean().optional().default(false),
+  type: z.enum(['DELIVERY', 'TAKEAWAY', 'TABLE']),
   place: z.string().max(50).optional(),
 })
 
 const CartForm = () => {
   const [loading, setLoading] = useState(false)
 
-  const router = useRouter()
   const { user, setUser } = useUser()
-  const { items } = useCart()
+  const { items, removeAll } = useCart()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,13 +43,13 @@ const CartForm = () => {
       name: "",
       phone: "",
       comment: "",
-      delivery: false,
+      type: "DELIVERY",
       place: ""
     },
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { name, phone, comment, delivery, table, place } = values
+    const { name, phone, comment, type, place } = values
     const formattedProducts = items.map(product => {
       return {
         productId: product.id,
@@ -67,19 +64,33 @@ const CartForm = () => {
       name,
       phone,
       comment,
-      delivery,
-      table,
+      type,
       place,
       products: formattedProducts
     }
-    console.log(data)
+
+    if(!items || items.length === 0) {
+      return toast.error('No hay productos en el carrito')
+    }
+
+    // Valido que el usuario haya seleccionado un lugar si es delivery o mesa
+    if(user?.type === 'TABLE' || user?.type === 'DELIVERY') {
+      const place = form.getValues('place')
+      if (!place) {
+        return form.setError("place", { type: 'custom', message: 'El lugar es requerido' })
+      }
+    }
 
     try {
       setLoading(true)
-      await axios.post('/api/orders', data)
-      // router.push('/admin/productos')
-      // router.refresh()
+      const res = await axios.post('/api/orders', data)
+
+      // Guardar la orden en localstorage
+      localStorage.setItem('orderId', res.data.order.id)
+
+      window.location.reload()
       toast.success("Pedido realizado con éxito")
+      removeAll()
     } catch (error: any) {
       toast.error('Algo salio mal')
     } finally {
@@ -90,7 +101,7 @@ const CartForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-full p-8 pt-0">
         <FormField
           control={form.control}
           name="name"
@@ -157,86 +168,57 @@ const CartForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name='delivery'
-          render={({ field }) => (
-            <FormItem
-              className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'
-            >
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={(e) => {
-                    field.onChange(e)
-                    if (e) {
-                      form.setValue('table', false)
+        <div>
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Tipo de orden</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={(value) => {
+                      field.onChange(value)
                       setUser({ ...user,
-                        table: false,
-                        delivery: true,
+                        type: value as any
                       })
-                    } else {
-                      setUser({ ...user,
-                        delivery: false,
-                      })
-                    }
-                  }}
-                />
-              </FormControl>
-              <div
-                className='space-y-1 leading-none'
-              >
-                <FormLabel>
-                  Delivery
-                </FormLabel>
-                <FormDescription>
-                  El pedido es para llevar?
-                </FormDescription>
-              </div>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='table'
-          render={({ field }) => (
-            <FormItem
-              className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'
-            >
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={(e) => {
-                    field.onChange(e)
-                    if (e) {
-                      form.setValue('delivery', false)
-                      setUser({ ...user,
-                        delivery: false,
-                        table: true,
-                      })
-                    } else {
-                      setUser({ ...user,
-                        table: false,
-                      })
-                    }
-                  }}
-                />
-              </FormControl>
-              <div
-                className='space-y-1 leading-none'
-              >
-                <FormLabel>
-                  Mesa
-                </FormLabel>
-                <FormDescription>
-                  El pedido se está haciendo desde el restaurant?
-                </FormDescription>
-              </div>
-            </FormItem>
-          )}
-        />
+                    }}
+                    defaultValue={user?.type}
+                    className="flex flex-col space-y-1"
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value='DELIVERY' />
+                      </FormControl>
+                      <FormLabel>
+                        Delivery
+                      </FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value='TABLE' />
+                      </FormControl>
+                      <FormLabel>
+                        Mesa
+                      </FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value='TAKEAWAY' />
+                      </FormControl>
+                      <FormLabel>
+                        Takeaway
+                      </FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         {
-          form.watch('delivery') || form.watch('table') ? (
+          user?.type === 'DELIVERY' || user?.type === 'TABLE' ?
             <FormField
               control={form.control}
               name="place"
@@ -259,8 +241,7 @@ const CartForm = () => {
                 </FormItem>
               )}
             />
-          ) :
-            null
+            : null
         }
         <CartProductsTable />
         <div
@@ -269,6 +250,7 @@ const CartForm = () => {
           <Button
             type='submit'
             size='lg'
+            disabled={loading}
           >
             Pedir
           </Button>
