@@ -11,6 +11,7 @@ export async function PATCH(req: Request) {
     table,
     delivery,
     takeaway,
+    ubication
   } = body
 
   try {
@@ -23,9 +24,10 @@ export async function PATCH(req: Request) {
         table,
         delivery,
         takeaway,
+        ubication
       },
       where: {
-        id: 'a301fffa-faf9-44bf-8449-b9f2469aeb5f'
+        id: '4b97cf01-eaeb-49f5-9646-2148955ec10b'
       }
     })
 

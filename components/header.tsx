@@ -6,11 +6,12 @@ const Header = () => {
       className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8"
     >
       <Image
-        src="/logo-2.jpg"
+        src="/banner.png"
         alt="logo"
-        width={600}
-        height={600}
-        className="rounded-md object-cover aspect-w-1 aspect-h-1 w-[1000px] h-[400px] mx-auto"
+        width={1080}
+        height={300}
+        className="rounded-md object-cover aspect-h-1 mx-auto"
+        loading="lazy"
       />
     </section>
   )

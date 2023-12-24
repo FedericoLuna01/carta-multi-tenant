@@ -1,14 +1,83 @@
-const UserInfo = () => {
+import { UserSettings } from "@prisma/client"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
+import { Clock, MapPin } from "lucide-react"
+import { Badge } from "./ui/badge"
+import { getIsOpen } from "@/actions/getIsOpen"
+
+const UserInfo = ({ userSettings }: { userSettings: UserSettings | null}) => {
+  if (!userSettings) return null
+
+  const isOpen = getIsOpen(userSettings)
+
   return (
     <section
       className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8"
     >
-      <div
-        className="bg-slate-100 rounded-md p-4"
+      <Card
+        className="bg-slate-100 grid grid-cols-1 md:grid-cols-2"
       >
-        <p className="font-semibold text-xl">Horarios:</p>
-        <p>Lunes a Viernes: 9:00 a 19:00</p>
-      </div>
+        <div>
+          <CardHeader>
+            <div
+              className="flex items-center space-x-2"
+            >
+              <Clock />
+              <CardTitle
+              >
+                Horarios
+              </CardTitle>
+              {
+                isOpen ? (
+                  <Badge
+                    variant='open'
+                  >
+                    Abierto
+                  </Badge>
+                ) : (
+                  <Badge
+                    variant='closed'
+                  >
+                    Cerrado
+                  </Badge>
+                )
+              }
+            </div>
+            <CardDescription>
+            Estos son los horarios de atención de nuestro local
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-1">
+                <p className="font-semibold text-xl">Día</p>
+                <p>Desde {userSettings?.dayOpenTime} hasta {userSettings?.dayCloseTime}</p>
+              </div>
+              <div className="flex flex-col space-y-1">
+                <p className="font-semibold text-xl">Noche</p>
+                <p>Desde {userSettings?.nightOpenTime} hasta {userSettings?.nightCloseTime}</p>
+              </div>
+            </div>
+          </CardContent>
+        </div>
+        <div>
+          <CardHeader>
+            <CardTitle
+              className="flex items-center"
+            >
+              <MapPin className="mr-2" />Ubicación
+            </CardTitle>
+            <CardDescription>
+              Esta es la dirección de nuestro local
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col space-y-1">
+              <p className="font-semibold text-xl">Dirección</p>
+              <p>{userSettings.ubication}</p>
+            </div>
+          </CardContent>
+        </div>
+      </Card>
     </section>
   )
 }

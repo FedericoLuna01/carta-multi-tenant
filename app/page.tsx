@@ -1,5 +1,5 @@
 import Carousel from '@/components/carousel/carousel'
-import CartBar from '@/components/cart-bar'
+import Navbar from '@/components/navbar'
 import Header from '@/components/header'
 import Main from '@/components/main'
 import UserInfo from '@/components/user-info'
@@ -16,22 +16,28 @@ export default async function Home() {
     }
   })
 
+  const userSettings = await prismadb.userSettings.findFirst()
+
   return (
     <>
-      <CartBar />
-      <div
-        className={`mt-24 ${products.length > 0 ? '0' : 'mb-10'}`}
+      <Navbar
+        userSettings={userSettings}
+      />
+      <main
+        className='mt-24'
       >
         <Header />
-      </div>
-      <UserInfo />
-      {
-        products.length > 0 &&
-        <Carousel
-          slides={products}
+        <UserInfo
+          userSettings={userSettings}
         />
-      }
-      <Main />
+        {
+          products.length > 0 &&
+          <Carousel
+            slides={products}
+          />
+        }
+        <Main />
+      </main>
     </>
   )
 }

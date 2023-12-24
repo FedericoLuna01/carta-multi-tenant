@@ -26,6 +26,7 @@ const FormSchema = z.object({
   dayCloseTime: z.string().min(1, { message: 'El horario es requerido' }),
   nightOpenTime: z.string().min(1, { message: 'El horario es requerido' }),
   nightCloseTime: z.string().min(1, { message: 'El horario es requerido' }),
+  ubication: z.string().min(1, 'La ubicación es requerida'),
   table: z.boolean(),
   delivery: z.boolean(),
   takeaway: z.boolean(),
@@ -41,6 +42,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
       dayCloseTime: '',
       nightOpenTime: '',
       nightCloseTime: '',
+      ubication: '',
       table: false,
       delivery: false,
       takeaway: false,
@@ -48,13 +50,6 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    // TODO: Cambiar de lugar esta logica
-    // const date = new Date()
-    // const hour = date.toLocaleTimeString('es-AR', { hour12: false });
-    // console.log(hour)
-    // if (data.dayOpenTime > hour || data.dayCloseTime < hour) {
-    //   return console.log('no se puede')
-    // }
     try {
       setLoading(true)
       await axios.patch('/api/usersettings', data)
@@ -159,6 +154,34 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
           </div>
         </div>
         <div>
+          <h3 className="mb-4 text-lg font-medium">Dirección de tu local</h3>
+          <div
+            className="rounded-lg border p-3 shadow-sm"
+          >
+            <div
+              className="flex items-center"
+            >
+              <FormField
+                control={form.control}
+                name="ubication"
+                render={({ field }) => (
+                  <FormItem className="">
+                    <div className="space-y-2">
+                      <FormLabel>Ubicación</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Ej: Av. Corrientes 1234"
+                        />
+                      </FormControl>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+        </div>
+        <div>
           <h3 className="mb-4 text-lg font-medium">Tipos de ordenes</h3>
           <div className="space-y-4">
             <FormField
@@ -224,7 +247,10 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
             />
           </div>
         </div>
-        <Button type="submit">
+        <Button
+          type="submit"
+          disabled={loading}
+        >
           Guardar
         </Button>
       </form>

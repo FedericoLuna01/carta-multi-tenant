@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 
 import CellAction from './cell-action'
-import { OrderItem, type Order, OrderItemSize, OrderItemExtra, Product } from '@prisma/client'
+import { OrderItem, Order, OrderItemSize, OrderItemExtra, Product } from '@prisma/client'
 import { StatusSelect } from './status-select'
 import { Button } from '@/components/ui/button'
 import PopoverProducts from './popover-products'
@@ -49,6 +49,15 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: 'Ubicación',
     cell: ({ row }) => {
       const place = row.original.place
+      if (row.original.type === 'TAKEAWAY') {
+        return (
+          <div
+            className='truncate max-w-[150px] hover:visible hover:whitespace-normal hover:overflow-auto'
+          >
+            Retiro en local
+          </div>
+        )
+      }
       return (
         <div
           className='truncate max-w-[150px] hover:visible hover:whitespace-normal hover:overflow-auto'

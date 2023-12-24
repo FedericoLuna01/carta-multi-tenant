@@ -3,7 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./
 import ProductCard from "./ui/product-card"
 import { Button } from "./ui/button"
 import Link from "next/link"
-import { Pencil, Plus, Trash } from "lucide-react"
+import { Pencil, Plus } from "lucide-react"
 
 const AdminAccordion = async () => {
   const data = await prismadb.category.findMany({
@@ -63,17 +63,6 @@ const AdminAccordion = async () => {
                         <Pencil className="w-4 h-4" />
                       </Link>
                     </Button>
-                    <Button
-                      variant='destructive'
-                      className="hover:no-underline"
-                      asChild
-                      size='icon'
-                      title='Editar categoría'
-                    >
-                      <span>
-                        <Trash className="w-4 h-4" />
-                      </span>
-                    </Button>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
@@ -100,13 +89,6 @@ const AdminAccordion = async () => {
                             >
                               <Pencil className="w-4 h-4" />
                             </Link>
-                          </Button>
-                          <Button
-                            variant='destructive'
-                            size='icon'
-                            title='Eliminar subcategoría'
-                          >
-                            <Trash className="w-4 h-4" />
                           </Button>
                         </div>
                         <div>

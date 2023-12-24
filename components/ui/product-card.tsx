@@ -1,13 +1,13 @@
 'use client'
 
 import Image from "next/image"
+import Link from "next/link"
+import { Pencil } from "lucide-react"
 
 import useProductModal from "@/hooks/use-product-modal"
 import { formatter } from "@/lib/utils"
 import { Button } from "./button"
 import { type Product } from "@prisma/client"
-import { Pencil, Trash } from "lucide-react"
-import Link from "next/link"
 
 interface ProductCardProps {
   product: Product
@@ -21,8 +21,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isAdmin = false }) =
     <article
       className="w-auto lg:w-full h-full "
     >
+      {/* <div
+        className="flex flex-col justify-between lg:grid lg:grid-cols-[250px,1fr,150px] bg-slate-100 rounded-md p-1 my-2 max-w-fit lg:max-w-full h-full mx-auto lg:mx-0 border shadow-sm"
+      > */}
+      {/* TODO: Arreglar la card en mobile (poner el precio a la izquierda del boton) */}
       <div
-        className="flex flex-col justify-between lg:grid lg:grid-cols-[250px,1fr,150px] bg-slate-100 rounded-md p-1 my-2 max-w-fit lg:max-w-full h-full mx-auto lg:mx-0"
+        className='flex flex-col bg-slate-100 rounded-md p-1 my-2 shadow-sm border'
       >
         <div
           className="col-span-2 flex flex-col lg:flex-row group cursor-pointer"
@@ -39,11 +43,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isAdmin = false }) =
             className="flex flex-col text-left px-6 justify-between py-6 "
           >
             <div>
-              <h3
+              <h4
                 className="font-bold text-xl group-hover:underline "
               >
                 {product.name}
-              </h3>
+              </h4>
               <p
                 className="max-w-[250px] lg:max-w-full"
               >
@@ -51,7 +55,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isAdmin = false }) =
               </p>
             </div>
             <div
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 mt-4 sm:mt-0"
             >
               <p
                 className={`font-semibold text-[1rem] ${product.isPromo ? 'text-gray-400 line-through' : 'text-slate-800'}`}
@@ -89,17 +93,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isAdmin = false }) =
                       Editar
                   </Link>
                 </Button>
-                <Button
-                  variant='destructive'
-                >
-                  <Trash className="w-4 h-4 mr-2" />
-                  Eliminar
-                </Button>
               </div>
             ) : (
               <Button
                 onClick={() => productModal.onOpen(product)}
-                size='lg'
               >
               Agregar
               </Button>

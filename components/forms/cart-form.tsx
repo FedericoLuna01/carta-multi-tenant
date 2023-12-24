@@ -21,6 +21,8 @@ import { Button } from "../ui/button"
 import CartProductsTable from "../cart-products-table"
 import useCart from "@/hooks/use-cart"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
+import { UserSettings } from "@prisma/client"
+import { getIsOpen } from "@/actions/getIsOpen"
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -30,7 +32,7 @@ const formSchema = z.object({
   place: z.string().max(50).optional(),
 })
 
-const CartForm = () => {
+const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
   const [loading, setLoading] = useState(false)
 
   const { user, setUser } = useUser()
@@ -68,8 +70,14 @@ const CartForm = () => {
       products: formattedProducts
     }
 
+    const isOpen = getIsOpen(userSettings)
+
     if(!items || items.length === 0) {
       return toast.error('No hay productos en el carrito')
+    }
+
+    if (!isOpen) {
+      return toast.error('El local se encuentra cerrado')
     }
 
     // Valido que el usuario haya seleccionado un lugar si es delivery o mesa
@@ -100,7 +108,7 @@ const CartForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 p-8 pt-0 max-w-[310px] sm:max-w-[490px] md:max-w-[700px] xl:max-w-[800px] overflow-auto">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 p-8 pt-0 max-w-screen sm:max-w-[490px] md:max-w-[700px] xl:max-w-[800px] overflow-auto">
         <FormField
           control={form.control}
           name="name"
@@ -185,30 +193,42 @@ const CartForm = () => {
                     defaultValue={user?.type}
                     className="flex flex-col space-y-1"
                   >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value='DELIVERY' />
-                      </FormControl>
-                      <FormLabel>
+                    {
+                      userSettings?.delivery && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value='DELIVERY' />
+                          </FormControl>
+                          <FormLabel>
                         Delivery
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value='TABLE' />
-                      </FormControl>
-                      <FormLabel>
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    }
+                    {
+                      userSettings?.table && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value='TABLE' />
+                          </FormControl>
+                          <FormLabel>
                         Mesa
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value='TAKEAWAY' />
-                      </FormControl>
-                      <FormLabel>
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    }
+                    {
+                      userSettings?.takeaway && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value='TAKEAWAY' />
+                          </FormControl>
+                          <FormLabel>
                         Takeaway
-                      </FormLabel>
-                    </FormItem>
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    }
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />

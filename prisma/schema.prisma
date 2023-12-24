@@ -17,6 +17,7 @@ model UserSettings {
   table          Boolean
   delivery       Boolean
   takeaway       Boolean
+  ubication      String
 }
 
 model Product {

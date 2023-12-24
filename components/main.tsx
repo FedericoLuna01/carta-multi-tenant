@@ -19,7 +19,7 @@ const Main = async () => {
   })
 
   return (
-    <main
+    <section
       className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-28'
     >
       <Accordion type="single" collapsible >
@@ -28,7 +28,7 @@ const Main = async () => {
             <AccordionItem
               value={`item-${category.id}`}
               key={category.id}
-              className='border-b-0 my-[2px]'
+              className='border-b-0 my-[4px]'
             >
               <AccordionTrigger
                 className='bg-slate-100
@@ -37,6 +37,8 @@ const Main = async () => {
                 text-3xl
                 uppercase
                 font-bold
+                border
+                shadow-sm
                 '
               >
                 {category.name}
@@ -70,7 +72,7 @@ const Main = async () => {
           ))
         }
       </Accordion>
-    </main>
+    </section>
   )
 }
 

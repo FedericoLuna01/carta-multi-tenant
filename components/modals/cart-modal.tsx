@@ -15,8 +15,9 @@ import {
 } from "@/components/ui/dialog"
 import CartForm from "../forms/cart-form"
 import OrderStatusVisualizer from "../order-status"
+import { UserSettings } from "@prisma/client"
 
-const CartModal = () => {
+const CartModal = ({ userSettings }: { userSettings: UserSettings | null}) => {
   const [orderId, setOrderId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const CartModal = () => {
           Mi orden
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-screen max-w-[320px] sm:max-w-[500px] md:max-w-[700px] xl:max-w-[800px] max-h-[95vh] overflow-y-auto p-0">
+      <DialogContent className="max-w-screen sm:max-w-[500px] md:max-w-[700px] xl:max-w-[800px] max-h-[95vh] overflow-y-auto p-0">
         <DialogHeader
           className="sticky z-50 px-8 top-0 bg-white py-4 translate-y-[-2px] border-b border-b-slate-200"
         >
@@ -58,9 +59,9 @@ const CartModal = () => {
               orderId={orderId}
             />
             :
-            <div>
-              <CartForm />
-            </div>
+            <CartForm
+              userSettings={userSettings}
+            />
         }
       </DialogContent>
     </Dialog>

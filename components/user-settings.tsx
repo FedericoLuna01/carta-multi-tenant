@@ -12,10 +12,10 @@ const UserSettings = ({ userSettings }: { userSettings: UserSettings | null }) =
       >
         <CardHeader>
           <CardTitle>
-              Configuración de usuario
+            Configuración de usuario
           </CardTitle>
           <CardDescription>
-              Editá las preferencias de tu cuenta
+            Editá las preferencias de tu cuenta
           </CardDescription>
         </CardHeader>
         <CardContent>
