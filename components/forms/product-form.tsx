@@ -6,7 +6,7 @@ import * as z from 'zod'
 import { Trash } from "lucide-react"
 import axios from "axios"
 import { useState } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
 import toast from "react-hot-toast"
 
 import Heading from '../ui/heading'
@@ -55,7 +55,7 @@ const formSchema = z.object({
       z.object({
         name: z
           .string()
-          .min(1, { message: 'El tamaño es requerido' }),
+          .min(1, { message: 'El extra es requerido' }),
         price: z
           .coerce
           .number()
@@ -84,6 +84,9 @@ interface ProductFormProps {
 const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData }) => {
   const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+
+  const searchParams = useSearchParams()
+  const subcategory = searchParams.get('subcategory')
   const router = useRouter()
   const params = useParams()
 
@@ -95,7 +98,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData })
       description: "",
       price: 0,
       image: "",
-      subcategoryId: "",
+      subcategoryId: subcategory || "",
       sizes: [],
       extras: [],
       promoPrice: 0,

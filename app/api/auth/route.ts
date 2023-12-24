@@ -7,7 +7,7 @@ export async function GET() {
   const token = cookieStore.get("auth");
 
   if (!token) {
-    return NextResponse.json('Not logged in', { status: 401 })
+    return new NextResponse('Not logged in', { status: 401 })
   }
 
   const { email, authorized } = verify(token.value, process.env.JWT_SECRET as string) as JwtPayload;

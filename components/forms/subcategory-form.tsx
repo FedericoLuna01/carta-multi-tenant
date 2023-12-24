@@ -7,13 +7,13 @@ import { useState } from "react"
 import axios from "axios"
 import toast from "react-hot-toast"
 import { Trash } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import Heading from "../ui/heading"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { Separator } from "../ui/separator"
-import { useRouter } from "next/navigation"
 import { Category, type Subcategory } from "@prisma/client"
 import { AlertModal } from "../modals/alert-modal"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
@@ -32,13 +32,15 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({ initialData, categori
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
 
+  const searchParams = useSearchParams()
+  const category = searchParams.get('category')
   const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
-      categoryId: ""
+      categoryId: category || ""
     },
   })
 

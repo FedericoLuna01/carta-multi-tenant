@@ -5,10 +5,10 @@ import { ArrowUpDown } from 'lucide-react'
 
 import CellAction from './cell-action'
 import { OrderItem, type Order, OrderItemSize, OrderItemExtra, Product } from '@prisma/client'
-import { cn } from '@/lib/utils'
 import { StatusSelect } from './status-select'
 import { Button } from '@/components/ui/button'
 import PopoverProducts from './popover-products'
+import BadgeOrderType from './badge-order-type'
 
 export type SafeOrderItem = OrderItem & {
   size: OrderItemSize | null
@@ -37,18 +37,10 @@ export const columns: ColumnDef<OrderColumn>[] = [
     },
     header: 'Tipo',
     cell: ({ row }) => {
-      const type = row.original.type
-      const label = type === 'DELIVERY' ? 'Delivery' : type === 'TAKEAWAY' ? 'Retiro' : 'Mesa'
       return (
-        <div
-          className={cn('font-semibold text-center py-1 px-2 rounded-md border-2', {
-            'bg-cyan-200 border-cyan-400': type === 'DELIVERY',
-            'bg-purple-200 border-purple-400': type === 'TAKEAWAY',
-            'bg-blue-200 border-blue-400': type === 'TABLE',
-          })}
-        >
-          {label}
-        </div>
+        <BadgeOrderType
+          type={row.original.type}
+        />
       )
     }
   },

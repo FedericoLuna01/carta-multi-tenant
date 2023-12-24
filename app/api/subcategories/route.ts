@@ -6,10 +6,10 @@ export async function POST(req: Request) {
   const body = await req.json()
   const { name, categoryId } = body
 
-  const user = await getAuth()
-  if (!user) {
-    return new NextResponse('Unauthorized', { status: 401 })
-  }
+  // const user = await getAuth()
+  // if (!user) {
+  //   return new NextResponse('Unauthorized', { status: 401 })
+  // }
 
   if (!name) {
     return new NextResponse('Missing name', { status: 400 })

@@ -8,6 +8,17 @@ datasource db {
   relationMode = "prisma"
 }
 
+model UserSettings {
+  id             String  @id @default(uuid())
+  dayOpenTime    String
+  dayCloseTime   String
+  nightOpenTime  String
+  nightCloseTime String
+  table          Boolean
+  delivery       Boolean
+  takeaway       Boolean
+}
+
 model Product {
   id            String      @id @default(uuid())
   name          String

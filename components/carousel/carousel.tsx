@@ -5,7 +5,6 @@ import useEmblaCarousel, {
 } from 'embla-carousel-react'
 
 import Autoplay from 'embla-carousel-autoplay'
-// import { Product } from '@/types/types'
 import ProductCard from '../ui/product-card'
 import { Product } from '@prisma/client'
 

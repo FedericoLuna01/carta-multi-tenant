@@ -2,6 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Heading from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
 import prismadb from "@/lib/prismadb"
+import { StatusSelect } from "../components/status-select"
+import BadgeOrderType from "../components/badge-order-type"
 
 const OrderPage = async ({ params }: { params: { orderId: string } }) => {
   const order = await prismadb.order.findUnique({
@@ -22,15 +24,27 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
   if (!order) return <div>No se encontró la orden</div>
 
   const getFullProductName = (item: any) => {
+    console.log(item)
     const extras = item.extras.map((extra: any) => extra.name).join(', ')
-    const quantity = item.quantity
-    const size = item.size ? item.size.name : ''
-    if (!size) return `${quantity}x ${item.product.name} - ${extras}`
-    return `${quantity}x ${item.product.name} (${size}) - ${extras}`
+    let name
+    name = `${item.quantity}x ${item.product.name}`
+    if (item.size) {
+      name += ` (${item.size.name})`
+    }
+    if (extras) {
+      name += ` - ${extras}`
+    }
+    if(item.options) {
+      name += ` - ${item.options}`
+    }
+
+    return name
   }
 
   return (
-    <div>
+    <div
+      className="mb-4"
+    >
       <div>
         <Heading
           title='Orden'
@@ -39,24 +53,8 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
         <Separator />
       </div>
       <div
-        className="mt-4 grid grid-cols-2 gap-4"
+        className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4"
       >
-        <Card>
-          <CardHeader>
-            <CardTitle>Productos</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul>
-              {
-                order.products.map((product) => (
-                  <li key={product.id}>
-                    {`● ${getFullProductName(product)}`}
-                  </li>
-                ))
-              }
-            </ul>
-          </CardContent>
-        </Card>
         <Card>
           <CardHeader>
             <CardTitle>Cliente</CardTitle>
@@ -78,11 +76,41 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
             </div>
             <div>
               <p className="font-semibold">Tipo</p>
-              <p>{order.type}</p>
+              <BadgeOrderType
+                type={order.type}
+              />
             </div>
             <div>
               <p className="font-semibold">Estado</p>
-              <p>{order.status}</p>
+              <StatusSelect
+                order={order}
+              />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Productos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul
+              className="space-y-2"
+            >
+              {
+                order.products.map((product) => (
+                  <li key={product.id}>
+                    {`● ${getFullProductName(product)}`}
+                  </li>
+                ))
+              }
+            </ul>
+            <div>
+              <p className="font-semibold">Comentario</p>
+              <p>
+                {
+                  order.comment ? order.comment : 'Sin comentario'
+                }
+              </p>
             </div>
           </CardContent>
         </Card>

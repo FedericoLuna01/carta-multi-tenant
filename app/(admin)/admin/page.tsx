@@ -1,33 +1,20 @@
 import AdminAccordion from "@/components/admin-accordion"
 import Header from "@/components/header"
-import { Button } from "@/components/ui/button"
+import UserSettings from "@/components/user-settings"
+import prismadb from "@/lib/prismadb"
 
-const AdminPage = () => {
+const AdminPage = async () => {
+  const userSettings = await prismadb.userSettings.findFirst({})
+
   return (
     <section
       className="flex items-center flex-col"
     >
       <Header />
-      <div
-        className="space-x-4"
-      >
-        <Button
-          className="mt-5"
-        >
-          Cambiar logo
-        </Button>
-        <Button
-          className="mt-5"
-          variant='outline'
-        >
-          Cambiar fondo
-        </Button>
-      </div>
-      <div
-        className="w-full"
-      >
-        <AdminAccordion />
-      </div>
+      <UserSettings
+        userSettings={userSettings}
+      />
+      <AdminAccordion />
     </section>
   )
 }

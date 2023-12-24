@@ -4,6 +4,7 @@ import './globals.css'
 
 import { ToasterProvider } from '@/providers/toaster-provider'
 import ModalsProviders from '@/providers/modals-provider'
+import Footer from '@/components/footer'
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         <ToasterProvider />
         <ModalsProviders />
         {children}
+        <Footer />
       </body>
     </html>
   )

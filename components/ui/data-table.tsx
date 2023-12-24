@@ -68,9 +68,7 @@ export function DataTable<TData, TValue>({
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
-    <div
-      className="mb-10"
-    >
+    <div>
       <div className="flex items-center py-4">
         <div
           className="flex items-center gap-4"

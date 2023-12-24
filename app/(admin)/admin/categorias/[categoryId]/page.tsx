@@ -7,7 +7,6 @@ const CategoryPage = async ({ params }: { params: { categoryId: string } }) => {
       id: params.categoryId
     }
   })
-  console.log(category)
   return (
     <CategoryForm
       initialData={category}

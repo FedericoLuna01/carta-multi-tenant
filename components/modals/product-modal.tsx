@@ -22,7 +22,7 @@ const ProductModal = () => {
       open={isOpen}
       onOpenChange={handleChange}
     >
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-auto">
         <DialogHeader>
           <Image
             src={data?.image}
@@ -41,6 +41,7 @@ const ProductModal = () => {
           </DialogDescription>
           <div>
             <AddProductForm
+              // TODO: Arreglar tipado
               data={data}
             />
           </div>

@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import { columns } from "./components/columns"
 import prismadb from "@/lib/prismadb"
 
-const SubcategoriasPage = async () => {
+const SubcategoriesPage = async () => {
   const subcategories = await prismadb.subcategory.findMany({
     include: {
       category: true
@@ -42,4 +42,4 @@ const SubcategoriasPage = async () => {
   )
 }
 
-export default SubcategoriasPage
+export default SubcategoriesPage

@@ -17,6 +17,7 @@ const Main = async () => {
       }
     }
   })
+
   return (
     <main
       className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-28'
@@ -50,7 +51,9 @@ const Main = async () => {
                     >
                       {subcategory.name}
                     </h3>
-                    <div>
+                    <div
+                      className='flex flex-col items-center lg:items-start w-full'
+                    >
                       {
                         subcategory.products.map((product) => (
                           <ProductCard

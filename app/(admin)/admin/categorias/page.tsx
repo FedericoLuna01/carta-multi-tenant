@@ -1,8 +1,9 @@
+import Link from "next/link"
+
 import { DataTable } from "@/components/ui/data-table"
 import { columns } from "./components/columns"
 import { Separator } from "@/components/ui/separator"
 import Heading from "@/components/ui/heading"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import prismadb from "@/lib/prismadb"
 

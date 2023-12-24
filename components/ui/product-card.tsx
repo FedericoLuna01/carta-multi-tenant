@@ -18,12 +18,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isAdmin = false }) =
   const productModal = useProductModal()
 
   return (
-    <article>
+    <article
+      className="w-auto lg:w-full h-full "
+    >
       <div
-        className="grid grid-cols-[250px,1fr,150px] bg-slate-100 rounded-md p-1  my-2"
+        className="flex flex-col justify-between lg:grid lg:grid-cols-[250px,1fr,150px] bg-slate-100 rounded-md p-1 my-2 max-w-fit lg:max-w-full h-full mx-auto lg:mx-0"
       >
         <div
-          className="col-span-2 flex flex-row group cursor-pointer"
+          className="col-span-2 flex flex-col lg:flex-row group cursor-pointer"
           onClick={() => productModal.onOpen(product)}
         >
           <Image
@@ -42,7 +44,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isAdmin = false }) =
               >
                 {product.name}
               </h3>
-              <p>
+              <p
+                className="max-w-[250px] lg:max-w-full"
+              >
                 {product.description}
               </p>
             </div>

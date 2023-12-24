@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form"
 import * as z from 'zod'
 import { useState } from "react"
 import axios from "axios"
-import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 
 import {
@@ -101,7 +100,7 @@ const CartForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-full p-8 pt-0">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 p-8 pt-0 max-w-[310px] sm:max-w-[490px] md:max-w-[700px] xl:max-w-[800px] overflow-auto">
         <FormField
           control={form.control}
           name="name"
@@ -243,7 +242,9 @@ const CartForm = () => {
             />
             : null
         }
-        <CartProductsTable />
+        <div>
+          <CartProductsTable />
+        </div>
         <div
           className='flex gap-4 flex-row justify-end pt-2'
         >

@@ -32,7 +32,7 @@ const NavItems = [
   {
     id: 5,
     label: 'Reordenar',
-    href: '/reordenar',
+    href: '/admin/reordenar',
   },
 ]
 

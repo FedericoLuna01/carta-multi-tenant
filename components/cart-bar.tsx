@@ -1,4 +1,6 @@
+import { Search } from "lucide-react"
 import CartModal from "./modals/cart-modal"
+import { Button } from "./ui/button"
 
 const CartBar = () => {
   return (
@@ -13,7 +15,19 @@ const CartBar = () => {
         >
           Logo
         </h1>
-        <CartModal />
+        <div
+          className="flex items-center space-x-4"
+        >
+          <Button
+            variant='outline'
+          >
+            Buscar productos...
+            <Search
+              className="w-5 h-5 ml-8"
+            />
+          </Button>
+          <CartModal />
+        </div>
       </nav>
     </header>
   )

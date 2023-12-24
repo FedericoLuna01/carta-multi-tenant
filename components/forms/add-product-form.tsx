@@ -195,7 +195,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
                           form.setValue('size', size)
                         }}
                         defaultValue={field.value?.name}
-                        className="flex flex-col space-y-1"
+                        className="flex items-center sm:items-start flex-col space-y-1"
                       >
                         {
                           data.sizes && data.sizes.map((size, index) => (
@@ -238,7 +238,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
                           return (
                             <FormItem
                               key={item.name}
-                              className="flex flex-row items-center space-x-3 space-y-5"
+                              className="flex flex-row items-center justify-center sm:justify-start space-x-3 space-y-5"
                             >
                               <FormControl>
                                 <Checkbox

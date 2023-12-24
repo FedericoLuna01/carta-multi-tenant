@@ -1,7 +1,7 @@
 import SubcategoryForm from '@/components/forms/subcategory-form'
 import prismadb from '@/lib/prismadb'
 
-const SubcategoryPage = async ({ params }: { params: { subcategoryId: string } }) => {
+const SubcategoryPage = async ({ params }: { params: { subcategoryId: string}}) => {
   const categories = await prismadb.category.findMany()
   const subcategory = await prismadb.subcategory.findFirst({
     where: {
