@@ -27,7 +27,7 @@ export async function PATCH(req: Request) {
         ubication
       },
       where: {
-        id: '4b97cf01-eaeb-49f5-9646-2148955ec10b'
+        id: '07e08cc8-9e7d-4fec-9ea2-2fc1668aef38'
       }
     })
 

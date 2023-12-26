@@ -9,6 +9,8 @@ const UserInfo = ({ userSettings }: { userSettings: UserSettings | null}) => {
 
   const isOpen = getIsOpen(userSettings)
 
+  if(!userSettings) return null
+
   return (
     <section
       className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8"
@@ -50,11 +52,11 @@ const UserInfo = ({ userSettings }: { userSettings: UserSettings | null}) => {
             <div className="flex flex-col space-y-2">
               <div className="flex flex-col space-y-1">
                 <p className="font-semibold text-xl">Día</p>
-                <p>Desde {userSettings?.dayOpenTime} hasta {userSettings?.dayCloseTime}</p>
+                <p>Desde {userSettings.dayOpenTime} hasta {userSettings.dayCloseTime}</p>
               </div>
               <div className="flex flex-col space-y-1">
                 <p className="font-semibold text-xl">Noche</p>
-                <p>Desde {userSettings?.nightOpenTime} hasta {userSettings?.nightCloseTime}</p>
+                <p>Desde {userSettings.nightOpenTime} hasta {userSettings.nightCloseTime}</p>
               </div>
             </div>
           </CardContent>

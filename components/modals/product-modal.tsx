@@ -41,7 +41,6 @@ const ProductModal = () => {
           </DialogDescription>
           <div>
             <AddProductForm
-              // TODO: Arreglar tipado
               data={data}
             />
           </div>

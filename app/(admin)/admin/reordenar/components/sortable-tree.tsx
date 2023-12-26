@@ -27,10 +27,15 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
 
   const handleSave = async () => {
     try {
-      // const res = await axios.patch('/api/reorder', {
-      //   categories: sortableData
-      // })
-      // console.log(res)
+      const sortedData = sortableData.map((category: Category, index: number) => {
+        category.sort = index + 1
+        return category
+      })
+      console.log(sortedData)
+      const res = await axios.patch('/api/reorder', {
+        categories: sortedData
+      })
+      console.log(res)
     } catch (error) {
       console.log(error)
     }

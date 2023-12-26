@@ -11,6 +11,8 @@ export function getIsOpen(userSettings: UserSettings | null) {
   const nightOpenTime = new Date(`${todayDate}T${userSettings.nightOpenTime}`)
   const nightCloseTime = new Date(`${todayDate}T${userSettings.nightCloseTime}`)
 
+  // TODO: No funciona si el horario de cierre es menor al de apertura
+
   if (nightOpenTime < nightCloseTime) {
     if (today >= nightOpenTime && today < nightCloseTime) {
       return true;

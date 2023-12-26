@@ -21,7 +21,7 @@ import useCart from "@/hooks/use-cart"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { formatter } from "@/lib/utils"
 import { Checkbox } from "../ui/checkbox"
-import { Extra, Product, Size } from "@prisma/client"
+import { type FullProduct } from "@/types/types"
 
 const formSchema = z.object({
   quantity: z
@@ -55,10 +55,7 @@ const formSchema = z.object({
 
 
 interface AddProductFormProps {
-  data: Product & {
-    sizes: Size[],
-    extras: Extra[]
-  }
+  data: FullProduct
 }
 
 const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
@@ -78,11 +75,10 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     // Si el item ya está en el carrito, setear la cantidad y opciones
-    // TODO: Arreglar tipado
     defaultValues: updatedInfo || {
       quantity: 1,
       options: "",
-      size: data.sizes[0],
+      size: data.sizes ? data.sizes[0] : undefined,
       extras: undefined,
     },
   })

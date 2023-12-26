@@ -4,6 +4,8 @@ import { Separator } from "@/components/ui/separator"
 import prismadb from "@/lib/prismadb"
 import { StatusSelect } from "../components/status-select"
 import BadgeOrderType from "../components/badge-order-type"
+import { getTotalProductPrice } from "@/actions/getTotalPrice"
+import { formatter } from "@/lib/utils"
 
 const OrderPage = async ({ params }: { params: { orderId: string } }) => {
   const order = await prismadb.order.findUnique({
@@ -24,7 +26,7 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
   if (!order) return <div>No se encontró la orden</div>
 
   const getFullProductName = (item: any) => {
-    console.log(item)
+    const price = getTotalProductPrice(item)
     const extras = item.extras.map((extra: any) => extra.name).join(', ')
     let name
     name = `${item.quantity}x ${item.product.name}`
@@ -38,8 +40,13 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
       name += ` - ${item.options}`
     }
 
+    name += ` - $${price}`
+
     return name
+
   }
+
+  const total = order.products.reduce((acc, item) => acc + getTotalProductPrice(item as any), 0)
 
   return (
     <div
@@ -92,7 +99,9 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
           <CardHeader>
             <CardTitle>Productos</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent
+            className="space-y-4"
+          >
             <ul
               className="space-y-2"
             >
@@ -104,6 +113,14 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
                 ))
               }
             </ul>
+            <div>
+              <p className="font-semibold">Total</p>
+              <p>
+                {
+                  formatter.format(total)
+                }
+              </p>
+            </div>
             <div>
               <p className="font-semibold">Comentario</p>
               <p>

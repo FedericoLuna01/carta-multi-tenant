@@ -72,7 +72,7 @@ const AdminAccordion = async () => {
                         key={subcategory.id}
                       >
                         <div
-                          className="flex items-center justify-center mt-8 gap-4"
+                          className="flex items-center justify-center mt-8 gap-4 mb-2"
                         >
                           <h3
                             className='text-2xl text-center font-bold uppercase'
@@ -91,7 +91,9 @@ const AdminAccordion = async () => {
                             </Link>
                           </Button>
                         </div>
-                        <div>
+                        <div
+                          className='space-y-4'
+                        >
                           {
                             subcategory.products.map((product) => (
                               <ProductCard

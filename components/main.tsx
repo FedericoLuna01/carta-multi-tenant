@@ -15,6 +15,9 @@ const Main = async () => {
           }
         }
       }
+    },
+    orderBy: {
+      sort: 'asc'
     }
   })
 
@@ -54,7 +57,7 @@ const Main = async () => {
                       {subcategory.name}
                     </h3>
                     <div
-                      className='flex flex-col items-center lg:items-start w-full'
+                      className='flex flex-col space-y-6 items-center lg:items-start w-full'
                     >
                       {
                         subcategory.products.map((product) => (

@@ -12,10 +12,33 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
       extras: true,
     }
   })
+
+  const formattedProduct = product ? {
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    image: product.image,
+    subcategoryId: product.subcategoryId,
+    isArchived: product.isArchived,
+    isPromo: product.isPromo,
+    promoPrice: product.promoPrice,
+    createdAt: product.createdAt,
+    updatedAt: product.updatedAt,
+    sizes: product.sizes.map(size => ({
+      name: size.name,
+      price: size.price,
+    })),
+    extras: product.extras.map(extra => ({
+      name: extra.name,
+      price: extra.price,
+    })),
+  } : null
+
   return (
     <ProductForm
       subcategories={subcategories}
-      initialData={product}
+      initialData={formattedProduct}
     />
   )
 }

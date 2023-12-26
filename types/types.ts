@@ -1,20 +1,10 @@
-import { OrderType } from "@prisma/client";
+import { Extra, OrderType, Product, Size } from "@prisma/client";
 
-export type Product = {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-  sizes?: {
-    name: string;
-    price: number;
-  }[];
-  extras?: {
-    name: string;
-    price: number;
-  }[];
+export type FullProduct = Product & {
+  sizes: Size[] | null
+  extras: Extra[] | null
 }
+
 
 export type CartProduct = {
   id: string;
@@ -32,11 +22,6 @@ export type CartProduct = {
     name: string;
     price: number;
   }[];
-}
-
-export type Category = {
-  name: string;
-  id: number
 }
 
 export type User = {

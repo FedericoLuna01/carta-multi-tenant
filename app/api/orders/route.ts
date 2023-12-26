@@ -17,7 +17,7 @@ export async function POST (req: Request) {
       }
     })
 
-    // TODO: Refactor esto y arreglar tipado
+    // TODO: Refactor esto y arreglar tipado (puedo borrar todos schemas de orderitemsize y orderitemextra y usar el mismo schema que en product)
 
     products.map(async (product: any) => {
       const orderItem = await prismadb.orderItem.create({

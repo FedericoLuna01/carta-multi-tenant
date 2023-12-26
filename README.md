@@ -9,7 +9,7 @@ Carta es un menu digital con opciones de takeaway y delivery.
 - Tailwind
 - Shadcn
 - Prisma
-- (DB a definir)
+- PlanetScale
 - Zustand
 - Zod
 - React hot toast
@@ -18,4 +18,4 @@ Carta es un menu digital con opciones de takeaway y delivery.
 # Funciones
 
 - CRUD de categorías, subcategorías y productos.
-- Realizar pedidos para takeaway y delivery.
+- Realizar pedidos para takeaway, delivery y las mesas del restaurant.

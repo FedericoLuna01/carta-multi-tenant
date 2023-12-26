@@ -5,10 +5,10 @@ import { useState } from "react"
 
 import { Button } from "./ui/button"
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command"
-import { Product } from "@prisma/client"
 import useProductModal from "@/hooks/use-product-modal"
+import { FullProduct } from "@/types/types"
 
-const CommandSearch = ({ products }: {products: Product[]}) => {
+const CommandSearch = ({ products }: {products: FullProduct[]}) => {
   const [open, setOpen] = useState(false)
   const { onOpen } = useProductModal()
 
@@ -47,8 +47,30 @@ const CommandSearch = ({ products }: {products: Product[]}) => {
                   onSelect={() => {
                     onOpen(product)
                   }}
+                  className="flex items-center justify-between"
                 >
                   {product.name}
+                  <div>
+                    {
+                      !product.isPromo && product.price && (
+                        <span className="ml-2 text-gray-500">
+                        ${product.price}
+                        </span>
+                      )
+                    }
+                    {
+                      product.isPromo && (
+                        <div>
+                          <span className="ml-2 text-gray-500 line-through">
+                            ${product.price}
+                          </span>
+                          <span className="ml-2 text-green-600">
+                            ${product.promoPrice}
+                          </span>
+                        </div>
+                      )
+                    }
+                  </div>
                 </CommandItem>
               ))}
           </CommandGroup>

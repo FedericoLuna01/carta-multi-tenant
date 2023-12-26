@@ -1,17 +1,17 @@
-import { type Product } from '@prisma/client'
+import { FullProduct } from '@/types/types'
 import { create } from 'zustand'
 
 interface ProductModalStore {
   isOpen: boolean
-  data?: Product
-  onOpen: (data: Product) => void
+  data?: FullProduct
+  onOpen: (data: FullProduct) => void
   onClose: () => void
 }
 
 const useProductModal = create<ProductModalStore>((set) => ({
   isOpen: false,
   data: undefined,
-  onOpen: (data: Product) => set({ data, isOpen: true }),
+  onOpen: (data: FullProduct) => set({ data, isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }))
 

@@ -17,7 +17,7 @@ import { Checkbox } from "../ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Separator } from "../ui/separator"
 import ImageUpload from "../ui/image-upload"
-import { Product, Subcategory } from "@prisma/client"
+import { Subcategory } from "@prisma/client"
 import { AlertModal } from "../modals/alert-modal"
 
 const formSchema = z.object({
@@ -78,7 +78,25 @@ const formSchema = z.object({
 
 interface ProductFormProps {
   subcategories: Subcategory[]
-  initialData: Product | null
+  initialData: {
+    name: string;
+    price: number;
+    image: string;
+    subcategoryId: string;
+    sizes: {
+      name: string;
+      price: number;
+    }[];
+    extras: {
+      name: string;
+      price: number;
+    }[];
+    isPromo: boolean;
+    isArchived: boolean;
+    description?: string | null | undefined
+    promoPrice: number | null
+  }
+  | null
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData }) => {
@@ -92,8 +110,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    //TODO: Fixear el error de typescript
-    defaultValues: initialData || {
+    defaultValues: initialData ? {
+      ...initialData,
+      description: initialData.description ? initialData.description : undefined,
+      promoPrice: initialData.promoPrice ? initialData.promoPrice : undefined
+    } : {
       name: "",
       description: "",
       price: 0,

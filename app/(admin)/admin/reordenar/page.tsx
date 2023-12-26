@@ -13,7 +13,10 @@ const SortingPage = async () => {
         include: {
           products: true
         }
-      }
+      },
+    },
+    orderBy: {
+      sort: 'asc'
     }
   })
 

@@ -6,10 +6,10 @@ import useEmblaCarousel, {
 
 import Autoplay from 'embla-carousel-autoplay'
 import ProductCard from '../ui/product-card'
-import { Product } from '@prisma/client'
+import { FullProduct } from '@/types/types'
 
 type PropType = {
-  slides: Product[]
+  slides: FullProduct[]
 }
 
 const Carousel: React.FC<PropType> = ({ slides }) => {
