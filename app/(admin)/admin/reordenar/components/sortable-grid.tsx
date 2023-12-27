@@ -11,7 +11,6 @@ import { Category, Product, Subcategory } from "@prisma/client"
 import { Button } from "@/components/ui/button"
 import SortableItem from "./sortable-item"
 
-// TODO: Hacer esto para arreglar los otros tipados
 interface SortableGridProps {
   data: CategoryWithSubcategories[]
 }
@@ -55,6 +54,12 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
       return newCategories
     })
   }
+
+  const  handleDragStart = (event: any) => {
+    setActiveId(event.active.id);
+  }
+
+
   const id = useId()
 
   const handleSave = async () => {
@@ -89,6 +94,7 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
         id={id}
       >
         <SortableContext
@@ -113,6 +119,7 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
                     <DndContext
                       collisionDetection={closestCenter}
                       onDragEnd={(event) => handleDragEndSubcategories(event, indexCategory)}
+                      onDragStart={handleDragStart}
                       id={id}
                     >
                       <SortableContext
@@ -136,6 +143,7 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
                                 <DndContext
                                   collisionDetection={closestCenter}
                                   onDragEnd={(event) => handleDragEndProducts(event, indexSubcategory, indexCategory)}
+                                  onDragStart={handleDragStart}
                                   id={id}
                                 >
                                   <SortableContext
@@ -159,6 +167,11 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
                           ))
                         }
                       </SortableContext>
+                      <DragOverlay>
+                        {activeId ? (
+                          <Item sortableData={sortableData} activeId={activeId} />
+                        ): null}
+                      </DragOverlay>
                     </DndContext>
                   </div>
                 </SortableItem>
@@ -166,12 +179,42 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
             })
           }
         </SortableContext>
+        <DragOverlay>
+          {activeId ? (
+            <Item sortableData={sortableData} activeId={activeId} />
+          ): null}
+        </DragOverlay>
       </DndContext>
       <Button
         onClick={handleSave}
       >
         Guardar
       </Button>
+    </div>
+  )
+}
+
+const Item = ({ activeId, sortableData }: { activeId: string, sortableData: CategoryWithSubcategories[] }) => {
+  const getName = (id: string) => {
+    const category = sortableData.find((category: Category) => category.id === id)
+
+    if(!category) {
+      const subcategory = sortableData
+        .map((category: CategoryWithSubcategories) => category.subcategories
+          .find((subcategory: Subcategory) => subcategory.id === id))
+        .filter((subcategory: SubcategoryWithProducts | undefined): subcategory is SubcategoryWithProducts => subcategory !== undefined)[0];
+      return subcategory?.name
+    }
+
+    return category.name
+  }
+
+  return (
+    <div
+      key={activeId}
+      className="h-full bg-white p-4 rounded-md shadow-md border-input border-2 my-2 flex items-center w-full"
+    >
+      {getName(activeId)}
     </div>
   )
 }

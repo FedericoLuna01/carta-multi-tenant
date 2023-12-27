@@ -29,7 +29,7 @@ const ProductModal = () => {
             alt={data?.name}
             width={680}
             height={150}
-            className="rounded-md mt-5"
+            className="rounded-md mt-5 aspect-[16/10] object-cover"
           />
           <DialogTitle
             className="text-2xl font-bold text-black"

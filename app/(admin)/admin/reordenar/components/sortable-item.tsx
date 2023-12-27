@@ -1,8 +1,9 @@
+import { cn } from "@/lib/utils"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from '@dnd-kit/utilities'
 
 const SortableItem = ({ item, children }: {item: any, children: React.ReactNode}) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: item.id })
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id })
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -14,7 +15,10 @@ const SortableItem = ({ item, children }: {item: any, children: React.ReactNode}
       style={style}
       {...attributes}
       {...listeners}
-      className="bg-white p-4 rounded-md shadow-md border-input border-2 my-2 flex items-center w-full"
+      className={cn('', {
+        'bg-white p-4 rounded-md shadow-md border-input border-2 my-2 flex items-center w-full': true,
+        ' opacity-40': isDragging,
+      })}
     >
       {children}
     </div>

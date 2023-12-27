@@ -6,7 +6,6 @@ export default async function getAuth(): Promise<{ email: string, authorized: bo
     return res.data
   } catch (error) {
     console.log(error)
-    // TODO: Fixear esto
     return null
   }
 }

@@ -18,6 +18,7 @@ export async function POST (req: Request) {
   // Si el usuario existe, generar un token
   if (process.env.EMAIL === email && process.env.PASSWORD === password) {
     const token = sign({
+      httpOnly: true,
       exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30),
       email,
       authorized: true

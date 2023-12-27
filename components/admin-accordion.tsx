@@ -1,9 +1,10 @@
+import Link from "next/link"
+import { Pencil, Plus } from "lucide-react"
+
 import prismadb from "@/lib/prismadb"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import ProductCard from "./ui/product-card"
 import { Button } from "./ui/button"
-import Link from "next/link"
-import { Pencil, Plus } from "lucide-react"
 
 const AdminAccordion = async () => {
   const data = await prismadb.category.findMany({
@@ -14,10 +15,19 @@ const AdminAccordion = async () => {
             include: {
               sizes: true,
               extras: true
+            },
+            orderBy: {
+              sort: 'asc'
             }
           }
+        },
+        orderBy: {
+          sort: 'asc'
         }
       }
+    },
+    orderBy: {
+      sort: 'asc'
     }
   })
 

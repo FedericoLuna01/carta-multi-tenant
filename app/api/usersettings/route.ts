@@ -15,6 +15,25 @@ export async function PATCH(req: Request) {
   } = body
 
   try {
+
+    const userSettings = await prismadb.userSettings.findFirst()
+
+    if(!userSettings) {
+      await prismadb.userSettings.create({
+        data: {
+          dayOpenTime,
+          dayCloseTime,
+          nightOpenTime,
+          nightCloseTime,
+          table,
+          delivery,
+          takeaway,
+          ubication
+        }
+      })
+      return NextResponse.json('User settings created', { status: 201 })
+    }
+
     await prismadb.userSettings.update({
       data: {
         dayOpenTime,
@@ -27,7 +46,7 @@ export async function PATCH(req: Request) {
         ubication
       },
       where: {
-        id: '07e08cc8-9e7d-4fec-9ea2-2fc1668aef38'
+        id: userSettings.id
       }
     })
 
