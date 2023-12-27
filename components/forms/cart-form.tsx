@@ -70,15 +70,15 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
       products: formattedProducts
     }
 
-    const isOpen = getIsOpen(userSettings)
+    // const isOpen = getIsOpen(userSettings)
 
     if(!items || items.length === 0) {
       return toast.error('No hay productos en el carrito')
     }
 
-    if (!isOpen) {
-      return toast.error('El local se encuentra cerrado')
-    }
+    // if (!isOpen) {
+    //   return toast.error('El local se encuentra cerrado')
+    // }
 
     // Valido que el usuario haya seleccionado un lugar si es delivery o mesa
     if(user?.type === 'TABLE' || user?.type === 'DELIVERY') {

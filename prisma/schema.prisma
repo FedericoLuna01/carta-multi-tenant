@@ -34,8 +34,10 @@ model Product {
   isArchived    Boolean     @default(false)
   isPromo       Boolean     @default(false)
   promoPrice    Float?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  sort          Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([subcategoryId])
 }
@@ -53,19 +55,15 @@ model Size {
 }
 
 model Extra {
-  id          String    @id @default(uuid())
-  name        String
-  price       Float
-  productId   String
-  product     Product   @relation("ExtraToProduct", fields: [productId], references: [id], onDelete: Cascade)
-  orderItemId String
-  orderItem   OrderItem @relation("ExtraToOrderItem", fields: [orderItemId], references: [id], onDelete: Cascade)
-
+  id        String   @id @default(uuid())
+  name      String
+  price     Float
+  productId String
+  product   Product  @relation("ExtraToProduct", fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([productId])
-  @@index([orderItemId])
 }
 
 model Category {
@@ -84,6 +82,7 @@ model Subcategory {
   categoryId String
   category   Category  @relation("SubcategoryToCategory", fields: [categoryId], references: [id])
   products   Product[] @relation("SubcategoryToProduct")
+  sort       Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -122,20 +121,32 @@ enum OrderStatus {
 }
 
 model OrderItem {
-  id        String         @id @default(uuid())
+  id        String           @id @default(uuid())
   productId String
-  product   Product        @relation("OrderItemToProduct", fields: [productId], references: [id], onDelete: Cascade)
+  product   Product          @relation("OrderItemToProduct", fields: [productId], references: [id], onDelete: Cascade)
   quantity  Int
   options   String?
-  extras    Extra[]        @relation("ExtraToOrderItem")
+  extras    OrderItemExtra[] @relation("OrderItemExtraToOrderItem")
   size      OrderItemSize?
   orderId   String
-  order     Order          @relation("OrderItemToOrder", fields: [orderId], references: [id], onDelete: Cascade)
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
+  order     Order            @relation("OrderItemToOrder", fields: [orderId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 
   @@index([orderId])
   @@index([productId])
+}
+
+model OrderItemExtra {
+  id          String    @id @default(uuid())
+  name        String
+  price       Float
+  orderItemId String
+  orderItem   OrderItem @relation("OrderItemExtraToOrderItem", fields: [orderItemId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([orderItemId])
 }
 
 model OrderItemSize {

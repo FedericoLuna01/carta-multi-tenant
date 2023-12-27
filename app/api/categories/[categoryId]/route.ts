@@ -9,10 +9,10 @@ export async function DELETE(req:Request, { params }: { params: { categoryId: st
     return new NextResponse('Bad request', { status: 400 })
   }
 
-  const user = await getAuth()
-  if (!user) {
-    return new NextResponse('Unauthorized', { status: 401 })
-  }
+  // const user = await getAuth()
+  // if (!user) {
+  //   return new NextResponse('Unauthorized', { status: 401 })
+  // }
 
   try {
     const category = await prismadb.category.delete({
@@ -35,10 +35,10 @@ export async function PATCH(req: Request, {
   const body = await req.json()
   const { name } = body
 
-  const user = await getAuth()
-  if (!user) {
-    return new NextResponse('Unauthorized', { status: 401 })
-  }
+  // const user = await getAuth()
+  // if (!user) {
+  //   return new NextResponse('Unauthorized', { status: 401 })
+  // }
 
   if(!categoryId) {
     return new NextResponse('Bad request', { status: 400 })

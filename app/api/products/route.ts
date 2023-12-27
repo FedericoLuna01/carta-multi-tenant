@@ -39,6 +39,38 @@ export async function POST(req: Request) {
   }
 
   try {
+    const products = await prismadb.product.findMany({})
+
+    if (products.length !== 0) {
+      const sort = products.reduce((max, current) => (current.sort > max.sort ? current : max), products[0])
+
+      const product = await prismadb.product.create({
+        data: {
+          name,
+          description,
+          price,
+          image,
+          isArchived,
+          isPromo,
+          promoPrice,
+          subcategoryId,
+          sort: sort.sort + 1,
+          sizes: {
+            createMany: {
+              data: sizes
+            }
+          },
+          extras: {
+            createMany: {
+              data: extras
+            }
+          }
+        }
+      })
+
+      return NextResponse.json(product)
+    }
+
     const product = await prismadb.product.create({
       data: {
         name,
@@ -49,6 +81,7 @@ export async function POST(req: Request) {
         isPromo,
         promoPrice,
         subcategoryId,
+        sort: 1,
         sizes: {
           createMany: {
             data: sizes
@@ -61,6 +94,7 @@ export async function POST(req: Request) {
         }
       }
     })
+
     return NextResponse.json(product)
   } catch (error) {
     console.log('[PRODUCTS_POST]', error)

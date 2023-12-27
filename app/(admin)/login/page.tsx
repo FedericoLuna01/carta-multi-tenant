@@ -1,6 +1,13 @@
+import getAuth from "@/actions/getAuth"
 import LoginForm from "@/components/forms/login-form"
+import { redirect } from "next/navigation"
 
-const LoginPage =  () => {
+const LoginPage = async () => {
+  const auth = await getAuth()
+
+  if (auth) {
+    return redirect('/admin')
+  }
 
   return (
     <section

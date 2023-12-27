@@ -20,10 +20,27 @@ export async function POST(req: Request) {
   }
 
   try {
+    const subcategories = await prismadb.subcategory.findMany({})
+
+    if (subcategories.length !== 0) {
+      const sort = subcategories.reduce((max, current) => (current.sort > max.sort ? current : max), subcategories[0])
+
+      const subcategory = await prismadb.subcategory.create({
+        data: {
+          name,
+          categoryId,
+          sort: sort.sort + 1,
+        }
+      })
+
+      return NextResponse.json(subcategory)
+    }
+
     const subcategory = await prismadb.subcategory.create({
       data: {
         name,
-        categoryId
+        categoryId,
+        sort: 1
       }
     })
 

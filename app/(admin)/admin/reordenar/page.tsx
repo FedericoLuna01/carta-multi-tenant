@@ -4,16 +4,27 @@ import prismadb from "@/lib/prismadb"
 import { Card, CardTitle } from "@/components/ui/card"
 import Heading from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
-import SortableGrid from "./components/sortable-tree"
+import SortableGrid from "./components/sortable-grid"
 
 const SortingPage = async () => {
   const data = await prismadb.category.findMany({
     include: {
       subcategories: {
         include: {
-          products: true
+          products: {
+            include: {
+              sizes: true,
+              extras: true
+            },
+            orderBy: {
+              sort: 'asc'
+            }
+          }
+        },
+        orderBy: {
+          sort: 'asc'
         }
-      },
+      }
     },
     orderBy: {
       sort: 'asc'

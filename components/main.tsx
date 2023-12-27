@@ -11,8 +11,14 @@ const Main = async () => {
             include: {
               sizes: true,
               extras: true
+            },
+            orderBy: {
+              sort: 'asc'
             }
           }
+        },
+        orderBy: {
+          sort: 'asc'
         }
       }
     },

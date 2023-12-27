@@ -1,17 +1,16 @@
-import prismadb from "@/lib/prismadb"
-import { Category } from "@prisma/client"
 import { NextResponse } from "next/server"
+import prismadb from "@/lib/prismadb"
+import { CategoryWithSubcategories } from "@/types/types"
 
 export async function PATCH(req: Request) {
-  const body = await req.json()
+  const body: {
+    categories: CategoryWithSubcategories[]
+  } = await req.json()
   const { categories } = body
 
   try {
-    if (categories.find((category: Category) => category.sort > 1000)) {
-      return new NextResponse("Mayor a mil", { status: 500 })
-    }
-    categories.map(async(category: Category) => {
-      const categoryUpdated = await prismadb.category.update({
+    await Promise.all(categories.map(async(category: CategoryWithSubcategories) => {
+      await prismadb.category.update({
         where: {
           id: category.id
         },
@@ -19,8 +18,32 @@ export async function PATCH(req: Request) {
           sort: category.sort
         },
       })
-      console.log(categoryUpdated)
-    })
+
+      await Promise.all(category.subcategories.map(async(subcategory) => {
+        await prismadb.subcategory.update({
+          where: {
+            id: subcategory.id
+          },
+          data: {
+            sort: subcategory.sort
+          },
+        })
+
+        await Promise.all(subcategory.products.map(async(product) => {
+          await prismadb.product.update({
+            where: {
+              id: product.id
+            },
+            data: {
+              sort: product.sort
+            },
+          })
+        }))
+
+      }))
+
+    }))
+
     return NextResponse.json('Updated', { status: 200 })
 
   } catch (error) {

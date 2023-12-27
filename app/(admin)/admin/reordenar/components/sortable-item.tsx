@@ -1,12 +1,12 @@
 import { useSortable } from "@dnd-kit/sortable"
-import { Category } from "@prisma/client"
 import { CSS } from '@dnd-kit/utilities'
 
-const SortableItem = ({ category }: {category: Category}) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: category.id })
+const SortableItem = ({ item, children }: {item: any, children: React.ReactNode}) => {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: item.id })
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    height: '100%',
   }
   return (
     <div
@@ -14,9 +14,9 @@ const SortableItem = ({ category }: {category: Category}) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="bg-white p-4 rounded-md shadow-md border-input border-2 my-2"
+      className="bg-white p-4 rounded-md shadow-md border-input border-2 my-2 flex items-center w-full"
     >
-      {category.name}
+      {children}
     </div>
   )
 }
