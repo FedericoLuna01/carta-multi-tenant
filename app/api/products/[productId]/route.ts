@@ -97,10 +97,10 @@ export async function DELETE(req: Request, { params }: { params: { productId: st
     return new NextResponse('Missing product id', { status: 400 })
   }
 
-  const user = await getAuth()
-  if (!user) {
-    return new NextResponse('Unauthorized', { status: 401 })
-  }
+  // const user = await getAuth()
+  // if (!user) {
+  //   return new NextResponse('Unauthorized', { status: 401 })
+  // }
 
   try {
     const product = await prismadb.product.deleteMany({

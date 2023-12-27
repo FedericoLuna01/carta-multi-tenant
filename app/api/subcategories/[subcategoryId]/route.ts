@@ -5,10 +5,10 @@ import { NextResponse } from "next/server";
 export async function DELETE(req:Request, { params }: { params: { subcategoryId: string }}) {
   const { subcategoryId } = params;
 
-  const user = await getAuth()
-  if (!user) {
-    return new NextResponse('Unauthorized', { status: 401 })
-  }
+  // const user = await getAuth()
+  // if (!user) {
+  //   return new NextResponse('Unauthorized', { status: 401 })
+  // }
 
   if(!subcategoryId) {
     return new NextResponse('Bad request', { status: 400 })

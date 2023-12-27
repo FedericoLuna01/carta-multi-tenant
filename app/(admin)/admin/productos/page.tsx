@@ -7,6 +7,8 @@ import { Separator } from "@/components/ui/separator"
 import { columns } from "./components/columns"
 import prismadb from "@/lib/prismadb"
 
+export const revalidate = 10
+
 const ProductsPage = async () => {
   const products = await prismadb.product.findMany({
     include: {
