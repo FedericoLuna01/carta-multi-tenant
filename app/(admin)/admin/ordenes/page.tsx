@@ -1,3 +1,5 @@
+import { unstable_noStore as noStore } from "next/cache"
+
 import { DataTable } from "@/components/ui/data-table"
 import Heading from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
@@ -5,6 +7,8 @@ import prismadb from "@/lib/prismadb"
 import { columns } from "./components/columns"
 
 const OrdersPage = async () => {
+  noStore()
+
   const orders = await prismadb.order.findMany({
     orderBy: {
       createdAt: 'desc'

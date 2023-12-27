@@ -46,7 +46,7 @@ const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId }) => {
     title = 'Tu orden está en camino'
   }
 
-  if(order?.status === OrderStatus.READY) {
+  if(order?.status === OrderStatus.READY || order?.status === OrderStatus.DONE) {
     icon = <UtensilsCrossed className="w-32 h-32" strokeWidth={1.2} />
     title = 'Tu orden está lista'
   }

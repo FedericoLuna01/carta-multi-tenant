@@ -51,8 +51,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       } else {
         await axios.post('/api/categories', data)
       }
-      router.push('/admin/categorias')
       router.refresh()
+      router.push('/admin/categorias')
       toast.success(toastText)
     } catch (error: any) {
       toast.error('Algo salio mal')

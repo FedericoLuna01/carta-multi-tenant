@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { unstable_noStore as noStore } from "next/cache"
 
 import { Button } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table"
@@ -7,9 +8,9 @@ import { Separator } from "@/components/ui/separator"
 import { columns } from "./components/columns"
 import prismadb from "@/lib/prismadb"
 
-export const revalidate = 10
-
 const ProductsPage = async () => {
+  noStore()
+
   const products = await prismadb.product.findMany({
     include: {
       sizes: true,

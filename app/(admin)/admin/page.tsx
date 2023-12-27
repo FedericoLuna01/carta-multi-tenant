@@ -1,9 +1,12 @@
+import { unstable_noStore as noStore } from "next/cache"
+
 import AdminAccordion from "@/components/admin-accordion"
 import Header from "@/components/header"
 import UserSettings from "@/components/user-settings"
 import prismadb from "@/lib/prismadb"
 
 const AdminPage = async () => {
+  noStore()
   const userSettings = await prismadb.userSettings.findFirst({})
 
   return (

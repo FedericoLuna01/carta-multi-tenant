@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { unstable_noStore as noStore } from "next/cache"
 
 import { DataTable } from "@/components/ui/data-table"
 import { columns } from "./components/columns"
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import prismadb from "@/lib/prismadb"
 
 const CategoriesPage = async () => {
+  noStore()
   const categories = await prismadb.category.findMany()
   return (
     <div>

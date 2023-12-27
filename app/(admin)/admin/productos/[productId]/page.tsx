@@ -1,7 +1,11 @@
+import { unstable_noStore as noStore } from "next/cache"
+
 import ProductForm from "@/components/forms/product-form"
 import prismadb from "@/lib/prismadb"
 
 const ProductPage = async ({ params }: { params: { productId: string } }) => {
+  noStore()
+
   const subcategories = await prismadb.subcategory.findMany()
   const product = await prismadb.product.findUnique({
     where: {

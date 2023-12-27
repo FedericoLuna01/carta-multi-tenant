@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import toast from "react-hot-toast"
-import Link from "next/link"
 import { Pencil, Trash } from "lucide-react"
 import axios from "axios"
 
@@ -47,14 +46,10 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <Button
           size='icon'
           variant='outline'
-          asChild
           title='Editar categoría'
+          onClick={() => router.push(`/admin/categorias/${data.id}`)}
         >
-          <Link
-            href={`/admin/categorias/${data.id}`}
-          >
-            <Pencil className="w-5 h-5" />
-          </Link>
+          <Pencil className="w-5 h-5" />
         </Button>
         <Button
           size='icon'

@@ -1,3 +1,5 @@
+import { unstable_noStore as noStore } from 'next/cache'
+
 import Carousel from '@/components/carousel/carousel'
 import Navbar from '@/components/navbar'
 import Header from '@/components/header'
@@ -6,6 +8,7 @@ import UserInfo from '@/components/user-info'
 import prismadb from '@/lib/prismadb'
 
 export default async function Home() {
+  noStore()
   const products = await prismadb.product.findMany({
     where: {
       isPromo: true

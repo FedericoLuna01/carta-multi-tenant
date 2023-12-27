@@ -57,8 +57,8 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({ initialData, categori
       } else {
         await axios.post('/api/subcategories', data)
       }
-      router.push('/admin/subcategorias')
       router.refresh()
+      router.push('/admin/subcategorias')
       toast.success(toastText)
     } catch (error: any) {
       toast.error('Algo salio mal')

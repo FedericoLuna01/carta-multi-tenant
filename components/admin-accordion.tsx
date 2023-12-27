@@ -12,6 +12,9 @@ const AdminAccordion = async () => {
       subcategories: {
         include: {
           products: {
+            where: {
+              isArchived: false
+            },
             include: {
               sizes: true,
               extras: true

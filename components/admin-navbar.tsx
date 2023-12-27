@@ -66,6 +66,7 @@ const AdminNavbar = () => {
                   >
                     <Link
                       href={item.href}
+                      prefetch={false}
                     >
                       {item.label}
                     </Link>

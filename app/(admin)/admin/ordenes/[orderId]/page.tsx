@@ -1,3 +1,5 @@
+import { unstable_noStore as noStore } from "next/cache"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Heading from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
@@ -8,6 +10,8 @@ import { getTotalProductPrice } from "@/actions/getTotalPrice"
 import { formatter } from "@/lib/utils"
 
 const OrderPage = async ({ params }: { params: { orderId: string } }) => {
+  noStore()
+
   const order = await prismadb.order.findUnique({
     where: {
       id: params.orderId

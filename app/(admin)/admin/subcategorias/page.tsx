@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { unstable_noStore as noStore } from "next/cache"
 
 import { Button } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table"
@@ -8,6 +9,7 @@ import { columns } from "./components/columns"
 import prismadb from "@/lib/prismadb"
 
 const SubcategoriesPage = async () => {
+  noStore()
   const subcategories = await prismadb.subcategory.findMany({
     include: {
       category: true
