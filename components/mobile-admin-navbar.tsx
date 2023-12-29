@@ -2,6 +2,7 @@
 
 import { Menu } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -13,7 +14,6 @@ import {
 } from "@/components/ui/sheet"
 import { NavItems } from "@/data/data"
 import LogoutButton from "./ui/logout-button"
-import { useState } from "react"
 
 const MobileAdminNavbar = () => {
   const [open, setOpen] = useState(false)

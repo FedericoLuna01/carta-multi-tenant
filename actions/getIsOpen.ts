@@ -24,6 +24,11 @@ export function getIsOpen(userSettings: UserSettings | null) {
     if (today < nightCloseTime) {
       return true
     }
+
+    if(today > nightOpenTime) {
+      return true
+    }
+
   }
 
   if (today <= nightCloseTime && today >= nightOpenTime) {

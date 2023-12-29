@@ -60,11 +60,11 @@ const Main = async () => {
                   <AccordionContent
                     key={subcategory.id}
                   >
-                    <h3
+                    <h4
                       className='text-2xl text-center font-bold uppercase mt-8'
                     >
                       {subcategory.name}
-                    </h3>
+                    </h4>
                     <div
                       className='flex flex-col space-y-6 items-center lg:items-start w-full'
                     >

@@ -1,7 +1,6 @@
 import { unstable_noStore as noStore } from 'next/cache'
 
 import Carousel from '@/components/carousel/carousel'
-import Navbar from '@/components/navbar'
 import Header from '@/components/header'
 import Main from '@/components/main'
 import UserInfo from '@/components/user-info'
@@ -23,24 +22,17 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar
+      <Header />
+      <UserInfo
         userSettings={userSettings}
       />
-      <main
-        className='mt-24'
-      >
-        <Header />
-        <UserInfo
-          userSettings={userSettings}
-        />
-        {
-          products.length > 0 &&
+      {
+        products.length > 0 &&
           <Carousel
             slides={products}
           />
-        }
-        <Main />
-      </main>
+      }
+      <Main />
     </>
   )
 }

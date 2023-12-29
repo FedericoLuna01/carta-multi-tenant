@@ -113,7 +113,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData })
     defaultValues: initialData ? {
       ...initialData,
       description: initialData.description ? initialData.description : undefined,
-      promoPrice: initialData.promoPrice ? initialData.promoPrice : undefined
+      promoPrice: initialData.promoPrice ? initialData.promoPrice : 0
     } : {
       name: "",
       description: "",
@@ -485,10 +485,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData })
                     <FormItem>
                       <FormLabel>Descuento</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input placeholder="1230" type='number' {...field} />
                       </FormControl>
                       <FormDescription>
-                        Este será el nuevo precio del producto
+                        Este va a ser el nuevo precio del producto
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

@@ -43,6 +43,34 @@ export async function PATCH(req: Request, { params }: { params: { productId: str
   }
 
   try {
+    const oldProduct = await prismadb.product.findUnique({
+      where: {
+        id: params.productId
+      },
+      select: {
+        name: true,
+        description: true,
+        price: true,
+        image: true,
+        isArchived: true,
+        isPromo: true,
+        promoPrice: true,
+        subcategoryId: true,
+        sizes: {
+          select: {
+            price: true,
+            name: true
+          }
+        },
+        extras: {
+          select: {
+            price: true,
+            name: true
+          }
+        },
+      }
+    })
+
     await prismadb.product.update({
       where: {
         id: params.productId
@@ -61,7 +89,8 @@ export async function PATCH(req: Request, { params }: { params: { productId: str
         },
         extras: {
           deleteMany: {}
-        }
+        },
+        lastChange: oldProduct as any
       }
     })
 

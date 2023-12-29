@@ -10,7 +10,7 @@ const Header = () => {
         alt="logo"
         width={1080}
         height={300}
-        className="rounded-md object-cover aspect-h-1 mx-auto"
+        className="object-cover mx-auto"
         loading="lazy"
       />
     </section>

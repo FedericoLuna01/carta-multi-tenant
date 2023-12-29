@@ -18,6 +18,7 @@ const CommandSearch = ({ products }: {products: FullProduct[]}) => {
         variant='outline'
         onClick={() => setOpen(true)}
         className="hidden md:flex"
+        aria-label="Buscar productos..."
       >
           Buscar productos...
         <Search
@@ -29,6 +30,7 @@ const CommandSearch = ({ products }: {products: FullProduct[]}) => {
         size='icon'
         onClick={() => setOpen(true)}
         className="flex md:hidden"
+        aria-label="Buscar productos..."
       >
         <Search
           className="w-5 h-5"

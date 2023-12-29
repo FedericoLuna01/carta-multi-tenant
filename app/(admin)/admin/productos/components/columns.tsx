@@ -88,7 +88,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     id: 'actions',
-    header: 'Acciones',
     enableHiding: false,
     cell: ({ row }) => {
       return (

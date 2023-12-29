@@ -3,13 +3,14 @@
 import { useState } from "react"
 import toast from "react-hot-toast"
 import Link from "next/link"
-import { Pencil, Trash } from "lucide-react"
+import { MoreHorizontal, Pencil, Trash, Undo2 } from "lucide-react"
 import axios from 'axios'
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { type Product } from "@prisma/client"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 interface CellActionProps {
   data: Product
@@ -33,6 +34,20 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
       setIsOpen(false)
     }
   }
+
+  const handleLastVersion = async () => {
+    try {
+      setLoading(true)
+      await axios.patch(`/api/products/${data.id}/lastChange`)
+      router.refresh()
+      toast.success('Producto actualizado')
+    } catch (error) {
+      toast.error('Algo salio mal')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <>
       <AlertModal
@@ -41,32 +56,39 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onConfirm={onDelete}
         loading={loading}
       />
-      <div
-        className="space-x-2"
-      >
-        <Button
-          size='icon'
-          variant='outline'
-          asChild
-          title='Editar producto'
-        >
-          <Link
-            href={`/admin/productos/${data.id}`}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Abrir menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            asChild
           >
-            <Pencil className="w-5 h-5" />
-          </Link>
-        </Button>
-        <Button
-          size='icon'
-          variant='destructive'
-          title='Borrar producto'
-        >
-          <Trash
-            className="w-5 h-5"
+            <Link
+              href={`/admin/productos/${data.id}`}
+            >
+              <Pencil className="w-5 h-5 mr-2" /> Editar producto
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={handleLastVersion}
+          >
+            <Undo2 className="w-5 h-5 mr-2" /> Último cambio
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
             onClick={() => setIsOpen(true)}
-          />
-        </Button>
-      </div>
+            className="text-red-500 hover:bg-red-500 hover:text-white"
+          >
+            <Trash className="w-5 h-5 mr-2"/>Eliminar producto
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </>
   )
 }

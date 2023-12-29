@@ -24,8 +24,7 @@ const UserInfo = ({ userSettings }: { userSettings: UserSettings | null}) => {
               className="flex items-center space-x-2"
             >
               <Clock />
-              <CardTitle
-              >
+              <CardTitle>
                 Horarios
               </CardTitle>
               {

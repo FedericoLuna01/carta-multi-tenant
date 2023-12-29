@@ -38,7 +38,9 @@ const SortingPage = async () => {
         description="Reordena las categorías y subcategorías a tu gusto."
       />
       <Separator className="my-4" />
-      <div>
+      <div
+        className="flex flex-col gap-4"
+      >
         <SortableGrid
           data={data}
         />

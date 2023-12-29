@@ -87,11 +87,11 @@ const AdminAccordion = async () => {
                         <div
                           className="flex items-center justify-center mt-8 gap-4 mb-2"
                         >
-                          <h3
+                          <h4
                             className='text-2xl text-center font-bold uppercase'
                           >
                             {subcategory.name}
-                          </h3>
+                          </h4>
                           <Button
                             asChild
                             size='icon'

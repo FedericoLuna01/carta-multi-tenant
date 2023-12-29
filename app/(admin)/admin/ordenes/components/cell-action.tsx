@@ -64,9 +64,6 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
               <Eye className="w-5 h-5 mr-2" /> Ver orden
             </Link>
           </DropdownMenuItem>
-          {/* <DropdownMenuItem>
-            <Pencil className="w-5 h-5 mr-2" /> Editar orden
-          </DropdownMenuItem> */}
           <DropdownMenuItem
             asChild
           >

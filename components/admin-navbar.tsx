@@ -17,7 +17,7 @@ const AdminNavbar = () => {
           <Link
             href='/admin'
           >
-              Logo
+            Admin
           </Link>
         </h1>
         <nav>
