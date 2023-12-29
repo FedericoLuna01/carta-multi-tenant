@@ -14,7 +14,7 @@ const CategoriesPage = async () => {
   return (
     <div>
       <div
-        className="flex justify-between items-center"
+        className="flex flex-col sm:flex-row justify-between items-start sm:items-center"
       >
         <Heading
           title='Categorias'
@@ -25,6 +25,7 @@ const CategoriesPage = async () => {
         >
           <Link
             href='/admin/categorias/nuevo'
+            className="my-4 sm:my-0"
           >
             Crear categoría
           </Link>

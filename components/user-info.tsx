@@ -1,6 +1,6 @@
 import { UserSettings } from "@prisma/client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { Clock, MapPin } from "lucide-react"
+import { Clock, Contact } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { getIsOpen } from "@/actions/getIsOpen"
 
@@ -66,16 +66,22 @@ const UserInfo = ({ userSettings }: { userSettings: UserSettings | null}) => {
             <CardTitle
               className="flex items-center"
             >
-              <MapPin className="mr-2" />Ubicación
+              <Contact className="mr-2" />Contacto
             </CardTitle>
             <CardDescription>
-              Esta es la dirección de nuestro local
+              Estos son los datos de contacto de nuestro local
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col space-y-1">
-              <p className="font-semibold text-xl">Dirección</p>
-              <p>{userSettings.ubication}</p>
+            <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-1">
+                <p className="font-semibold text-xl">Dirección</p>
+                <p>{userSettings.ubication}</p>
+              </div>
+              <div className="flex flex-col space-y-1">
+                <p className="font-semibold text-xl">Teléfono</p>
+                <p>{userSettings.phone}</p>
+              </div>
             </div>
           </CardContent>
         </div>

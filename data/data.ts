@@ -22,3 +22,36 @@ export const statusOptions = [
   { label: 'Entregado', value: 'DONE' },
   { label: 'Cancelado', value: 'CANCELED' }
 ]
+
+export const NavItems = [
+  {
+    id: 1,
+    label: 'Mi cuenta',
+    href: '/admin',
+  },
+  {
+    id: 2,
+    label: 'Productos',
+    href: '/admin/productos',
+  },
+  {
+    id: 3,
+    label: 'Categorías',
+    href: '/admin/categorias',
+  },
+  {
+    id: 6,
+    label: 'Subcategorías',
+    href: '/admin/subcategorias'
+  },
+  {
+    id: 4,
+    label: 'Ordenes',
+    href: '/admin/ordenes',
+  },
+  {
+    id: 5,
+    label: 'Reordenar',
+    href: '/admin/reordenar',
+  },
+]

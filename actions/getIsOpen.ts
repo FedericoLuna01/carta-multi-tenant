@@ -13,6 +13,8 @@ export function getIsOpen(userSettings: UserSettings | null) {
 
   // TODO: No funciona si el horario de cierre es menor al de apertura
 
+  // Tetngo que hacer if (si el horario de cierre es menor al de apertura) { agregar un dia a la fecha de cierre }
+
   if (nightOpenTime < nightCloseTime) {
     if (today >= nightOpenTime && today < nightCloseTime) {
       return true;

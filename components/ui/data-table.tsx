@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({
           {
             visibility && (
               <div
-                className="flex space-x-2"
+                className="hidden sm:flex space-x-2"
               >
                 {
                   order && (

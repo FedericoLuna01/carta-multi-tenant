@@ -58,7 +58,7 @@ const AdminAccordion = async () => {
                   '
                 >
                   <div
-                    className="text-left flex items-center gap-4"
+                    className="text-left flex items-center flex-wrap gap-4"
                   >
                     <p
                       className="uppercase"

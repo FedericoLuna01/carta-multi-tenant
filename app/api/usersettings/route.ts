@@ -11,7 +11,8 @@ export async function PATCH(req: Request) {
     table,
     delivery,
     takeaway,
-    ubication
+    ubication,
+    phone
   } = body
 
   try {
@@ -28,7 +29,8 @@ export async function PATCH(req: Request) {
           table,
           delivery,
           takeaway,
-          ubication
+          ubication,
+          phone
         }
       })
       return NextResponse.json('User settings created', { status: 201 })
@@ -43,7 +45,8 @@ export async function PATCH(req: Request) {
         table,
         delivery,
         takeaway,
-        ubication
+        ubication,
+        phone,
       },
       where: {
         id: userSettings.id

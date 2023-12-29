@@ -49,7 +49,7 @@ export async function POST (req: Request) {
       })
     })
 
-    revalidatePath("/admin/ordenes")
+    revalidatePath("(admin)/admin/ordenes", 'page')
 
     return NextResponse.json({ order })
   } catch (error) {

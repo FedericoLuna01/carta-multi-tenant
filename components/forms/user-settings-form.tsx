@@ -27,6 +27,7 @@ const FormSchema = z.object({
   nightOpenTime: z.string().min(1, { message: 'El horario es requerido' }),
   nightCloseTime: z.string().min(1, { message: 'El horario es requerido' }),
   ubication: z.string().min(1, 'La ubicación es requerida'),
+  phone: z.string().min(1, 'El teléfono es requerido'),
   table: z.boolean(),
   delivery: z.boolean(),
   takeaway: z.boolean(),
@@ -43,6 +44,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
       nightOpenTime: '',
       nightCloseTime: '',
       ubication: '',
+      phone: '',
       table: false,
       delivery: false,
       takeaway: false,
@@ -71,7 +73,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
           >
             <h4 className="font-semibold">Día</h4>
             <div
-              className="flex items-center"
+              className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0"
             >
               <FormField
                 control={form.control}
@@ -114,7 +116,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
           >
             <h4 className="font-semibold">Noche</h4>
             <div
-              className="flex items-center"
+              className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0"
             >
               <FormField
                 control={form.control}
@@ -154,30 +156,59 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
           </div>
         </div>
         <div>
-          <h3 className="mb-4 text-lg font-medium">Dirección de tu local</h3>
+          <h3 className="mb-4 text-lg font-medium">Contacto</h3>
           <div
-            className="rounded-lg border p-3 shadow-sm"
+            className="space-y-4"
           >
             <div
-              className="flex items-center"
+              className="rounded-lg border p-3 shadow-sm"
             >
-              <FormField
-                control={form.control}
-                name="ubication"
-                render={({ field }) => (
-                  <FormItem className="">
-                    <div className="space-y-2">
-                      <FormLabel>Ubicación</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="Ej: Av. Corrientes 1234"
-                        />
-                      </FormControl>
-                    </div>
-                  </FormItem>
-                )}
-              />
+              <div
+                className="flex items-center"
+              >
+                <FormField
+                  control={form.control}
+                  name="ubication"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <div className="space-y-2">
+                        <FormLabel>Ubicación</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Ej: Av. Corrientes 1234"
+                          />
+                        </FormControl>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+            <div
+              className="rounded-lg border p-3 shadow-sm"
+            >
+              <div
+                className="flex items-center"
+              >
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <div className="space-y-2">
+                        <FormLabel>Teléfono</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="+54 9 11 1234 5678"
+                          />
+                        </FormControl>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
           </div>
         </div>

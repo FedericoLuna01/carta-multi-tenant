@@ -14,7 +14,7 @@ export function DataTablePagination<TData>({
   return (
     <div className="flex items-center justify-end py-4">
       <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
+        <div className="items-center space-x-2 hidden sm:flex">
           <p className="text-sm font-medium">Filas por página</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}

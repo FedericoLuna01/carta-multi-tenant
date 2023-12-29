@@ -19,7 +19,7 @@ const SubcategoriesPage = async () => {
   return (
     <div>
       <div
-        className="flex justify-between items-center"
+        className="flex flex-col sm:flex-row justify-between items-start sm:items-center"
       >
         <Heading
           title='Subcategorias'
@@ -27,6 +27,7 @@ const SubcategoriesPage = async () => {
         />
         <Button
           asChild
+          className="my-4 sm:my-0"
         >
           <Link
             href='/admin/subcategorias/nuevo'

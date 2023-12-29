@@ -27,12 +27,6 @@ const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId }) => {
     window.location.reload()
   }
 
-  // let bodyContent = (
-  //   <p className="text-center">
-  //     -
-  //   </p>
-  // )
-
   let icon = <Skeleton className="w-32 h-32 rounded-md" />
   let title = 'Cargando...'
 
@@ -68,7 +62,7 @@ const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId }) => {
         </p>
       </div>
       {
-        order?.status === OrderStatus.READY &&
+        order?.status === OrderStatus.READY ||  order?.status === OrderStatus.DONE &&
         <div className="mt-8 flex items-center justify-center flex-col">
           <p className="text-center text-lg font-semibold">
             ¡Gracias por tu compra!
