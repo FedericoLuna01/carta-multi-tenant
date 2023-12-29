@@ -27,7 +27,6 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
       router.refresh()
       toast.success('Producto eliminado')
     } catch (error) {
-      console.log(error)
       toast.error('Algo salio mal')
     } finally {
       setLoading(false)

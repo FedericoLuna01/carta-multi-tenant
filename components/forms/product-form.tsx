@@ -174,13 +174,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ subcategories, initialData })
   async function onDelete() {
     try {
       setLoading(true)
-      const res = await axios.delete(`/api/products/${params.productId}`)
-      console.log(res)
+      await axios.delete(`/api/products/${params.productId}`)
       router.push('/admin/productos')
       router.refresh()
       toast.success('Producto eliminado con exito')
     } catch (error: any) {
-      console.log(error)
       toast.error('Algo salio mal')
     } finally {
       setLoading(false)

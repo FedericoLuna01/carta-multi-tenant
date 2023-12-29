@@ -70,8 +70,7 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({ initialData, categori
   async function onDelete() {
     try {
       setLoading(true)
-      const res = await axios.delete(`/api/subcategories/${initialData?.id}`)
-      console.log(res)
+      await axios.delete(`/api/subcategories/${initialData?.id}`)
       router.push('/admin/subcategorias')
       router.refresh()
       toast.success('Subcategoria eliminada con exito')

@@ -39,7 +39,6 @@ const LoginForm = () => {
         toast.success('Sesion iniciada correctamente.')
       }
     } catch (error: any) {
-      console.log(error)
       toast.error(error.response.data)
     } finally {
       setLoading(false)

@@ -1,4 +1,14 @@
-import { Category, Extra, OrderType, Product, Size, Subcategory } from "@prisma/client";
+import {
+  Category,
+  Extra,
+  OrderItem,
+  OrderItemExtra,
+  OrderItemSize,
+  OrderType,
+  Product,
+  Size,
+  Subcategory
+} from "@prisma/client";
 
 export type FullProduct = Product & {
   sizes: Size[] | null
@@ -13,22 +23,9 @@ export interface SubcategoryWithProducts extends Subcategory {
   products: Product[]
 }
 
-export type CartProduct = {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-  quantity: number;
-  options?: string;
-  size?: {
-    name: string;
-    price: number;
-  };
-  extras?: {
-    name: string;
-    price: number;
-  }[];
+export interface FullOrderItem extends OrderItem {
+  size: OrderItemSize | null
+  extras: OrderItemExtra[] | null
 }
 
 export type User = {

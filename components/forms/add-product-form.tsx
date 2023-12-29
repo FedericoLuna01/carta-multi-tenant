@@ -84,7 +84,6 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
     addItem({
       ...data,
       quantity: values.quantity,

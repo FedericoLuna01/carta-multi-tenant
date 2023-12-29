@@ -5,7 +5,6 @@ export default async function getAuth(): Promise<{ email: string, authorized: bo
   try {
     const cookieStore = cookies();
     const token = cookieStore.get("auth");
-    console.log(token)
     if (!token) {
       return null
     }

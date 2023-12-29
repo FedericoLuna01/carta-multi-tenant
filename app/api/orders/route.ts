@@ -1,6 +1,8 @@
 import prismadb from "@/lib/prismadb"
 import { revalidatePath } from "next/cache"
 import { NextResponse } from "next/server"
+import { type FullOrderItem } from "@/types/types"
+import { type OrderItemExtra } from "@prisma/client"
 
 export async function POST (req: Request) {
   const body = await req.json()
@@ -19,7 +21,7 @@ export async function POST (req: Request) {
 
     // TODO: Refactor esto y arreglar tipado (puedo borrar todos schemas de orderitemsize y orderitemextra y usar el mismo schema que en product)
 
-    products.map(async (product: any) => {
+    products.map(async (product: FullOrderItem) => {
       const orderItem = await prismadb.orderItem.create({
         data: {
           productId: product.productId,
@@ -38,7 +40,7 @@ export async function POST (req: Request) {
         })
       }
       if(!product.extras) return
-      product.extras.map(async (extra: any) => {
+      product.extras.map(async (extra: OrderItemExtra) => {
         await prismadb.orderItemExtra.create({
           data: {
             orderItemId: orderItem.id,

@@ -21,7 +21,7 @@ import { Button } from "../ui/button"
 import CartProductsTable from "../cart-products-table"
 import useCart from "@/hooks/use-cart"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
-import { UserSettings } from "@prisma/client"
+import { OrderType, UserSettings } from "@prisma/client"
 import { getIsOpen } from "@/actions/getIsOpen"
 
 const formSchema = z.object({
@@ -186,7 +186,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
                     onValueChange={(value) => {
                       field.onChange(value)
                       setUser({ ...user,
-                        type: value as any
+                        type: value as OrderType
                       })
                     }}
                     defaultValue={user?.type}
