@@ -25,8 +25,8 @@ import { UserSettings } from "@prisma/client"
 import { getIsOpen } from "@/actions/getIsOpen"
 
 const formSchema = z.object({
-  name: z.string().min(2).max(50),
-  phone: z.string().min(2).max(10),
+  name: z.string().min(2, { message: 'El nombre es requerido' }).max(50),
+  phone: z.string().min(2, { message: 'El teléfono es requerido' }).max(10),
   comment: z.string().max(50).optional(),
   type: z.enum(['DELIVERY', 'TAKEAWAY', 'TABLE']),
   place: z.string().max(50).optional(),
@@ -70,15 +70,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
       products: formattedProducts
     }
 
-    // const isOpen = getIsOpen(userSettings)
-
-    if(!items || items.length === 0) {
-      return toast.error('No hay productos en el carrito')
-    }
-
-    // if (!isOpen) {
-    //   return toast.error('El local se encuentra cerrado')
-    // }
+    const isOpen = getIsOpen(userSettings)
 
     // Valido que el usuario haya seleccionado un lugar si es delivery o mesa
     if(user?.type === 'TABLE' || user?.type === 'DELIVERY') {
@@ -87,6 +79,15 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
         return form.setError("place", { type: 'custom', message: 'El lugar es requerido' })
       }
     }
+
+    if(!items || items.length === 0) {
+      return toast.error('No hay productos en el carrito')
+    }
+
+    if (!isOpen) {
+      return toast.error('El local se encuentra cerrado')
+    }
+
 
     try {
       setLoading(true)

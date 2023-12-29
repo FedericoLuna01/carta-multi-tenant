@@ -14,7 +14,7 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
 
   const order = await prismadb.order.findUnique({
     where: {
-      id: params.orderId
+      id: Number(params.orderId)
     },
     include: {
       products: {

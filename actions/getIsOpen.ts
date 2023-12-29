@@ -1,38 +1,37 @@
 import { UserSettings } from "@prisma/client";
 
+// Hacer funcion para que reciba un horario y devuelva el date
+
+const getDate = (time: string): Date => {
+  const [hours, minutes] = time.split(':')
+  const date = new Date()
+  date.setHours(Number(hours))
+  date.setMinutes(Number(minutes))
+  return date
+}
+
 export function getIsOpen(userSettings: UserSettings | null) {
   if (!userSettings) return false;
   const today = new Date()
-  const todayDate = today.toISOString().substring(0, 10);
 
-  const dayOpenTime = new Date(`${todayDate}T${userSettings.dayOpenTime}`)
-  const dayCloseTime = new Date(`${todayDate}T${userSettings.dayCloseTime}`)
+  const dayOpenTime = getDate(userSettings.dayOpenTime)
+  const dayCloseTime = getDate(userSettings.dayCloseTime)
 
-  const nightOpenTime = new Date(`${todayDate}T${userSettings.nightOpenTime}`)
-  const nightCloseTime = new Date(`${todayDate}T${userSettings.nightCloseTime}`)
+  const nightOpenTime = getDate(userSettings.nightOpenTime)
+  const nightCloseTime = getDate(userSettings.nightCloseTime)
 
-  // TODO: No funciona si el horario de cierre es menor al de apertura
-
-  // Tetngo que hacer if (si el horario de cierre es menor al de apertura) { agregar un dia a la fecha de cierre }
-
-  if (nightOpenTime < nightCloseTime) {
-    if (today >= nightOpenTime && today < nightCloseTime) {
-      return true;
-    }
-  } else {
-    if (today >= nightOpenTime || today < nightCloseTime) {
-      return true;
+  if (nightCloseTime < nightOpenTime) {
+    if (today < nightCloseTime) {
+      return true
     }
   }
 
-  if (dayOpenTime < dayCloseTime) {
-    if (today >= dayOpenTime && today < dayCloseTime) {
-      return true;
-    }
-  } else {
-    if (today >= dayOpenTime || today < dayCloseTime) {
-      return true;
-    }
+  if (today <= nightCloseTime && today >= nightOpenTime) {
+    return true
+  }
+
+  if (today <= dayCloseTime && today >= dayOpenTime) {
+    return true
   }
 
   return false;

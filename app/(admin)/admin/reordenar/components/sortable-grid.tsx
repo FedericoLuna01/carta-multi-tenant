@@ -10,6 +10,7 @@ import { CategoryWithSubcategories, SubcategoryWithProducts } from "@/types/type
 import { Category, Product, Subcategory } from "@prisma/client"
 import { Button } from "@/components/ui/button"
 import SortableItem from "./sortable-item"
+import Spinner from "@/components/ui/spinner"
 
 interface SortableGridProps {
   data: CategoryWithSubcategories[]
@@ -18,6 +19,7 @@ interface SortableGridProps {
 const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
   const [sortableData, setSortableData] = useState(data)
   const [activeId, setActiveId] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event
@@ -59,11 +61,11 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
     setActiveId(event.active.id);
   }
 
-
   const id = useId()
 
   const handleSave = async () => {
     try {
+      setLoading(true)
       const sortedData = sortableData.map((category: CategoryWithSubcategories, index: number) => {
         category.subcategories = category.subcategories.map((subcategory: SubcategoryWithProducts, index: number) => {
           subcategory.products = subcategory.products.map((product: Product, index: number) => {
@@ -86,6 +88,8 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -185,11 +189,21 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
           ): null}
         </DragOverlay>
       </DndContext>
-      <Button
-        onClick={handleSave}
+      <div
+        className="flex flex-row items-center"
       >
-        Guardar
-      </Button>
+        <Button
+          onClick={handleSave}
+          disabled={loading}
+        >
+          Guardar
+        </Button>
+        {
+          loading && (
+            <Spinner className='ml-2 w-8 h-8' />
+          )
+        }
+      </div>
     </div>
   )
 }

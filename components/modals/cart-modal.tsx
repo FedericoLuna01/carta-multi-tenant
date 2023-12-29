@@ -24,7 +24,7 @@ const CartModal = ({ userSettings }: { userSettings: UserSettings | null}) => {
     setOrderId(localStorage.getItem('orderId'))
   }, [orderId])
 
-  const title = orderId ? 'Estado de tu orden' : 'Resumen de tu orden'
+  const title = orderId ? `Estado de tu orden - #${orderId}` : 'Resumen de tu orden'
   const description = orderId ? 'Mira el progreso de tu orden. ¡Ya casi está listo!' : 'Mira que bien queda tu orden, ¿quieres cambiar algo?'
 
   return (

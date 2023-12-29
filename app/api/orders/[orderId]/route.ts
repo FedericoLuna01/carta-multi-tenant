@@ -5,7 +5,7 @@ export async function GET(req: Request, { params }: { params: { orderId: string 
   try {
     const order = await prismadb.order.findUnique({
       where: {
-        id: params.orderId
+        id: Number(params.orderId)
       },
     })
 
@@ -23,7 +23,7 @@ export async function PATCH(req: Request, { params }: { params: { orderId: strin
   try {
     const order = await prismadb.order.update({
       where: {
-        id: params.orderId
+        id: Number(params.orderId)
       },
       data: {
         status
@@ -41,7 +41,7 @@ export async function DELETE(req: Request, { params }: { params: { orderId: stri
   try {
     const order = await prismadb.order.delete({
       where: {
-        id: params.orderId
+        id: Number(params.orderId)
       },
     })
 

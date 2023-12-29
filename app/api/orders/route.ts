@@ -51,7 +51,7 @@ export async function POST (req: Request) {
 
     revalidatePath("(admin)/admin/ordenes", 'page')
 
-    return NextResponse.json({ order })
+    return NextResponse.json({ message: "Order created" })
   } catch (error) {
     console.log("[ORDERS_POST]", error)
     return new NextResponse("Something went wrong", { status: 500 })

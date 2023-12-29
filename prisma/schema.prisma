@@ -92,7 +92,8 @@ model Subcategory {
 }
 
 model Order {
-  id       String      @id @default(uuid())
+  // id       String      @id @default(uuid())
+  id       Int         @id @default(autoincrement())
   name     String
   phone    String
   place    String?
@@ -129,7 +130,7 @@ model OrderItem {
   options   String?
   extras    OrderItemExtra[] @relation("OrderItemExtraToOrderItem")
   size      OrderItemSize?
-  orderId   String
+  orderId   Int
   order     Order            @relation("OrderItemToOrder", fields: [orderId], references: [id], onDelete: Cascade)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
