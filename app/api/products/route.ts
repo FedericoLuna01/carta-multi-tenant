@@ -17,10 +17,10 @@ export async function POST(req: Request) {
     extras
   } = body
 
-  // const user = await getAuth()
-  // if (!user) {
-  //   return new NextResponse('Unauthorized', { status: 401 })
-  // }
+  const user = await getAuth()
+  if (!user) {
+    return new NextResponse('Unauthorized', { status: 401 })
+  }
 
   if(!name) {
     return new NextResponse('Missing product name', { status: 400 })

@@ -88,13 +88,11 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
       return toast.error('El local se encuentra cerrado')
     }
 
-
     try {
       setLoading(true)
       const res = await axios.post('/api/orders', data)
-
       // Guardar la orden en localstorage
-      localStorage.setItem('orderId', res.data.order.id)
+      localStorage.setItem('orderId', res.data.id)
 
       window.location.reload()
       toast.success("Pedido realizado con éxito")

@@ -1,7 +1,13 @@
+import getAuth from "@/actions/getAuth";
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request, { params }: { params: { orderId: string } }) {
+
+  if(!params.orderId) {
+    return new NextResponse("Missing order id", { status: 400 })
+  }
+
   try {
     const order = await prismadb.order.findUnique({
       where: {
@@ -19,6 +25,19 @@ export async function GET(req: Request, { params }: { params: { orderId: string 
 export async function PATCH(req: Request, { params }: { params: { orderId: string } }) {
   const body = await req.json();
   const { status } = body
+
+  if(!status) {
+    return new NextResponse("Missing status", { status: 400 })
+  }
+
+  if(!params.orderId) {
+    return new NextResponse("Missing order id", { status: 400 })
+  }
+
+  const user = getAuth()
+  if(!user) {
+    return new NextResponse("Unauthorized", { status: 401 })
+  }
 
   try {
     const order = await prismadb.order.update({
@@ -38,6 +57,11 @@ export async function PATCH(req: Request, { params }: { params: { orderId: strin
 }
 
 export async function DELETE(req: Request, { params }: { params: { orderId: string } }) {
+
+  if (!params.orderId) {
+    return new NextResponse("Missing order id", { status: 400 })
+  }
+
   try {
     const order = await prismadb.order.delete({
       where: {

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import toast from "react-hot-toast"
 import Link from "next/link"
-import { Eye, MoreHorizontal, Pencil, Phone, Trash } from "lucide-react"
+import { Eye, MoreHorizontal, Phone, Trash } from "lucide-react"
 import axios from 'axios'
 import { useRouter } from "next/navigation"
 

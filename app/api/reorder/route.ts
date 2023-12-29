@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server"
 import prismadb from "@/lib/prismadb"
 import { CategoryWithSubcategories } from "@/types/types"
+import getAuth from "@/actions/getAuth"
 
 export async function PATCH(req: Request) {
   const body: {
     categories: CategoryWithSubcategories[]
   } = await req.json()
   const { categories } = body
+
+  const user = await getAuth()
+  if (!user) {
+    return new NextResponse('Unauthorized', { status: 401 })
+  }
 
   try {
     await Promise.all(categories.map(async(category: CategoryWithSubcategories) => {

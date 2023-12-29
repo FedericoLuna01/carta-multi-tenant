@@ -51,19 +51,9 @@ export async function POST (req: Request) {
 
     revalidatePath("(admin)/admin/ordenes", 'page')
 
-    return NextResponse.json({ message: "Order created" })
+    return NextResponse.json(order)
   } catch (error) {
     console.log("[ORDERS_POST]", error)
-    return new NextResponse("Something went wrong", { status: 500 })
-  }
-}
-
-export async function DELETE() {
-  try {
-    const orders = await prismadb.order.deleteMany({})
-    return NextResponse.json(orders)
-  } catch (error) {
-    console.log("[ORDERS_DELETE]", error)
     return new NextResponse("Something went wrong", { status: 500 })
   }
 }
