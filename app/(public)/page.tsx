@@ -5,6 +5,7 @@ import Header from '@/components/header'
 import Main from '@/components/main'
 import UserInfo from '@/components/user-info'
 import prismadb from '@/lib/prismadb'
+import BackToTop from '@/components/back-to-top'
 
 export default async function Home() {
   noStore()
@@ -33,6 +34,7 @@ export default async function Home() {
           />
       }
       <Main />
+      <BackToTop />
     </>
   )
 }

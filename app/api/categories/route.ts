@@ -1,5 +1,6 @@
 import getAuth from "@/actions/getAuth"
 import prismadb from "@/lib/prismadb"
+import { revalidatePath } from "next/cache"
 import { NextResponse } from "next/server"
 
 export async function POST(req: Request) {
@@ -37,6 +38,8 @@ export async function POST(req: Request) {
         sort: 1,
       }
     })
+
+    revalidatePath('/(admin)/admin', 'layout')
 
     return NextResponse.json(category)
 

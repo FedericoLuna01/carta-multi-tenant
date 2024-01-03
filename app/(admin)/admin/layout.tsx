@@ -16,31 +16,33 @@ export const metadata: Metadata = {
 
 const AdminLayout = ({ children }: { children: React.ReactNode}) => {
   return (
-    <body
-      className={`${inter.className} grid min-h-screen grid-rows-[60px,1fr,60px] `}
-      style={{
-        backgroundImage: 'url(./background.webp)',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundAttachment: 'fixed',
-      }}
-    >
-      <ToasterProvider />
-      <ModalsProviders />
-      <div />
-      <AdminNavbar />
-      <main
-        className="backdrop-blur-sm pt-4"
+    <html lang="es">
+      <body
+        className={`${inter.className} grid min-h-screen grid-rows-[60px,1fr,60px] `}
+        style={{
+          backgroundImage: 'url(./background.webp)',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
+        }}
       >
-        <div
-          className="container"
+        <ToasterProvider />
+        <ModalsProviders />
+        <div />
+        <AdminNavbar />
+        <main
+          className="backdrop-blur-sm pt-4"
         >
-          {children}
-        </div>
-      </main>
-      <Footer />
-    </body>
+          <div
+            className="container"
+          >
+            {children}
+          </div>
+        </main>
+        <Footer />
+      </body>
+    </html>
   )
 }
 

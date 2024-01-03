@@ -39,11 +39,15 @@ const ProductsPage = async () => {
         </Button>
       </div>
       <Separator />
-      <DataTable
-        data={products}
-        columns={columns}
-        visibility
-      />
+      <div
+        className="overflow-auto max-w-7xl sm:max-w-full"
+      >
+        <DataTable
+          data={products}
+          columns={columns}
+          visibility
+        />
+      </div>
     </section>
   )
 }

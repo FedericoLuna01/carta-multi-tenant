@@ -37,11 +37,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isAdmin = false }) =
       >
         <Image
           src={product.image}
-          alt="food"
+          alt={`${product.name} image`}
           // width={430}
           // height={300}
           fill
           className="aspect-[16/10] object-cover rounded-md group-hover:filter group-hover:brightness-90 transition-all duration-100"
+          blurDataURL={product.image}
+          placeholder="blur"
         />
       </div>
       <div

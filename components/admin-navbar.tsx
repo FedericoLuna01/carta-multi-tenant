@@ -33,12 +33,11 @@ const AdminNavbar = () => {
                     variant='link'
                     asChild
                   >
-                    <Link
+                    <a
                       href={item.href}
-                      prefetch={false}
                     >
                       {item.label}
-                    </Link>
+                    </a>
                   </Button>
                 </li>
               ))
