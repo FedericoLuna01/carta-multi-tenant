@@ -141,7 +141,6 @@ export function DataTable<TData, TValue>({
                           column.toggleVisibility(!!value)
                         }
                       >
-                        {/* TODO: Traducir */}
                         {column.id}
                       </DropdownMenuCheckboxItem>
                     )
