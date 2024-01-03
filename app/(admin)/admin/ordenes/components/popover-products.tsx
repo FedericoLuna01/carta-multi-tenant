@@ -50,7 +50,7 @@ const PopoverProducts: React.FC<PopoverProductsProps> = ({ data }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className='w-fit'
+        className='w-[300px] sm:w-fit'
       >
         <Table>
           <TableHeader>

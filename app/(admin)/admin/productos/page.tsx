@@ -40,7 +40,7 @@ const ProductsPage = async () => {
       </div>
       <Separator />
       <div
-        className="w-full overflow-auto"
+        className="overflow-auto max-w-7xl sm:max-w-full"
       >
         <DataTable
           data={products}

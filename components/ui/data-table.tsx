@@ -150,7 +150,7 @@ export function DataTable<TData, TValue>({
           )
         }
       </div>
-      <div className="rounded-md border bg-white">
+      <div className="rounded-md border bg-white max-w-[calc(100vw-4em)] sm:max-w-2xl md:max-w-full overflow-auto ">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
