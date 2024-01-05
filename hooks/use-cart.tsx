@@ -9,12 +9,12 @@ export type SafeOrderItem = {
   quantity: number
   options?: string
   size?: {
-    name: string
-    price: number
+    name?: string
+    price?: number
   }
   extras?: {
-    name: string
-    price: number
+    name?: string
+    price?: number
   }[]
 }
 
