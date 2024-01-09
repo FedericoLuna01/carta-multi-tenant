@@ -20,12 +20,14 @@ import {
 import { Switch } from "@/components/ui/switch"
 import { Input } from "../ui/input"
 import { UserSettings } from "@prisma/client"
+import ImageUpload from "../ui/image-upload"
 
 const FormSchema = z.object({
   dayOpenTime: z.string().min(1, { message: 'El horario es requerido' }),
   dayCloseTime: z.string().min(1, { message: 'El horario es requerido' }),
   nightOpenTime: z.string().min(1, { message: 'El horario es requerido' }),
   nightCloseTime: z.string().min(1, { message: 'El horario es requerido' }),
+  image: z.string().optional(),
   ubication: z.string().min(1, 'La ubicación es requerida'),
   phone: z.string().min(1, 'El teléfono es requerido'),
   table: z.boolean(),
@@ -48,6 +50,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
       table: false,
       delivery: false,
       takeaway: false,
+      image: '',
     },
   })
 
@@ -55,6 +58,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
     try {
       setLoading(true)
       await axios.patch('/api/usersettings', data)
+      console.log(data)
       toast.success('Se guardaron los cambios')
     } catch (error) {
       toast.error('Algo salio mal')
@@ -277,6 +281,28 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
               )}
             />
           </div>
+        </div>
+        <div>
+          <h3 className="mb-4 text-lg font-medium">Logo de tu local</h3>
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem
+                className="flex flex-col"
+              >
+                <FormLabel>Imagen</FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange('')}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <Button
           type="submit"

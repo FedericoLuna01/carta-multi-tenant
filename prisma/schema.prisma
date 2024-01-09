@@ -19,6 +19,7 @@ model UserSettings {
   takeaway       Boolean
   ubication      String
   phone          String
+  image          String
 }
 
 model Product {

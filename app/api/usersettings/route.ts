@@ -13,7 +13,8 @@ export async function PATCH(req: Request) {
     delivery,
     takeaway,
     ubication,
-    phone
+    phone,
+    image
   } = body
 
   const user = await getAuth()
@@ -35,7 +36,8 @@ export async function PATCH(req: Request) {
           delivery,
           takeaway,
           ubication,
-          phone
+          phone,
+          image
         }
       })
       return NextResponse.json('User settings created', { status: 201 })
