@@ -20,7 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isAdmin = false }) =
 
   return (
     <Card
-      className="p-1 bg-slate-100 flex flex-col lg:flex-row h-full w-fit lg:w-full group hover:cursor-pointer mx-auto lg:mx-0 relative overflow-hidden"
+      className="p-1 bg-slate-100 flex flex-col lg:flex-row h-full w-auto lg:w-full group hover:cursor-pointer mx-auto lg:mx-0 relative overflow-hidden"
       onClick={() => productModal.onOpen(product)}
     >
       {

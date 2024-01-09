@@ -95,9 +95,16 @@
 }
 
 .embla__slide {
-  flex: 0 0 var(--slide-size);
+  flex: 0 0 80%;
   min-width: 0;
   padding-left: var(--slide-spacing);
   position: relative;
   cursor: grab;
+}
+
+@media (min-width: 300px) and (max-width: 1023px) {
+  .embla__slide {
+    flex: 0 0 100%; /* Breakpoint SM slide covers 50% of the viewport */
+    padding-left: 1rem;
+  }
 }

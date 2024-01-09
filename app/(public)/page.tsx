@@ -23,7 +23,9 @@ export default async function Home() {
 
   return (
     <>
-      <Header />
+      <Header
+        image={userSettings?.image}
+      />
       <UserInfo
         userSettings={userSettings}
       />
