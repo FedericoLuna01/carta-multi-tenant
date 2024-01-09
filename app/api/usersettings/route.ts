@@ -54,6 +54,7 @@ export async function PATCH(req: Request) {
         takeaway,
         ubication,
         phone,
+        image
       },
       where: {
         id: userSettings.id
