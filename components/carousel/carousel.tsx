@@ -18,7 +18,7 @@ const Carousel: React.FC<PropType> = ({ slides }) => {
   const [emblaRef] = useEmblaCarousel(options, [Autoplay(autoPlayOptions)])
   return (
     <section
-      className='embla max-w-[calc(100vw-1rem)] mx-auto px-4 sm:px-6 lg:px-8'
+      className='embla max-w-[calc(100vw-1rem)] md:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 my-4'
     >
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container ">

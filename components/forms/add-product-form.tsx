@@ -118,6 +118,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
       const quantity = form.getValues('quantity') || 0
 
       if(sizePrice === 0) {
+        if (data.isPromo) {
+          return (extrasPrice + data.promoPrice) * quantity
+        }
         return (extrasPrice + data.price) * quantity
       }
 

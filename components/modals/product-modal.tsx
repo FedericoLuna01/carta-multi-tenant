@@ -25,8 +25,8 @@ const ProductModal = () => {
       <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-auto">
         <DialogHeader>
           <Image
-            src={data?.image}
-            alt={data?.name}
+            src={data.image}
+            alt={data.name}
             width={680}
             height={150}
             className="rounded-md mt-5 aspect-[16/10] object-cover"
@@ -34,10 +34,10 @@ const ProductModal = () => {
           <DialogTitle
             className="text-2xl font-bold text-black"
           >
-            {data?.name}
+            {data.name}
           </DialogTitle>
           <DialogDescription>
-            {data?.description}
+            {data.description}
           </DialogDescription>
           <div>
             <AddProductForm

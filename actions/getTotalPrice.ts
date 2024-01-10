@@ -6,6 +6,7 @@ export const getTotalProductPrice = (item: SafeOrderItem) => {
   const quantity = item.quantity || 0
 
   if(sizePrice === 0 && item.price) {
+    // TODO: Agregar precio en caso de que sea promo
     return (extrasPrice + item.price) * quantity
   }
 
