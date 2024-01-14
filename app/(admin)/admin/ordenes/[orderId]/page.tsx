@@ -8,6 +8,7 @@ import { StatusSelect } from "../components/status-select"
 import BadgeOrderType from "../components/badge-order-type"
 import { getTotalProductPrice } from "@/actions/getTotalPrice"
 import { formatter } from "@/lib/utils"
+import Link from "next/link"
 
 const OrderPage = async ({ params }: { params: { orderId: string } }) => {
   noStore()
@@ -57,10 +58,24 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
       className="mb-4"
     >
       <div>
-        <Heading
-          title='Orden'
-          description={`Orden numero #${order.id}`}
-        />
+        <div
+          className="flex flex-col items-start gap-2"
+        >
+          <Link
+            href='/admin/ordenes'
+            className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
+          >
+          ← Volver
+          </Link>
+          <div
+            className="flex justify-between items-center w-full"
+          >
+            <Heading
+              title='Orden'
+              description={`Orden numero #${order.id}`}
+            />
+          </div>
+        </div>
         <Separator />
       </div>
       <div
