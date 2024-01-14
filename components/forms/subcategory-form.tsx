@@ -17,6 +17,7 @@ import { Separator } from "../ui/separator"
 import { Category, type Subcategory } from "@prisma/client"
 import { AlertModal } from "../modals/alert-modal"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import Link from "next/link"
 
 const formSchema = z.object({
   name: z.string().min(1, { message: 'El nombre es requerido' }).max(50),
@@ -90,23 +91,33 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({ initialData, categori
         onConfirm={onDelete}
       />
       <div
-        className="flex justify-between items-center"
+        className="flex flex-col items-start gap-2"
       >
-        <Heading
-          title={title}
-          description={description}
-        />
-        {
-          initialData && (
-            <Button
-              size='icon'
-              variant='destructive'
-              onClick={() => setOpen(true)}
-            >
-              <Trash className="w-5 h-5" />
-            </Button>
-          )
-        }
+        <Link
+          href='/admin/subcategorias'
+          className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
+        >
+          ← Volver
+        </Link>
+        <div
+          className="flex justify-between items-center w-full"
+        >
+          <Heading
+            title={title}
+            description={description}
+          />
+          {
+            initialData && (
+              <Button
+                size='icon'
+                variant='destructive'
+                onClick={() => setOpen(true)}
+              >
+                <Trash className="w-5 h-5" />
+              </Button>
+            )
+          }
+        </div>
       </div>
       <Separator />
       <Form {...form}>
