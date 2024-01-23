@@ -58,7 +58,6 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
     try {
       setLoading(true)
       await axios.patch('/api/usersettings', data)
-      console.log(data)
       toast.success('Se guardaron los cambios')
     } catch (error) {
       toast.error('Algo salio mal')

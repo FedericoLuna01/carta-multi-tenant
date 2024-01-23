@@ -11,8 +11,11 @@ import prismadb from '@/lib/prismadb'
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: 'Carta',
+  title: 'Carta - Demo',
   description: 'Demo de carta digital. Una web donde podrás administrar tu carta y tus pedidos.',
+  icons: {
+    icon: '/favicon.ico',
+  }
 }
 
 export default async function RootLayout({

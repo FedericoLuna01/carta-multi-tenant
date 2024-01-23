@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: 'Carta - Login',
-  description: 'En esta sección podrás administrar tu carta.',
+  description: 'Inicia sesión para poder administrar tu carta',
 }
 
 const AdminLayout = ({ children }: { children: React.ReactNode}) => {

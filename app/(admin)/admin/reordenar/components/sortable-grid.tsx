@@ -78,15 +78,14 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
         category.sort = index + 1
         return category
       })
-      try {
-        await axios.patch('/api/reorder', {
-          categories: sortedData
-        })
-        toast.success('Se ha guardado el orden correctamente')
-      } catch (error) {
-        toast.error('Ha ocurrido un error al guardar el orden')
-      }
+
+      await axios.patch('/api/reorder', {
+        categories: sortedData
+      })
+
+      toast.success('Se ha guardado el orden correctamente')
     } catch (error) {
+      toast.error('Ha ocurrido un error al guardar el orden')
       console.log(error)
     } finally {
       setLoading(false)

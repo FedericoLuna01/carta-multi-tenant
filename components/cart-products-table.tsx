@@ -2,6 +2,7 @@
 
 import { Trash } from 'lucide-react'
 
+import toast from 'react-hot-toast'
 import useCart, { SafeOrderItem } from '@/hooks/use-cart'
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from './ui/table'
 import DeleteProductModal from './modals/delete-products-modal'
@@ -111,7 +112,10 @@ const CartProductsTable = () => {
                 <Button
                   type='button'
                   variant='destructive'
-                  onClick={cart.removeAll}
+                  onClick={() => {
+                    cart.removeAll()
+                    toast.success('Carrito vaciado correctamente')
+                  }}
                   size='sm'
                 >
                   Eliminar todo

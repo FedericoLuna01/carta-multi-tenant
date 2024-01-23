@@ -8,6 +8,8 @@ export type SafeOrderItem = {
   price: number
   quantity: number
   options?: string
+  isPromo: boolean
+  promoPrice: number
   size?: {
     name?: string
     price?: number
@@ -81,7 +83,6 @@ const useCart = create(
     },
     removeAll: () => {
       set({ items: [] })
-      toast.success('Carrito vaciado correctamente')
     }
   }), {
     name: 'cart-storage',

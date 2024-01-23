@@ -1,10 +1,15 @@
 import { unstable_noStore as noStore } from "next/cache"
+import { Metadata } from "next"
 
 import { DataTable } from "@/components/ui/data-table"
 import Heading from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
 import prismadb from "@/lib/prismadb"
 import { columns } from "./components/columns"
+
+export const metadata: Metadata = {
+  title: 'Carta - Admin - Órdenes',
+}
 
 const OrdersPage = async () => {
   noStore()

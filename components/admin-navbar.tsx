@@ -8,7 +8,7 @@ import { NavItems } from "@/data/data"
 const AdminNavbar = () => {
   return (
     <header
-      className="h-16 z-50 fixed top-0 w-full border-b border-b-black backdrop-blur-sm flex items-center justify-between"
+      className="h-16 z-50 fixed top-0 w-full border-b border-b-slate-300 backdrop-blur-sm flex items-center justify-between"
     >
       <div
         className="container flex flex-row items-center justify-between"

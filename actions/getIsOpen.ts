@@ -3,8 +3,7 @@ import { UserSettings } from "@prisma/client";
 const getDate = (time: string): Date => {
   const [hours, minutes] = time.split(':')
   const date = new Date()
-  date.setHours(Number(hours))
-  date.setMinutes(Number(minutes))
+  date.setHours(Number(hours), Number(minutes))
   return date
 }
 
@@ -19,7 +18,7 @@ export function getIsOpen(userSettings: UserSettings | null) {
   const nightCloseTime = getDate(userSettings.nightCloseTime)
 
   if (nightCloseTime < nightOpenTime) {
-    // Seteo el dia de ayer
+    // Seteo el dia siguiente
     nightOpenTime.setDate(nightOpenTime.getDate() - 1)
     if(today <= nightCloseTime && today >= nightOpenTime) {
       return true

@@ -8,6 +8,10 @@ import { Separator } from "@/components/ui/separator"
 import { columns } from "./components/columns"
 import prismadb from "@/lib/prismadb"
 
+export const metadata = {
+  title: 'Carta - Admin - Productos',
+}
+
 const ProductsPage = async () => {
   noStore()
 

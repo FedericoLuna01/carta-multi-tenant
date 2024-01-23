@@ -46,7 +46,7 @@ export const NavItems = [
   },
   {
     id: 4,
-    label: 'Ordenes',
+    label: 'Órdenes',
     href: '/admin/ordenes',
   },
   {

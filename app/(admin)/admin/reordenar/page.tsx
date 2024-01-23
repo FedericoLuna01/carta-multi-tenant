@@ -5,6 +5,10 @@ import Heading from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
 import SortableGrid from "./components/sortable-grid"
 
+export const metadata = {
+  title: 'Carta - Admin - Reordenar',
+}
+
 const SortingPage = async () => {
   noStore()
   const data = await prismadb.category.findMany({
@@ -39,7 +43,7 @@ const SortingPage = async () => {
       />
       <Separator className="my-4" />
       <div
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-4 pb-10"
       >
         <SortableGrid
           data={data}

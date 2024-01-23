@@ -15,7 +15,6 @@ export default async function getAuth(): Promise<{ email: string, authorized: bo
       email, authorized
     }
   } catch (error) {
-    console.log(error)
     return null
   }
 }

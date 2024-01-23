@@ -23,6 +23,7 @@ import useCart from "@/hooks/use-cart"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { OrderType, UserSettings } from "@prisma/client"
 import { getIsOpen } from "@/actions/getIsOpen"
+import { SuccessOrderModal } from "../modals/success-order-modal"
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'El nombre es requerido' }).max(50),
@@ -34,6 +35,7 @@ const formSchema = z.object({
 
 const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
   const [loading, setLoading] = useState(false)
+  const [successModalState, setSuccessModalState] = useState(false)
 
   const { user, setUser } = useUser()
   const { items, removeAll } = useCart()
@@ -94,9 +96,13 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
       // Guardar la orden en localstorage
       localStorage.setItem('orderId', res.data.id)
 
-      window.location.reload()
-      toast.success("Pedido realizado con éxito")
+      setSuccessModalState(true)
       removeAll()
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 6000)
+      // window.location.reload()
     } catch (error: any) {
       toast.error('Algo salio mal')
     } finally {
@@ -106,177 +112,183 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 p-8 pt-0 max-w-screen sm:max-w-[490px] md:max-w-[700px] xl:max-w-[800px] overflow-auto">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nombre</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Federico Luna"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e)
-                    setUser({ ...user,
-                      name: e.target.value,
-                    })
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Número de telefono</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="+54 9 11 1234 5678"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e)
-                    setUser({ ...user,
-                      phone: e.target.value
-                    })
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="comment"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Aclaraciones</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Sin cebolla..."
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e)
-                    setUser({ ...user,
-                      comment: e.target.value
-                    })
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div>
+    <>
+      <SuccessOrderModal
+        isOpen={successModalState}
+        onClose={() => setSuccessModalState(false)}
+      />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 p-8 pt-0 max-w-screen sm:max-w-[490px] md:max-w-[700px] xl:max-w-[800px] overflow-auto">
           <FormField
             control={form.control}
-            name="type"
+            name="name"
             render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Tipo de orden</FormLabel>
+              <FormItem>
+                <FormLabel>Nombre</FormLabel>
                 <FormControl>
-                  <RadioGroup
-                    onValueChange={(value) => {
-                      field.onChange(value)
+                  <Input
+                    placeholder="Federico Luna"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e)
                       setUser({ ...user,
-                        type: value as OrderType
+                        name: e.target.value,
                       })
                     }}
-                    defaultValue={user?.type}
-                    className="flex flex-col space-y-1"
-                  >
-                    {
-                      userSettings?.delivery && (
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value='DELIVERY' />
-                          </FormControl>
-                          <FormLabel>
-                        Delivery
-                          </FormLabel>
-                        </FormItem>
-                      )
-                    }
-                    {
-                      userSettings?.table && (
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value='TABLE' />
-                          </FormControl>
-                          <FormLabel>
-                        Mesa
-                          </FormLabel>
-                        </FormItem>
-                      )
-                    }
-                    {
-                      userSettings?.takeaway && (
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value='TAKEAWAY' />
-                          </FormControl>
-                          <FormLabel>
-                        Takeaway
-                          </FormLabel>
-                        </FormItem>
-                      )
-                    }
-                  </RadioGroup>
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
-        {
-          user?.type === 'DELIVERY' || user?.type === 'TABLE' ?
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Número de telefono</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="+54 9 11 1234 5678"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e)
+                      setUser({ ...user,
+                        phone: e.target.value
+                      })
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="comment"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Aclaraciones</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Sin cebolla..."
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e)
+                      setUser({ ...user,
+                        comment: e.target.value
+                      })
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div>
             <FormField
               control={form.control}
-              name="place"
+              name="type"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Dirección o Mesa</FormLabel>
+                <FormItem className="space-y-3">
+                  <FormLabel>Tipo de orden</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="San martín 2153 / Mesa 3"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e)
+                    <RadioGroup
+                      onValueChange={(value) => {
+                        field.onChange(value)
                         setUser({ ...user,
-                          place: e.target.value
+                          type: value as OrderType
                         })
                       }}
-                    />
+                      defaultValue={user?.type}
+                      className="flex flex-col space-y-1"
+                    >
+                      {
+                        userSettings?.delivery && (
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value='DELIVERY' />
+                            </FormControl>
+                            <FormLabel>
+                          Delivery
+                            </FormLabel>
+                          </FormItem>
+                        )
+                      }
+                      {
+                        userSettings?.table && (
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value='TABLE' />
+                            </FormControl>
+                            <FormLabel>
+                          Mesa
+                            </FormLabel>
+                          </FormItem>
+                        )
+                      }
+                      {
+                        userSettings?.takeaway && (
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value='TAKEAWAY' />
+                            </FormControl>
+                            <FormLabel>
+                          Takeaway
+                            </FormLabel>
+                          </FormItem>
+                        )
+                      }
+                    </RadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            : null
-        }
-        <div>
-          <CartProductsTable />
-        </div>
-        <div
-          className='flex gap-4 flex-row justify-end pt-2'
-        >
-          <Button
-            type='submit'
-            size='lg'
-            disabled={loading}
+          </div>
+          {
+            user?.type === 'DELIVERY' || user?.type === 'TABLE' ?
+              <FormField
+                control={form.control}
+                name="place"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Dirección o Mesa</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="San martín 2153 / Mesa 3"
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e)
+                          setUser({ ...user,
+                            place: e.target.value
+                          })
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              : null
+          }
+          <div>
+            <CartProductsTable />
+          </div>
+          <div
+            className='flex gap-4 flex-row justify-end pt-2'
           >
-            Pedir
-          </Button>
-        </div>
-      </form>
-    </Form>
+            <Button
+              type='submit'
+              size='lg'
+              disabled={loading}
+            >
+              Pedir
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </>
   )
 }
 
