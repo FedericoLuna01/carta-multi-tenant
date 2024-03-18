@@ -1,16 +1,16 @@
-import { unstable_noStore as noStore } from "next/cache"
+import { unstable_noStore as noStore } from "next/cache";
 
-import prismadb from "@/lib/prismadb"
-import Heading from "@/components/ui/heading"
-import { Separator } from "@/components/ui/separator"
-import SortableGrid from "./components/sortable-grid"
+import prismadb from "@/lib/prismadb";
+import Heading from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import SortableGrid from "./components/sortable-grid";
 
 export const metadata = {
-  title: 'Carta - Admin - Reordenar',
-}
+  title: "Carta - Admin - Reordenar",
+};
 
 const SortingPage = async () => {
-  noStore()
+  noStore();
   const data = await prismadb.category.findMany({
     include: {
       subcategories: {
@@ -18,39 +18,35 @@ const SortingPage = async () => {
           products: {
             include: {
               sizes: true,
-              extras: true
+              extras: true,
             },
             orderBy: {
-              sort: 'asc'
-            }
-          }
+              sort: "asc",
+            },
+          },
         },
         orderBy: {
-          sort: 'asc'
-        }
-      }
+          sort: "asc",
+        },
+      },
     },
     orderBy: {
-      sort: 'asc'
-    }
-  })
+      sort: "asc",
+    },
+  });
 
   return (
     <div>
       <Heading
         title="Reordenar"
-        description="Reordena las categorías y subcategorías a tu gusto."
+        description="Reordena las categorías y subcategorias a tu gusto."
       />
       <Separator className="my-4" />
-      <div
-        className="flex flex-col gap-4 pb-10"
-      >
-        <SortableGrid
-          data={data}
-        />
+      <div className="flex flex-col gap-4 pb-10">
+        <SortableGrid data={data} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SortingPage
+export default SortingPage;

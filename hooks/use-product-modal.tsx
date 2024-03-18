@@ -1,11 +1,11 @@
-import { FullProduct } from '@/types/types'
-import { create } from 'zustand'
+import { FullProduct } from "@/types/types";
+import { create } from "zustand";
 
 interface ProductModalStore {
-  isOpen: boolean
-  data?: FullProduct
-  onOpen: (data: FullProduct) => void
-  onClose: () => void
+  isOpen: boolean;
+  data?: FullProduct;
+  onOpen: (data: FullProduct) => void;
+  onClose: () => void;
 }
 
 const useProductModal = create<ProductModalStore>((set) => ({
@@ -13,6 +13,6 @@ const useProductModal = create<ProductModalStore>((set) => ({
   data: undefined,
   onOpen: (data: FullProduct) => set({ data, isOpen: true }),
   onClose: () => set({ isOpen: false }),
-}))
+}));
 
-export default useProductModal
+export default useProductModal;

@@ -1,27 +1,30 @@
-'use client'
+"use client";
 
-import Image from "next/image"
+import Image from "next/image";
 
-import useProductModal from "@/hooks/use-product-modal"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog"
-import AddProductForm from "../forms/add-product-form"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import AddProductForm from "../forms/add-product-form";
+import useProductModal from "@/hooks/use-product-modal";
 
 const ProductModal = () => {
-  const { data, onClose, isOpen } = useProductModal()
+  const { data, onClose, isOpen } = useProductModal();
 
   const handleChange = () => {
-    if(isOpen) {
-      return onClose()
+    if (isOpen) {
+      return onClose();
     }
-  }
+  };
 
-  if (!data) return null
+  if (!data) return null;
 
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={handleChange}
-    >
+    <Dialog open={isOpen} onOpenChange={handleChange}>
       <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-auto">
         <DialogHeader>
           <Image
@@ -31,23 +34,17 @@ const ProductModal = () => {
             height={150}
             className="rounded-md mt-5 aspect-[16/10] object-cover"
           />
-          <DialogTitle
-            className="text-2xl font-bold text-black"
-          >
+          <DialogTitle className="text-2xl font-bold text-black">
             {data.name}
           </DialogTitle>
-          <DialogDescription>
-            {data.description}
-          </DialogDescription>
+          <DialogDescription>{data.description}</DialogDescription>
           <div>
-            <AddProductForm
-              data={data}
-            />
+            <AddProductForm data={data} />
           </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default ProductModal
+export default ProductModal;
