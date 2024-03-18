@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { es } from "date-fns/locale";
-import { formatRelative } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import CellAction from "./cell-action";
 import {
@@ -113,10 +113,11 @@ export const columns: ColumnDef<OrderColumn>[] = [
     },
     cell: ({ row }) => {
       const date = new Date(row.original.createdAt);
-      const created = formatRelative(new Date(date), new Date(), {
+      const orderedAgo = formatDistanceToNowStrict(new Date(date), {
         locale: es,
+        addSuffix: true,
       });
-      return <p className="text-center">{created}</p>;
+      return <p className="text-center">{orderedAgo}</p>;
     },
   },
   {

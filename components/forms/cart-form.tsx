@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from 'zod'
-import { useState } from "react"
-import axios from "axios"
-import toast from "react-hot-toast"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 import {
   Form,
@@ -14,31 +14,31 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import useUser from "@/hooks/use-user"
-import { Button } from "../ui/button"
-import CartProductsTable from "../cart-products-table"
-import useCart from "@/hooks/use-cart"
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
-import { OrderType, UserSettings } from "@prisma/client"
-import { getIsOpen } from "@/actions/getIsOpen"
-import { SuccessOrderModal } from "../modals/success-order-modal"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import useUser from "@/hooks/use-user";
+import { Button } from "../ui/button";
+import CartProductsTable from "../cart-products-table";
+import useCart from "@/hooks/use-cart";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { OrderType, UserSettings } from "@prisma/client";
+import { getIsOpen } from "@/actions/getIsOpen";
+import { SuccessOrderModal } from "../modals/success-order-modal";
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: 'El nombre es requerido' }).max(50),
-  phone: z.string().min(2, { message: 'El teléfono es requerido' }).max(10),
+  name: z.string().min(2, { message: "El nombre es requerido" }).max(50),
+  phone: z.string().min(2, { message: "El teléfono es requerido" }).max(10),
   comment: z.string().max(50).optional(),
-  type: z.enum(['DELIVERY', 'TAKEAWAY', 'TABLE']),
+  type: z.enum(["DELIVERY", "TAKEAWAY", "TABLE"]),
   place: z.string().max(50).optional(),
-})
+});
 
-const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
-  const [loading, setLoading] = useState(false)
-  const [successModalState, setSuccessModalState] = useState(false)
+const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
+  const [loading, setLoading] = useState(false);
+  const [successModalState, setSuccessModalState] = useState(false);
 
-  const { user, setUser } = useUser()
-  const { items, removeAll } = useCart()
+  const { user, setUser } = useUser();
+  const { items, removeAll } = useCart();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,13 +47,13 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
       phone: "",
       comment: "",
       type: "DELIVERY",
-      place: ""
+      place: "",
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { name, phone, comment, type, place } = values
-    const formattedProducts = items.map(product => {
+    const { name, phone, comment, type, place } = values;
+    const formattedProducts = items.map((product) => {
       return {
         productId: product.id,
         quantity: product.quantity,
@@ -61,54 +61,54 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
         options: product.options,
         extras: product.extras,
         size: product.size,
-      }
-    })
+      };
+    });
     const data = {
       name,
       phone,
       comment,
       type,
       place,
-      products: formattedProducts
-    }
-
-    const isOpen = getIsOpen(userSettings)
+      products: formattedProducts,
+    };
 
     // Valido que el usuario haya seleccionado un lugar si es delivery o mesa
-    if(user?.type === 'TABLE' || user?.type === 'DELIVERY') {
-      const place = form.getValues('place')
+    if (user?.type === "TABLE" || user?.type === "DELIVERY") {
+      const place = form.getValues("place");
       if (!place) {
-        return form.setError("place", { type: 'custom', message: 'El lugar es requerido' })
+        return form.setError("place", {
+          type: "custom",
+          message: "El lugar es requerido",
+        });
       }
     }
 
-    if(!items || items.length === 0) {
-      return toast.error('No hay productos en el carrito')
+    if (!items || items.length === 0) {
+      return toast.error("No hay productos en el carrito");
     }
 
+    const isOpen = getIsOpen(userSettings);
     if (!isOpen) {
-      return toast.error('El local se encuentra cerrado')
+      return toast.error("El local se encuentra cerrado");
     }
 
     try {
-      setLoading(true)
-      const res = await axios.post('/api/orders', data)
-      // Guardar la orden en localstorage
-      localStorage.setItem('orderId', res.data.id)
+      setLoading(true);
+      const res = await axios.post("/api/orders", data);
+      // Guardar la orden en local storage
+      localStorage.setItem("orderId", res.data.id);
 
-      setSuccessModalState(true)
-      removeAll()
+      setSuccessModalState(true);
+      removeAll();
 
       setTimeout(() => {
-        window.location.reload()
-      }, 6000)
-      // window.location.reload()
+        window.location.reload();
+      }, 6000);
     } catch (error: any) {
-      toast.error('Algo salio mal')
+      toast.error("Algo salio mal");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-
   }
 
   return (
@@ -118,7 +118,10 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
         onClose={() => setSuccessModalState(false)}
       />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 p-8 pt-0 max-w-screen sm:max-w-[490px] md:max-w-[700px] xl:max-w-[800px] overflow-auto">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-2 p-8 pt-0 max-w-screen sm:max-w-[490px] md:max-w-[700px] xl:max-w-[800px] overflow-auto"
+        >
           <FormField
             control={form.control}
             name="name"
@@ -127,13 +130,11 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
                 <FormLabel>Nombre</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Federico Luna"
+                    placeholder="Juan Pérez"
                     {...field}
                     onChange={(e) => {
-                      field.onChange(e)
-                      setUser({ ...user,
-                        name: e.target.value,
-                      })
+                      field.onChange(e);
+                      setUser({ ...user, name: e.target.value });
                     }}
                   />
                 </FormControl>
@@ -146,16 +147,14 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Número de telefono</FormLabel>
+                <FormLabel>Número de teléfono</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="+54 9 11 1234 5678"
                     {...field}
                     onChange={(e) => {
-                      field.onChange(e)
-                      setUser({ ...user,
-                        phone: e.target.value
-                      })
+                      field.onChange(e);
+                      setUser({ ...user, phone: e.target.value });
                     }}
                   />
                 </FormControl>
@@ -174,10 +173,8 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
                     placeholder="Sin cebolla..."
                     {...field}
                     onChange={(e) => {
-                      field.onChange(e)
-                      setUser({ ...user,
-                        comment: e.target.value
-                      })
+                      field.onChange(e);
+                      setUser({ ...user, comment: e.target.value });
                     }}
                   />
                 </FormControl>
@@ -195,50 +192,36 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
                   <FormControl>
                     <RadioGroup
                       onValueChange={(value) => {
-                        field.onChange(value)
-                        setUser({ ...user,
-                          type: value as OrderType
-                        })
+                        field.onChange(value);
+                        setUser({ ...user, type: value as OrderType });
                       }}
                       defaultValue={user?.type}
                       className="flex flex-col space-y-1"
                     >
-                      {
-                        userSettings?.delivery && (
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem value='DELIVERY' />
-                            </FormControl>
-                            <FormLabel>
-                          Delivery
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      }
-                      {
-                        userSettings?.table && (
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem value='TABLE' />
-                            </FormControl>
-                            <FormLabel>
-                          Mesa
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      }
-                      {
-                        userSettings?.takeaway && (
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem value='TAKEAWAY' />
-                            </FormControl>
-                            <FormLabel>
-                          Takeaway
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      }
+                      {userSettings?.delivery && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="DELIVERY" />
+                          </FormControl>
+                          <FormLabel>Delivery</FormLabel>
+                        </FormItem>
+                      )}
+                      {userSettings?.table && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="TABLE" />
+                          </FormControl>
+                          <FormLabel>Mesa</FormLabel>
+                        </FormItem>
+                      )}
+                      {userSettings?.takeaway && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="TAKEAWAY" />
+                          </FormControl>
+                          <FormLabel>Takeaway</FormLabel>
+                        </FormItem>
+                      )}
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
@@ -246,50 +229,40 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null}) => {
               )}
             />
           </div>
-          {
-            user?.type === 'DELIVERY' || user?.type === 'TABLE' ?
-              <FormField
-                control={form.control}
-                name="place"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Dirección o Mesa</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="San martín 2153 / Mesa 3"
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e)
-                          setUser({ ...user,
-                            place: e.target.value
-                          })
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              : null
-          }
+          {user?.type === "DELIVERY" || user?.type === "TABLE" ? (
+            <FormField
+              control={form.control}
+              name="place"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Dirección o Mesa</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="San martín 2153 / Mesa 3"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setUser({ ...user, place: e.target.value });
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : null}
           <div>
             <CartProductsTable />
           </div>
-          <div
-            className='flex gap-4 flex-row justify-end pt-2'
-          >
-            <Button
-              type='submit'
-              size='lg'
-              disabled={loading}
-            >
+          <div className="flex gap-4 flex-row justify-end pt-2">
+            <Button type="submit" size="lg" disabled={loading}>
               Pedir
             </Button>
           </div>
         </form>
       </Form>
     </>
-  )
-}
+  );
+};
 
-export default CartForm
+export default CartForm;

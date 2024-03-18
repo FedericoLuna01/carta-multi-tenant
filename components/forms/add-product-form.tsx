@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import useProductModal from "@/hooks/use-restore-product-modal";
+import useProductModal from "@/hooks/use-product-modal";
 import useCart from "@/hooks/use-cart";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { formatter } from "@/lib/utils";

@@ -1,71 +1,62 @@
-import { UserSettings } from "@prisma/client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { Clock, Contact } from "lucide-react"
-import { Badge } from "./ui/badge"
-import { getIsOpen } from "@/actions/getIsOpen"
+import { UserSettings } from "@prisma/client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Clock, Contact } from "lucide-react";
+import { Badge } from "./ui/badge";
+import { getIsOpen } from "@/actions/getIsOpen";
 
-const UserInfo = ({ userSettings }: { userSettings: UserSettings | null}) => {
-  if (!userSettings) return null
+const UserInfo = ({ userSettings }: { userSettings: UserSettings | null }) => {
+  if (!userSettings) return null;
 
-  const isOpen = getIsOpen(userSettings)
-
-  if(!userSettings) return null
+  const isOpen = getIsOpen(userSettings);
 
   return (
-    <section
-      className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8"
-    >
-      <Card
-        className="bg-slate-100 grid grid-cols-1 md:grid-cols-2"
-      >
+    <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+      <Card className="bg-slate-100 grid grid-cols-1 md:grid-cols-2">
         <div>
           <CardHeader>
-            <div
-              className="flex items-center space-x-2"
-            >
+            <div className="flex items-center space-x-2">
               <Clock />
-              <CardTitle>
-                Horarios
-              </CardTitle>
-              {
-                isOpen ? (
-                  <Badge
-                    variant='open'
-                  >
-                    Abierto
-                  </Badge>
-                ) : (
-                  <Badge
-                    variant='closed'
-                  >
-                    Cerrado
-                  </Badge>
-                )
-              }
+              <CardTitle>Horarios</CardTitle>
+              {isOpen ? (
+                <Badge variant="open">Abierto</Badge>
+              ) : (
+                <Badge variant="closed">Cerrado</Badge>
+              )}
             </div>
             <CardDescription>
-            Estos son los horarios de atención de nuestro local
+              Estos son los horarios de atención de nuestro local
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col space-y-2">
               <div className="flex flex-col space-y-1">
                 <p className="font-semibold text-xl">Día</p>
-                <p>Desde {userSettings.dayOpenTime} hasta {userSettings.dayCloseTime}</p>
+                <p>
+                  Desde {userSettings.dayOpenTime} hasta{" "}
+                  {userSettings.dayCloseTime}
+                </p>
               </div>
               <div className="flex flex-col space-y-1">
                 <p className="font-semibold text-xl">Noche</p>
-                <p>Desde {userSettings.nightOpenTime} hasta {userSettings.nightCloseTime}</p>
+                <p>
+                  Desde {userSettings.nightOpenTime} hasta{" "}
+                  {userSettings.nightCloseTime}
+                </p>
               </div>
             </div>
           </CardContent>
         </div>
         <div>
           <CardHeader>
-            <CardTitle
-              className="flex items-center"
-            >
-              <Contact className="mr-2" />Contacto
+            <CardTitle className="flex items-center">
+              <Contact className="mr-2" />
+              Contacto
             </CardTitle>
             <CardDescription>
               Estos son los datos de contacto de nuestro local
@@ -86,7 +77,7 @@ const UserInfo = ({ userSettings }: { userSettings: UserSettings | null}) => {
         </div>
       </Card>
     </section>
-  )
-}
+  );
+};
 
-export default UserInfo
+export default UserInfo;
