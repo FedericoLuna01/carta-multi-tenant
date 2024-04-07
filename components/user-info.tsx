@@ -7,13 +7,10 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Clock, Contact } from "lucide-react";
-import { Badge } from "./ui/badge";
-import { getIsOpen } from "@/actions/getIsOpen";
+import StatusBadge from "./status-badge";
 
 const UserInfo = ({ userSettings }: { userSettings: UserSettings | null }) => {
   if (!userSettings) return null;
-
-  const isOpen = getIsOpen(userSettings);
 
   return (
     <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
@@ -23,11 +20,7 @@ const UserInfo = ({ userSettings }: { userSettings: UserSettings | null }) => {
             <div className="flex items-center space-x-2">
               <Clock />
               <CardTitle>Horarios</CardTitle>
-              {isOpen ? (
-                <Badge variant="open">Abierto</Badge>
-              ) : (
-                <Badge variant="closed">Cerrado</Badge>
-              )}
+              <StatusBadge userSettings={userSettings} />
             </div>
             <CardDescription>
               Estos son los horarios de atención de nuestro local
