@@ -6,11 +6,14 @@ export function GET() {
   const token = cookieStore.get("auth");
 
   if (!token) {
-    return NextResponse.json({
-      message: "Not logged in",
-    }, {
-      status: 401,
-    })
+    return NextResponse.json(
+      {
+        message: "Not logged in",
+      },
+      {
+        status: 401,
+      }
+    );
   }
 
   try {

@@ -7,31 +7,31 @@ import {
   OrderType,
   Product,
   Size,
-  Subcategory
+  Subcategory,
 } from "@prisma/client";
 
 export type FullProduct = Product & {
-  sizes: Size[] | null
-  extras: Extra[] | null
-}
+  sizes: Size[] | null;
+  extras: Extra[] | null;
+};
 
 export interface CategoryWithSubcategories extends Category {
-  subcategories: SubcategoryWithProducts[]
+  subcategories: SubcategoryWithProducts[];
 }
 
 export interface SubcategoryWithProducts extends Subcategory {
-  products: Product[]
+  products: Product[];
 }
 
 export interface FullOrderItem extends OrderItem {
-  size: OrderItemSize | null
-  extras: OrderItemExtra[] | null
+  size: OrderItemSize | null;
+  extras: OrderItemExtra[] | null;
 }
 
 export type User = {
   name: string;
-  phone: string
-  comment: string
-  type: OrderType
-  place: string
-}
+  phone: string;
+  comment: string;
+  type: OrderType;
+  place: string;
+};

@@ -70,7 +70,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    // Si el item ya está en el carrito, setear la cantidad y opciones
+    // Si el item ya está en el carrito, poner la cantidad y opciones
     defaultValues: updatedInfo || {
       quantity: 1,
       options: "",

@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import axios from "axios"
-import { useState } from "react"
-import toast from "react-hot-toast"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -16,53 +16,57 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Switch } from "@/components/ui/switch"
-import { Input } from "../ui/input"
-import { UserSettings } from "@prisma/client"
-import ImageUpload from "../ui/image-upload"
+} from "@/components/ui/form";
+import { Switch } from "@/components/ui/switch";
+import { Input } from "../ui/input";
+import { UserSettings } from "@prisma/client";
+import ImageUpload from "../ui/image-upload";
 
 const FormSchema = z.object({
-  dayOpenTime: z.string().min(1, { message: 'El horario es requerido' }),
-  dayCloseTime: z.string().min(1, { message: 'El horario es requerido' }),
-  nightOpenTime: z.string().min(1, { message: 'El horario es requerido' }),
-  nightCloseTime: z.string().min(1, { message: 'El horario es requerido' }),
+  dayOpenTime: z.string().min(1, { message: "El horario es requerido" }),
+  dayCloseTime: z.string().min(1, { message: "El horario es requerido" }),
+  nightOpenTime: z.string().min(1, { message: "El horario es requerido" }),
+  nightCloseTime: z.string().min(1, { message: "El horario es requerido" }),
   image: z.string().optional(),
-  ubication: z.string().min(1, 'La ubicación es requerida'),
-  phone: z.string().min(1, 'El teléfono es requerido'),
+  ubication: z.string().min(1, "La ubicación es requerida"),
+  phone: z.string().min(1, "El teléfono es requerido"),
   table: z.boolean(),
   delivery: z.boolean(),
   takeaway: z.boolean(),
-})
+});
 
-export default function UserSettingsForm({ userSettings }: { userSettings: UserSettings | null }) {
-  const [loading, setLoading] = useState(false)
+export default function UserSettingsForm({
+  userSettings,
+}: {
+  userSettings: UserSettings | null;
+}) {
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: userSettings || {
-      dayOpenTime: '',
-      dayCloseTime: '',
-      nightOpenTime: '',
-      nightCloseTime: '',
-      ubication: '',
-      phone: '',
+      dayOpenTime: "",
+      dayCloseTime: "",
+      nightOpenTime: "",
+      nightCloseTime: "",
+      ubication: "",
+      phone: "",
       table: false,
       delivery: false,
       takeaway: false,
-      image: '',
+      image: "",
     },
-  })
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      setLoading(true)
-      await axios.patch('/api/usersettings', data)
-      toast.success('Se guardaron los cambios')
+      setLoading(true);
+      await axios.patch("/api/usersettings", data);
+      toast.success("Se guardaron los cambios");
     } catch (error) {
-      toast.error('Algo salio mal')
+      toast.error("Algo salio mal");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -71,13 +75,9 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
         <div>
           <h3 className="mb-4 text-lg font-medium">Horarios de tu local</h3>
-          <div
-            className="rounded-lg border p-3 shadow-sm"
-          >
+          <div className="rounded-lg border p-3 shadow-sm">
             <h4 className="font-semibold">Día</h4>
-            <div
-              className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0"
-            >
+            <div className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0">
               <FormField
                 control={form.control}
                 name="dayOpenTime"
@@ -86,10 +86,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
                     <div className="space-x-2 flex items-center">
                       <FormLabel>Desde</FormLabel>
                       <FormControl>
-                        <Input
-                          type='time'
-                          {...field}
-                        />
+                        <Input type="time" {...field} />
                       </FormControl>
                     </div>
                   </FormItem>
@@ -103,10 +100,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
                     <div className="space-x-2 flex items-center">
                       <FormLabel>Hasta</FormLabel>
                       <FormControl>
-                        <Input
-                          type='time'
-                          {...field}
-                        />
+                        <Input type="time" {...field} />
                       </FormControl>
                     </div>
                   </FormItem>
@@ -114,13 +108,9 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
               />
             </div>
           </div>
-          <div
-            className="rounded-lg border p-3 shadow-sm mt-4"
-          >
+          <div className="rounded-lg border p-3 shadow-sm mt-4">
             <h4 className="font-semibold">Noche</h4>
-            <div
-              className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0"
-            >
+            <div className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0">
               <FormField
                 control={form.control}
                 name="nightOpenTime"
@@ -129,10 +119,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
                     <div className="space-x-2 flex items-center">
                       <FormLabel>Desde</FormLabel>
                       <FormControl>
-                        <Input
-                          type='time'
-                          {...field}
-                        />
+                        <Input type="time" {...field} />
                       </FormControl>
                     </div>
                   </FormItem>
@@ -146,10 +133,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
                     <div className="space-x-2 flex items-center">
                       <FormLabel>Hasta</FormLabel>
                       <FormControl>
-                        <Input
-                          type='time'
-                          {...field}
-                        />
+                        <Input type="time" {...field} />
                       </FormControl>
                     </div>
                   </FormItem>
@@ -160,15 +144,9 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
         </div>
         <div>
           <h3 className="mb-4 text-lg font-medium">Contacto</h3>
-          <div
-            className="space-y-4"
-          >
-            <div
-              className="rounded-lg border p-3 shadow-sm"
-            >
-              <div
-                className="flex items-center"
-              >
+          <div className="space-y-4">
+            <div className="rounded-lg border p-3 shadow-sm">
+              <div className="flex items-center">
                 <FormField
                   control={form.control}
                   name="ubication"
@@ -188,12 +166,8 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
                 />
               </div>
             </div>
-            <div
-              className="rounded-lg border p-3 shadow-sm"
-            >
-              <div
-                className="flex items-center"
-              >
+            <div className="rounded-lg border p-3 shadow-sm">
+              <div className="flex items-center">
                 <FormField
                   control={form.control}
                   name="phone"
@@ -202,10 +176,7 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
                       <div className="space-y-2">
                         <FormLabel>Teléfono</FormLabel>
                         <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="+54 9 11 1234 5678"
-                          />
+                          <Input {...field} placeholder="+54 9 11 1234 5678" />
                         </FormControl>
                       </div>
                     </FormItem>
@@ -287,15 +258,13 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
             control={form.control}
             name="image"
             render={({ field }) => (
-              <FormItem
-                className="flex flex-col"
-              >
+              <FormItem className="flex flex-col">
                 <FormLabel>Imagen</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
                     onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange('')}
+                    onRemove={() => field.onChange("")}
                   />
                 </FormControl>
                 <FormMessage />
@@ -303,13 +272,10 @@ export default function UserSettingsForm({ userSettings }: { userSettings: UserS
             )}
           />
         </div>
-        <Button
-          type="submit"
-          disabled={loading}
-        >
+        <Button type="submit" disabled={loading}>
           Guardar
         </Button>
       </form>
     </Form>
-  )
+  );
 }

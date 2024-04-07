@@ -1,3 +1,5 @@
+import { Clock, Contact } from "lucide-react";
+
 import { UserSettings } from "@prisma/client";
 import {
   Card,
@@ -6,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Clock, Contact } from "lucide-react";
 import StatusBadge from "./status-badge";
 
 const UserInfo = ({ userSettings }: { userSettings: UserSettings | null }) => {

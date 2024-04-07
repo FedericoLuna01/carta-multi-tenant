@@ -1,21 +1,17 @@
-import CategoryForm from "@/components/forms/category-form"
-import prismadb from "@/lib/prismadb"
-import { unstable_noStore as noStore } from "next/cache"
+import CategoryForm from "@/components/forms/category-form";
+import prismadb from "@/lib/prismadb";
+import { unstable_noStore as noStore } from "next/cache";
 
 const CategoryPage = async ({ params }: { params: { categoryId: string } }) => {
-  noStore()
+  noStore();
 
   const category = await prismadb.category.findUnique({
     where: {
-      id: params.categoryId
-    }
-  })
+      id: params.categoryId,
+    },
+  });
 
-  return (
-    <CategoryForm
-      initialData={category}
-    />
-  )
-}
+  return <CategoryForm initialData={category} />;
+};
 
-export default CategoryPage
+export default CategoryPage;

@@ -1,9 +1,7 @@
-import ProductModal from "@/components/modals/product-modal"
+import ProductModal from "@/components/modals/product-modal";
 
 const ModalsProviders = () => {
-  return (
-    <ProductModal />
-  )
-}
+  return <ProductModal />;
+};
 
-export default ModalsProviders
+export default ModalsProviders;

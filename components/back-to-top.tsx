@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Button } from './ui/button';
+import { useState, useEffect } from "react";
+import { Button } from "./ui/button";
 
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -16,11 +16,11 @@ const BackToTop = () => {
     };
 
     // Agregar el event listener cuando el componente se monta
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     // Limpiar el event listener cuando el componente se desmonta
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -28,7 +28,7 @@ const BackToTop = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
@@ -36,9 +36,11 @@ const BackToTop = () => {
     <div>
       {isVisible && (
         <Button
-          className={`fixed font-bold bottom-5 sm:bottom-10 right-5 sm:right-10 z-50 transition-opacity duration-500 ease-in-out transform hover:scale-110 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+          className={`fixed font-bold bottom-5 sm:bottom-10 right-5 sm:right-10 z-50 transition-opacity duration-500 ease-in-out transform hover:scale-110 ${
+            isVisible ? "opacity-100" : "opacity-0"
+          }`}
           onClick={scrollToTop}
-          size='icon'
+          size="icon"
         >
           ↑
         </Button>

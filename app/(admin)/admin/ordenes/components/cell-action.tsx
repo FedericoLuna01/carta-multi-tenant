@@ -1,41 +1,48 @@
-'use client'
+"use client";
 
-import { useState } from "react"
-import toast from "react-hot-toast"
-import Link from "next/link"
-import { Eye, MoreHorizontal, Phone, Trash } from "lucide-react"
-import axios from 'axios'
-import { useRouter } from "next/navigation"
+import { useState } from "react";
+import toast from "react-hot-toast";
+import Link from "next/link";
+import { Eye, MoreHorizontal, Phone, Trash } from "lucide-react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button"
-import { AlertModal } from "@/components/modals/alert-modal"
-import { type Order } from "@prisma/client"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button";
+import { AlertModal } from "@/components/modals/alert-modal";
+import { type Order } from "@prisma/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface CellActionProps {
-  data: Order
+  data: Order;
 }
 
 const CellAction: React.FC<CellActionProps> = ({ data }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const onDelete = async () => {
     try {
-      setLoading(true)
-      await axios.delete(`/api/orders/${data.id}`)
-      router.refresh()
-      toast.success('Orden eliminada')
+      setLoading(true);
+      await axios.delete(`/api/orders/${data.id}`);
+      router.refresh();
+      toast.success("Orden eliminada");
     } catch (error) {
-      toast.error('Algo salio mal')
+      toast.error("Algo salio mal");
     } finally {
-      setLoading(false)
-      setIsOpen(false)
+      setLoading(false);
+      setIsOpen(false);
     }
-  }
+  };
 
-  const message = `Hola ${data.name}.`
+  const message = `Hola ${data.name}.`;
 
   return (
     <>
@@ -55,23 +62,18 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            asChild
-          >
-            <Link
-              href={`/admin/ordenes/${data.id}`}
-            >
+          <DropdownMenuItem asChild>
+            <Link href={`/admin/ordenes/${data.id}`}>
               <Eye className="w-5 h-5 mr-2" /> Ver orden
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem
-            asChild
-          >
+          <DropdownMenuItem asChild>
             <Link
               href={`https://wa.me/${data.phone}?text=${message}`}
               target="_blank"
             >
-              <Phone className="w-5 h-5 mr-2" />Enviar mensaje
+              <Phone className="w-5 h-5 mr-2" />
+              Enviar mensaje
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -79,12 +81,13 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
             onClick={() => setIsOpen(true)}
             className="text-red-500 hover:bg-red-500 hover:text-white"
           >
-            <Trash className="w-5 h-5 mr-2"/>Eliminar orden
+            <Trash className="w-5 h-5 mr-2" />
+            Eliminar orden
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
-  )
-}
+  );
+};
 
-export default CellAction
+export default CellAction;

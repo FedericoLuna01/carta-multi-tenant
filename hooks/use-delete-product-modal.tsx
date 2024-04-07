@@ -1,11 +1,11 @@
-import { create } from 'zustand'
-import { SafeOrderItem } from './use-cart'
+import { create } from "zustand";
+import { SafeOrderItem } from "./use-cart";
 
 interface DeleteProductModalStore {
-  isOpen: boolean
-  data?: SafeOrderItem
-  onOpen: (data: SafeOrderItem) => void
-  onClose: () => void
+  isOpen: boolean;
+  data?: SafeOrderItem;
+  onOpen: (data: SafeOrderItem) => void;
+  onClose: () => void;
 }
 
 const useDeleteProductModal = create<DeleteProductModalStore>((set) => ({
@@ -13,6 +13,6 @@ const useDeleteProductModal = create<DeleteProductModalStore>((set) => ({
   data: undefined,
   onOpen: (data: SafeOrderItem) => set({ data, isOpen: true }),
   onClose: () => set({ isOpen: false }),
-}))
+}));
 
-export default useDeleteProductModal
+export default useDeleteProductModal;

@@ -1,72 +1,66 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog"
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 interface AlertModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onConfirm: () => void
-  loading: boolean
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  loading: boolean;
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  loading
+  loading,
 }) => {
-  const [isMounted, setIsMounted] = useState(false)
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
 
-  if (!isMounted) return null
+  if (!isMounted) return null;
 
   const handleChange = () => {
-    if(isOpen) {
-      onClose()
+    if (isOpen) {
+      onClose();
     }
-  }
+  };
 
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={handleChange}
-    >
+    <Dialog open={isOpen} onOpenChange={handleChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle
-            className="text-center text-2xl font-bold text-black"
-          >
+          <DialogTitle className="text-center text-2xl font-bold text-black">
             ¡Cuidado!
           </DialogTitle>
-          <DialogDescription
-            className="text-center"
-          >
+          <DialogDescription className="text-center">
             La accion que estás a punto de realizar es irreversible.
           </DialogDescription>
-          <div
-            className="flex justify-center mt-4 space-x-4"
-          >
-            <Button
-              variant="secondary"
-              onClick={onClose}
-            >
-                Cancelar
+          <div className="flex justify-center mt-4 space-x-4">
+            <Button variant="secondary" onClick={onClose}>
+              Cancelar
             </Button>
             <Button
               variant="destructive"
               disabled={loading}
               onClick={onConfirm}
             >
-                Eliminar
+              Eliminar
             </Button>
           </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

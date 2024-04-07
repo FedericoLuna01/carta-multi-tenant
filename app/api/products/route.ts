@@ -1,9 +1,9 @@
-import getAuth from "@/actions/getAuth"
-import prismadb from "@/lib/prismadb"
-import { NextResponse } from "next/server"
+import getAuth from "@/actions/getAuth";
+import prismadb from "@/lib/prismadb";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const body = await req.json()
+  const body = await req.json();
   const {
     name,
     description,
@@ -14,35 +14,38 @@ export async function POST(req: Request) {
     promoPrice,
     subcategoryId,
     sizes,
-    extras
-  } = body
+    extras,
+  } = body;
 
-  const user = await getAuth()
+  const user = await getAuth();
   if (!user) {
-    return new NextResponse('Unauthorized', { status: 401 })
+    return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  if(!name) {
-    return new NextResponse('Missing product name', { status: 400 })
+  if (!name) {
+    return new NextResponse("Missing product name", { status: 400 });
   }
 
-  if(!price) {
-    return new NextResponse('Missing product price', { status: 400 })
+  if (!price) {
+    return new NextResponse("Missing product price", { status: 400 });
   }
 
-  if(!subcategoryId) {
-    return new NextResponse('Missing product subcategory', { status: 400 })
+  if (!subcategoryId) {
+    return new NextResponse("Missing product subcategory", { status: 400 });
   }
 
-  if(!image) {
-    return new NextResponse('Missing product image', { status: 400 })
+  if (!image) {
+    return new NextResponse("Missing product image", { status: 400 });
   }
 
   try {
-    const products = await prismadb.product.findMany({})
+    const products = await prismadb.product.findMany({});
 
     if (products.length !== 0) {
-      const sort = products.reduce((max, current) => (current.sort > max.sort ? current : max), products[0])
+      const sort = products.reduce(
+        (max, current) => (current.sort > max.sort ? current : max),
+        products[0]
+      );
 
       const product = await prismadb.product.create({
         data: {
@@ -57,18 +60,18 @@ export async function POST(req: Request) {
           sort: sort.sort + 1,
           sizes: {
             createMany: {
-              data: sizes
-            }
+              data: sizes,
+            },
           },
           extras: {
             createMany: {
-              data: extras
-            }
-          }
-        }
-      })
+              data: extras,
+            },
+          },
+        },
+      });
 
-      return NextResponse.json(product)
+      return NextResponse.json(product);
     }
 
     const product = await prismadb.product.create({
@@ -84,21 +87,20 @@ export async function POST(req: Request) {
         sort: 1,
         sizes: {
           createMany: {
-            data: sizes
-          }
+            data: sizes,
+          },
         },
         extras: {
           createMany: {
-            data: extras
-          }
-        }
-      }
-    })
+            data: extras,
+          },
+        },
+      },
+    });
 
-    return NextResponse.json(product)
+    return NextResponse.json(product);
   } catch (error) {
-    console.log('[PRODUCTS_POST]', error)
-    return new NextResponse('Something went wrong', { status: 500 })
+    console.log("[PRODUCTS_POST]", error);
+    return new NextResponse("Something went wrong", { status: 500 });
   }
-
 }
