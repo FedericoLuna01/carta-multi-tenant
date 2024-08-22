@@ -28,7 +28,7 @@ import {
 import { Button } from "./button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./dropdown-menu"
-import { DataTableFacetedFilter } from "@/app/(admin)/admin/ordenes/components/data-table-faceted-filter"
+import { DataTableFacetedFilter } from "@/app/[subdomain]/(admin)/admin/ordenes/components/data-table-faceted-filter"
 import { statusOptions, typeOptions } from "@/data/data"
 import { DataTablePagination } from "./data-table-pagination"
 

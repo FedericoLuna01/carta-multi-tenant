@@ -7,7 +7,8 @@ import UserInfo from "@/components/user-info";
 import prismadb from "@/lib/prismadb";
 import BackToTop from "@/components/back-to-top";
 
-export default async function Home() {
+export default async function Home({ params }: { params: { subdomain: string } }) {
+  console.log(params)
   noStore();
   const products = await prismadb.product.findMany({
     where: {

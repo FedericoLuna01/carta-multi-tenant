@@ -9,6 +9,42 @@ datasource db {
   relationMode = "prisma"
 }
 
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String
+  emailVerified DateTime?
+  sessions      Session[]
+  role          UserRole  @default(USER)
+  slug          String    @unique
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  UserSettings  UserSettings? @relation("UserToUserSettings")
+  categories    Category[]    @relation("CategoryToUser")
+  subcategories Subcategory[] @relation("SubcategoryToUser")
+  products      Product[]     @relation("ProductToUser")
+  orders        Order[]       @relation("OrderToUser")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
 model UserSettings {
   id             String  @id @default(uuid())
   dayOpenTime    String
@@ -21,6 +57,11 @@ model UserSettings {
   ubication      String
   phone          String
   image          String
+
+  userId String @unique
+  user   User   @relation("UserToUserSettings", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Product {
@@ -39,11 +80,14 @@ model Product {
   promoPrice    Float?
   sort          Int
   lastChange    Json?
+  userId        String
+  user          User        @relation("ProductToUser", fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([subcategoryId])
+  @@index([userId])
 }
 
 model Size {
@@ -75,9 +119,13 @@ model Category {
   name          String
   subcategories Subcategory[] @relation("SubcategoryToCategory")
   sort          Int
+  userId        String
+  user          User          @relation("CategoryToUser", fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model Subcategory {
@@ -87,11 +135,14 @@ model Subcategory {
   category   Category  @relation("SubcategoryToCategory", fields: [categoryId], references: [id])
   products   Product[] @relation("SubcategoryToProduct")
   sort       Int
+  userId     String
+  user       User      @relation("SubcategoryToUser", fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([categoryId])
+  @@index([userId])
 }
 
 model Order {
@@ -103,9 +154,13 @@ model Order {
   type     OrderType
   status   OrderStatus @default(PENDING)
   products OrderItem[] @relation("OrderItemToOrder")
+  userId   String
+  user     User        @relation("OrderToUser", fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
 
 enum OrderType {

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../globals.css";
 
 import { ToasterProvider } from "@/providers/toaster-provider";
 import ModalsProviders from "@/providers/modals-provider";
@@ -27,24 +26,27 @@ export default async function RootLayout({
   const userSettings = await prismadb.userSettings.findFirst();
 
   return (
-    <html lang="es">
-      <body
-        className={`${inter.className} grid min-h-screen grid-rows-[80px,1fr,60px] `}
-        style={{
-          backgroundImage: "url(./background.webp)",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundAttachment: "fixed",
-        }}
-      >
-        <ToasterProvider />
-        <ModalsProviders />
-        <Navbar userSettings={userSettings} />
-        <div />
-        <main className="h-full">{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <div>
+      {children}
+    </div>
+    // <html lang="es">
+    //   <body
+    //     className={`${inter.className} grid min-h-screen grid-rows-[80px,1fr,60px] `}
+    //     style={{
+    //       backgroundImage: "url(./background.webp)",
+    //       backgroundPosition: "center",
+    //       backgroundRepeat: "no-repeat",
+    //       backgroundSize: "cover",
+    //       backgroundAttachment: "fixed",
+    //     }}
+    //   >
+    //     <ToasterProvider />
+    //     <ModalsProviders />
+    //     <Navbar userSettings={userSettings} />
+    //     <div />
+    //     <main className="h-full">{children}</main>
+    //     <Footer />
+    //   </body>
+    // </html>
   );
 }
