@@ -20,14 +20,11 @@ import Heading from "../ui/heading";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Category } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { AlertModal } from "../modals/alert-modal";
-
-const formSchema = z.object({
-  name: z.string().min(1, { message: "El nombre es requerido" }).max(50),
-});
+import { CategorySchema } from "@/schemas";
 
 interface CategoryFormProps {
   initialData: Category | null;
@@ -38,9 +35,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
+  const params = useParams()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof CategorySchema>>({
+    resolver: zodResolver(CategorySchema),
     defaultValues: initialData || {
       name: "",
     },
@@ -55,15 +53,15 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     ? "Categoría editada con éxito"
     : "Categoría creada con éxito";
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof CategorySchema>) {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/categories/${initialData?.id}`, data);
+        await axios.patch(`/api/${params.slug}/categories/${initialData.id}`, data);
       } else {
-        await axios.post("/api/categories", data);
+        await axios.post(`/api/${params.slug}/categories`, data);
       }
-      router.push("/admin/categorias");
+      router.push(`/${params.slug}/admin/categorias`);
       router.refresh();
       toast.success(toastText);
     } catch (error: any) {
@@ -76,8 +74,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   async function onDelete() {
     try {
       setLoading(true);
-      await axios.delete(`/api/categories/${initialData?.id}`);
-      router.push("/admin/categorias");
+      await axios.delete(`/api/${params.slug}/categories/${initialData?.id}`);
+      router.push(`/${params.slug}/admin/categorias`);
       router.refresh();
       toast.success("Categoría eliminada con éxito");
     } catch (error: any) {
@@ -97,7 +95,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       />
       <div className="flex flex-col items-start gap-2">
         <Link
-          href="/admin/categorias"
+          href={`/${params.slug}/admin/categorias`}
           className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
         >
           ← Volver

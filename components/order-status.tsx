@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Spinner from "./ui/spinner";
+import { useParams } from "next/navigation";
 
 interface OrderStatusProps {
   orderId: string;
@@ -20,16 +21,17 @@ interface OrderStatusProps {
 const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId }) => {
   const [order, setOrder] = useState<Order | null>();
   const [loading, setLoading] = useState(true);
+  const params = useParams()
 
   useEffect(() => {
     const getOrder = async () => {
       setLoading(true);
-      const res = await axios(`/api/orders/${orderId}`);
+      const res = await axios(`/api/${params.slug}/orders/${orderId}`);
       setOrder(res.data);
       setLoading(false);
     };
     getOrder();
-  }, [orderId]);
+  }, [orderId, params.slug]);
 
   const handleClick = () => {
     localStorage.removeItem("orderId");

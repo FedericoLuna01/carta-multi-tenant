@@ -60,7 +60,7 @@ const UserInfo = ({ userSettings }: { userSettings: UserSettings | null }) => {
             <div className="flex flex-col space-y-2">
               <div className="flex flex-col space-y-1">
                 <p className="font-semibold text-xl">Dirección</p>
-                <p>{userSettings.ubication}</p>
+                <p>{userSettings.location}</p>
               </div>
               <div className="flex flex-col space-y-1">
                 <p className="font-semibold text-xl">Teléfono</p>

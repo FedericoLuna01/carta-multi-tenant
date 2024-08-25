@@ -34,29 +34,7 @@ import ImageUpload from "../ui/image-upload";
 import { Subcategory } from "@prisma/client";
 import { AlertModal } from "../modals/alert-modal";
 import Link from "next/link";
-
-const formSchema = z.object({
-  name: z.string().min(1, { message: "El nombre es requerido" }).max(50),
-  description: z.string().optional(),
-  price: z.coerce.number().min(1, { message: "El precio es requerido" }),
-  image: z.string().min(1, { message: "La imagen es requerida" }),
-  subcategoryId: z.string().min(1, { message: "La categoría es requerida" }),
-  sizes: z.array(
-    z.object({
-      name: z.string().min(1, { message: "El tamaño es requerido" }),
-      price: z.coerce.number().min(1, { message: "El precio es requerido" }),
-    })
-  ),
-  extras: z.array(
-    z.object({
-      name: z.string().min(1, { message: "El extra es requerido" }),
-      price: z.coerce.number().min(1, { message: "El precio es requerido" }),
-    })
-  ),
-  promoPrice: z.coerce.number().optional(),
-  isPromo: z.boolean().optional().default(false),
-  isArchived: z.boolean().optional().default(false),
-});
+import { ProductSchema } from "@/schemas";
 
 interface ProductFormProps {
   subcategories: Subcategory[];
@@ -92,29 +70,29 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const router = useRouter();
   const params = useParams();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof ProductSchema>>({
+    resolver: zodResolver(ProductSchema),
     defaultValues: initialData
       ? // TODO: Refactor this
-        {
-          ...initialData,
-          description: initialData.description
-            ? initialData.description
-            : undefined,
-          promoPrice: initialData.promoPrice ? initialData.promoPrice : 0,
-        }
+      {
+        ...initialData,
+        description: initialData.description
+          ? initialData.description
+          : undefined,
+        promoPrice: initialData.promoPrice ? initialData.promoPrice : 0,
+      }
       : {
-          name: "",
-          description: "",
-          price: 0,
-          image: "",
-          subcategoryId: subcategory || "",
-          sizes: [],
-          extras: [],
-          promoPrice: 0,
-          isPromo: false,
-          isArchived: false,
-        },
+        name: "",
+        description: "",
+        price: 0,
+        image: "",
+        subcategoryId: subcategory || "",
+        sizes: [],
+        extras: [],
+        promoPrice: 0,
+        isPromo: false,
+        isArchived: false,
+      },
   });
 
   const title = initialData ? "Editar producto" : "Crear producto";
@@ -146,15 +124,15 @@ const ProductForm: React.FC<ProductFormProps> = ({
     control: form.control,
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof ProductSchema>) {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/products/${params.productId}`, data);
+        await axios.patch(`/api/${params.slug}/products/${params.productId}`, data);
       } else {
-        await axios.post("/api/products", data);
+        await axios.post(`/api/${params.slug}/products`, data);
       }
-      router.push("/admin/productos");
+      router.push(`/${params.slug}/admin/productos`);
       router.refresh();
       toast.success(toastText);
     } catch (error: any) {
@@ -167,8 +145,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
   async function onDelete() {
     try {
       setLoading(true);
-      await axios.delete(`/api/products/${params.productId}`);
-      router.push("/admin/productos");
+      await axios.delete(`/api/${params.slug}/products/${params.productId}`);
+      router.push(`/${params.slug}/admin/productos`);
       router.refresh();
       toast.success("Producto eliminado con éxito");
     } catch (error: any) {
@@ -188,7 +166,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       />
       <div className="flex flex-col items-start gap-2">
         <Link
-          href="/admin/productos"
+          href={`/${params.slug}/admin/productos`}
           className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
         >
           ← Volver

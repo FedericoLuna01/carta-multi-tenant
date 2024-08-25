@@ -54,7 +54,7 @@ model UserSettings {
   table          Boolean
   delivery       Boolean
   takeaway       Boolean
-  ubication      String
+  location       String
   phone          String
   image          String
 

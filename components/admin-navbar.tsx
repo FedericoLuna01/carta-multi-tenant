@@ -1,11 +1,15 @@
+"use client"
+
 import Link from "next/link";
 
 import { Button } from "./ui/button";
 import LogoutButton from "./ui/logout-button";
 import MobileAdminNavbar from "./mobile-admin-navbar";
 import { NavItems } from "@/data/data";
+import { useParams } from "next/navigation";
 
 const AdminNavbar = () => {
+  const params = useParams()
   return (
     <header className="h-16 z-50 fixed top-0 w-full border-b border-b-slate-300 backdrop-blur-sm flex items-center justify-between">
       <div className="container flex flex-row items-center justify-between">
@@ -17,7 +21,7 @@ const AdminNavbar = () => {
             {NavItems.map((item) => (
               <li key={item.id}>
                 <Button variant="link" asChild>
-                  <Link href={item.href}>{item.label}</Link>
+                  <Link href={`/${params.slug}/${item.href}`}>{item.label}</Link>
                 </Button>
               </li>
             ))}

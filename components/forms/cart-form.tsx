@@ -24,24 +24,20 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { OrderType, UserSettings } from "@prisma/client";
 import { getIsOpen } from "@/actions/getIsOpen";
 import { SuccessOrderModal } from "../modals/success-order-modal";
+import { OrderSchema } from "@/schemas";
+import { useParams } from "next/navigation";
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: "El nombre es requerido" }).max(50),
-  phone: z.string().min(2, { message: "El teléfono es requerido" }).max(10),
-  comment: z.string().max(50).optional(),
-  type: z.enum(["DELIVERY", "TAKEAWAY", "TABLE"]),
-  place: z.string().max(50).optional(),
-});
 
 const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
   const [loading, setLoading] = useState(false);
   const [successModalState, setSuccessModalState] = useState(false);
 
+  const params = useParams()
   const { user, setUser } = useUser();
   const { items, removeAll } = useCart();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof OrderSchema>>({
+    resolver: zodResolver(OrderSchema),
     defaultValues: user || {
       name: "",
       phone: "",
@@ -51,7 +47,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof OrderSchema>) {
     const { name, phone, comment, type, place } = values;
     const formattedProducts = items.map((product) => {
       return {
@@ -94,7 +90,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
 
     try {
       setLoading(true);
-      const res = await axios.post("/api/orders", data);
+      const res = await axios.post(`/api/${params.slug}/orders`, data);
       // Guardar la orden en local storage
       localStorage.setItem("orderId", res.data.id);
 

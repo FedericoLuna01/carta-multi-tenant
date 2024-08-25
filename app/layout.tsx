@@ -10,7 +10,7 @@ import { auth } from "@/auth";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Carta - Demo",
+  title: "Carta",
   description:
     "Demo de carta digital. Una web donde podrás administrar tu carta y tus pedidos.",
   icons: {
@@ -32,9 +32,9 @@ export default async function RootLayout({
         >
           <ToasterProvider />
           <ModalsProviders />
-          <main className="h-full">
+          <div className="h-full">
             {children}
-          </main>
+          </div>
         </body>
       </html>
     </SessionProvider>

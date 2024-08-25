@@ -11,6 +11,7 @@ import { UserRole } from "@prisma/client";
 declare module "next-auth" {
   interface User {
     role: UserRole;
+    slug: string
   }
 }
 
@@ -30,6 +31,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.role = token.role as UserRole;
       }
 
+      if (token.slug && session.user) {
+        session.user.slug = token.slug as string;
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -40,6 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (!existingUser) return token;
 
       token.role = existingUser.role;
+      token.slug = existingUser.slug;
 
       return token;
     },

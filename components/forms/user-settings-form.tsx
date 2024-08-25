@@ -21,19 +21,8 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "../ui/input";
 import { UserSettings } from "@prisma/client";
 import ImageUpload from "../ui/image-upload";
-
-const FormSchema = z.object({
-  dayOpenTime: z.string().min(1, { message: "El horario es requerido" }),
-  dayCloseTime: z.string().min(1, { message: "El horario es requerido" }),
-  nightOpenTime: z.string().min(1, { message: "El horario es requerido" }),
-  nightCloseTime: z.string().min(1, { message: "El horario es requerido" }),
-  image: z.string().optional(),
-  ubication: z.string().min(1, "La ubicación es requerida"),
-  phone: z.string().min(1, "El teléfono es requerido"),
-  table: z.boolean(),
-  delivery: z.boolean(),
-  takeaway: z.boolean(),
-});
+import { useParams } from "next/navigation";
+import { UserSettingsSchema } from "@/schemas";
 
 export default function UserSettingsForm({
   userSettings,
@@ -41,15 +30,16 @@ export default function UserSettingsForm({
   userSettings: UserSettings | null;
 }) {
   const [loading, setLoading] = useState(false);
+  const params = useParams()
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof UserSettingsSchema>>({
+    resolver: zodResolver(UserSettingsSchema),
     defaultValues: userSettings || {
       dayOpenTime: "",
       dayCloseTime: "",
       nightOpenTime: "",
       nightCloseTime: "",
-      ubication: "",
+      location: "",
       phone: "",
       table: false,
       delivery: false,
@@ -58,10 +48,14 @@ export default function UserSettingsForm({
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof UserSettingsSchema>) {
     try {
       setLoading(true);
-      await axios.patch("/api/usersettings", data);
+      if (!userSettings) {
+        await axios.post(`/api/${params.slug}/usersettings`, data);
+      } else {
+        await axios.patch(`/api/${params.slug}/usersettings`, data);
+      }
       toast.success("Se guardaron los cambios");
     } catch (error) {
       toast.error("Algo salio mal");
@@ -149,7 +143,7 @@ export default function UserSettingsForm({
               <div className="flex items-center">
                 <FormField
                   control={form.control}
-                  name="ubication"
+                  name="location"
                   render={({ field }) => (
                     <FormItem className="">
                       <div className="space-y-2">

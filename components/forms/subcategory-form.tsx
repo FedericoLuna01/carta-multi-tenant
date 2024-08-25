@@ -7,7 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Trash } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 import {
@@ -31,11 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-
-const formSchema = z.object({
-  name: z.string().min(1, { message: "El nombre es requerido" }).max(50),
-  categoryId: z.string().min(1, { message: "La categoría es requerida" }),
-});
+import { SubcategorySchema } from "@/schemas";
 
 interface SubcategoryFormProps {
   initialData: Subcategory | null;
@@ -52,9 +48,10 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const router = useRouter();
+  const params = useParams()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof SubcategorySchema>>({
+    resolver: zodResolver(SubcategorySchema),
     defaultValues: initialData || {
       name: "",
       categoryId: category || "",
@@ -70,15 +67,15 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
     ? "Subcategoría editada con éxito"
     : "Subcategoría creada con éxito";
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof SubcategorySchema>) {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/subcategories/${initialData?.id}`, data);
+        await axios.patch(`/api/${params.slug}/subcategories/${initialData?.id}`, data);
       } else {
-        await axios.post("/api/subcategories", data);
+        await axios.post(`/api/${params.slug}/subcategories`, data);
       }
-      router.push("/admin/subcategorias");
+      router.push(`/${params.slug}/admin/subcategorias`);
       router.refresh();
       toast.success(toastText);
     } catch (error: any) {
@@ -91,8 +88,8 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
   async function onDelete() {
     try {
       setLoading(true);
-      await axios.delete(`/api/subcategories/${initialData?.id}`);
-      router.push("/admin/subcategorias");
+      await axios.delete(`/api/${params.slug}/subcategories/${initialData?.id}`);
+      router.push(`/${params.slug}/admin/subcategorias`);
       router.refresh();
       toast.success("Subcategoría eliminada con éxito");
     } catch (error: any) {
@@ -112,7 +109,7 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
       />
       <div className="flex flex-col items-start gap-2">
         <Link
-          href="/admin/subcategorias"
+          href={`/${params.slug}/admin/subcategorias`}
           className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
         >
           ← Volver
