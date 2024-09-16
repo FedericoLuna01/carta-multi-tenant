@@ -156,11 +156,18 @@ model Order {
   products OrderItem[] @relation("OrderItemToOrder")
   userId   String
   user     User        @relation("OrderToUser", fields: [userId], references: [id])
+  payment OrderPayment
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+enum OrderPayment {
+  CASH
+  CARD
+  QR
 }
 
 enum OrderType {

@@ -38,7 +38,7 @@ export const getUserBySlug = async (slug: string) => {
   } catch {
     return null;
   }
-}
+};
 
 export const checkUserAccess = async (slug: string, user: Session) => {
   if (!user) {
@@ -49,6 +49,5 @@ export const checkUserAccess = async (slug: string, user: Session) => {
     return false;
   }
 
-  return true
-
-}
+  return true;
+};

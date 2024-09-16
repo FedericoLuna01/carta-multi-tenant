@@ -11,7 +11,7 @@ import { UserRole } from "@prisma/client";
 declare module "next-auth" {
   interface User {
     role: UserRole;
-    slug: string
+    slug: string;
   }
 }
 
@@ -59,7 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
-        console.log(validatedFields)
+        console.log(validatedFields);
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
 

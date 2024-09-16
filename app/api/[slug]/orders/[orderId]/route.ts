@@ -1,18 +1,27 @@
+import { auth } from "@/auth";
 import prismadb from "@/lib/prismadb";
+import { checkUserAccess, getUserBySlug } from "@/utils/user";
 import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { orderId: string } }
+  { params }: { params: { orderId: string, slug: string } }
 ) {
-  if (!params.orderId) {
+  const { slug, orderId } = params;
+  if (!slug) {
+    return new NextResponse("Missing slug", { status: 400 });
+  }
+  if (!orderId) {
     return new NextResponse("Missing order id", { status: 400 });
   }
+
+  const user = await getUserBySlug(slug)
 
   try {
     const order = await prismadb.order.findUnique({
       where: {
-        id: Number(params.orderId),
+        id: Number(orderId),
+        userId: user.id,
       },
     });
 
@@ -25,8 +34,9 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { orderId: string } }
+  { params }: { params: { orderId: string, slug: string } }
 ) {
+  const { slug, orderId } = params;
   const body = await req.json();
   const { status } = body;
 
@@ -34,19 +44,21 @@ export async function PATCH(
     return new NextResponse("Missing status", { status: 400 });
   }
 
-  if (!params.orderId) {
+  if (!orderId) {
     return new NextResponse("Missing order id", { status: 400 });
   }
 
-  // const user = getAuth();
-  // if (!user) {
-  //   return new NextResponse("Unauthorized", { status: 401 });
-  // }
+  const user = await auth();
+  const hasAccess = await checkUserAccess(slug, user)
+  if (!hasAccess) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   try {
     const order = await prismadb.order.update({
       where: {
-        id: Number(params.orderId),
+        id: Number(orderId),
+        userId: user.user.id,
       },
       data: {
         status,
@@ -62,16 +74,29 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { orderId: string } }
+  { params }: { params: { orderId: string, slug: string } }
 ) {
-  if (!params.orderId) {
+  const { slug, orderId } = params
+
+  const user = await auth();
+  const hasAccess = await checkUserAccess(slug, user)
+  if (!hasAccess) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  if (!slug) {
+    return new NextResponse("Missing slug", { status: 400 });
+  }
+
+  if (!orderId) {
     return new NextResponse("Missing order id", { status: 400 });
   }
 
   try {
     const order = await prismadb.order.delete({
       where: {
-        id: Number(params.orderId),
+        id: Number(orderId),
+        userId: user.user.id
       },
     });
 

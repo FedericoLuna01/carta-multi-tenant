@@ -5,10 +5,17 @@ import prismadb from "@/lib/prismadb";
 
 const Navbar = async ({
   userSettings,
+  slug,
 }: {
   userSettings: UserSettings | null;
+  slug: string;
 }) => {
   const products = await prismadb.product.findMany({
+    where: {
+      user: {
+        slug,
+      },
+    },
     include: {
       extras: true,
       sizes: true,

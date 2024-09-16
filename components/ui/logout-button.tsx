@@ -1,37 +1,19 @@
-'use client'
-
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast'
-
-import { Button } from './button'
-
+import { signOut } from "@/auth";
+import { Button } from "./button";
 
 const LogoutButton = () => {
-  const router = useRouter()
-
-  const handleLogout = async () => {
-    try {
-      const res = await axios.get('/api/auth/logout')
-      if (res.status === 200) {
-        toast.success('Sesion cerrada correctamente.')
-        router.push('/')
-      }
-    } catch (error: any) {
-      toast.error('Error al cerrar sesión.')
-      router.refresh()
-    }
-  }
-
   return (
-    <Button
-      variant='destructive'
-      onClick={handleLogout}
-      size='sm'
+    <form
+      action={async () => {
+        "use server";
+        await signOut();
+      }}
     >
-      Salir
-    </Button>
-  )
-}
+      <Button className="w-full" variant="destructive">
+        Cerrar sesión
+      </Button>
+    </form>
+  );
+};
 
-export default LogoutButton
+export default LogoutButton;

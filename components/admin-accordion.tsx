@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Pencil, Plus } from "lucide-react";
 
-import prismadb from "@/lib/prismadb";
 import {
   Accordion,
   AccordionContent,
@@ -10,35 +9,9 @@ import {
 } from "./ui/accordion";
 import ProductCard from "./ui/product-card";
 import { Button } from "./ui/button";
+import { FullData } from "@/types/types";
 
-const AdminAccordion = async () => {
-  const data = await prismadb.category.findMany({
-    include: {
-      subcategories: {
-        include: {
-          products: {
-            where: {
-              isArchived: false,
-            },
-            include: {
-              sizes: true,
-              extras: true,
-            },
-            orderBy: {
-              sort: "asc",
-            },
-          },
-        },
-        orderBy: {
-          sort: "asc",
-        },
-      },
-    },
-    orderBy: {
-      sort: "asc",
-    },
-  });
-
+const AdminAccordion = ({ data, slug }: { data: FullData[]; slug: string }) => {
   return (
     <div className="w-full my-20">
       <div className="max-w-5xl mx-auto">
@@ -60,7 +33,7 @@ const AdminAccordion = async () => {
                 <div className="text-left flex items-center flex-wrap gap-4">
                   <p className="uppercase">{category.name}</p>
                   <Button asChild size="icon" title="Editar categoría">
-                    <Link href={`/admin/categorias/${category.id}`}>
+                    <Link href={`/${slug}/admin/categorias/${category.id}`}>
                       <Pencil className="w-4 h-4" />
                     </Link>
                   </Button>
@@ -74,7 +47,9 @@ const AdminAccordion = async () => {
                         {subcategory.name}
                       </h4>
                       <Button asChild size="icon" title="Editar subcategoría">
-                        <Link href={`/admin/subcategorias/${subcategory.id}`}>
+                        <Link
+                          href={`/${slug}/admin/subcategorias/${subcategory.id}`}
+                        >
                           <Pencil className="w-4 h-4" />
                         </Link>
                       </Button>
@@ -90,7 +65,7 @@ const AdminAccordion = async () => {
                       <div className="mx-auto flex justify-center mt-8">
                         <Button asChild>
                           <Link
-                            href={`/admin/productos/nuevo?subcategory=${subcategory.id}`}
+                            href={`/${slug}/admin/productos/nuevo?subcategory=${subcategory.id}`}
                           >
                             <Plus className="w-4 h-4 mr-2" />
                             Nuevo Producto
@@ -103,7 +78,7 @@ const AdminAccordion = async () => {
                 <div className="mx-auto flex justify-center mt-8">
                   <Button asChild>
                     <Link
-                      href={`/admin/subcategorias/nueva?category=${category.id}`}
+                      href={`/${slug}/admin/subcategorias/nueva?category=${category.id}`}
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Nueva Subcategoría
@@ -116,7 +91,7 @@ const AdminAccordion = async () => {
         </Accordion>
         <div className="flex justify-center mt-8">
           <Button asChild>
-            <Link href="/admin/categorias/nueva">
+            <Link href={`/${slug}/admin/categorias/nueva`}>
               <Plus className="w-4 h-4 mr-2" />
               Nueva Categoría
             </Link>

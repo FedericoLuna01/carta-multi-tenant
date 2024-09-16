@@ -4,5 +4,5 @@ export default async function LandingPage() {
       <h1 className="">Landing Page</h1>
       <p>This is a landing page</p>
     </div>
-  )
+  );
 }

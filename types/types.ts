@@ -23,6 +23,19 @@ export interface SubcategoryWithProducts extends Subcategory {
   products: Product[];
 }
 
+export interface SubcategoryWithFullProducts extends Subcategory {
+  products: FullProduct[];
+}
+
+export interface FullData extends Category {
+  subcategories: SubcategoryWithFullProducts[];
+}
+
+// export interface ProductWithSizesAndExtras extends Product {
+//   sizes: Size[];
+//   extras: Extra[];
+// }
+
 export interface FullOrderItem extends OrderItem {
   size: OrderItemSize | null;
   extras: OrderItemExtra[] | null;

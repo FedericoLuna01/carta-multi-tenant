@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,19 +17,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { RegisterSchema } from "@/schemas";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { register } from "@/actions/auth/register";
+import toast from "react-hot-toast";
 
 const NewUserModal = () => {
-  const [isPending, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition();
+  const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -39,19 +40,25 @@ const NewUserModal = () => {
       password: "",
       slug: "",
     },
-  })
+  });
 
   function onSubmit(values: z.infer<typeof RegisterSchema>) {
     startTransition(() => {
-      register(values).then(data => {
-        // TODO: Cerrar modal y mostrar el nuevo usuario
-        console.log(data)
-      })
-    })
+      register(values).then((data) => {
+        if (data.success) {
+          toast.success(data.success);
+          setIsOpen(false);
+        }
+        if (data.error) {
+          toast.error(data.error);
+        }
+        console.log(data);
+      });
+    });
   }
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button>Nuevo usuario</Button>
       </DialogTrigger>
@@ -101,7 +108,11 @@ const NewUserModal = () => {
                   <FormItem>
                     <FormLabel>Contraseña</FormLabel>
                     <FormControl>
-                      <Input placeholder="***********" type='password' {...field} />
+                      <Input
+                        placeholder="***********"
+                        type="password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -117,13 +128,16 @@ const NewUserModal = () => {
                       <Input placeholder="tucarta" {...field} />
                     </FormControl>
                     <FormDescription>
-                      Este es el nombre que se mostrará en la URL. Por ejemplo: tucarta.carta.com
+                      Este es el nombre que se mostrará en la URL. Por ejemplo:
+                      tucarta.carta.com
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit">Crear</Button>
+              <Button disabled={isPending} type="submit">
+                Crear
+              </Button>
             </form>
           </Form>
         </div>

@@ -1,42 +1,24 @@
-import "../globals.css"
-import { Inter } from "next/font/google";
 import { Metadata } from "next";
-import Link from "next/link"
+import Link from "next/link";
 
 import {
-  CircleUser,
   Home,
   LineChart,
   Menu,
   Package,
-  Package2,
   ShoppingCart,
   Users,
-} from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { UserRole } from "@prisma/client";
-
-
-const inter = Inter({ subsets: ["latin"] });
+import Image from "next/image";
+import LogoutButton from "@/components/ui/logout-button";
+import Sidebar from "@/components/sidebar";
+import { unstable_noStore } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Carta - Admin ",
@@ -47,41 +29,34 @@ export const metadata: Metadata = {
   },
 };
 
-const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
-  const session = await auth()
-  if (!session) redirect("/login")
-  if (session?.user?.role !== UserRole.ADMIN) redirect("/login")
+const DashboardLayout = async ({
+  admin,
+  user,
+}: {
+  admin: React.ReactNode;
+  user: React.ReactNode;
+}) => {
+  unstable_noStore();
+  const session = await auth();
+  console.log({ session });
+  if (!session) redirect("/login");
   return (
-    <div className={`grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] ${inter}`}>
+    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
-              <Package2 className="h-6 w-6" />
-              <span className="">Acme Inc</span>
+              <Image src="/logo.svg" alt="logo" width={30} height={30} />
+              <span className="text-2xl font-bold">Carta</span>
             </Link>
           </div>
-          <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
-                href="/dashboard"
-                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-              >
-                <Package className="h-4 w-4" />
-                Dashboard
-              </Link>
-              <Link
-                href="/dashboard/usuarios"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Users className="h-4 w-4" />
-                Usuarios
-              </Link>
-            </nav>
+          <Sidebar />
+          <div className="mt-auto px-2 lg:px-4 pb-4">
+            <LogoutButton />
           </div>
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col pb-4">
         <header className="flex justify-end h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
           <Sheet>
             <SheetTrigger asChild>
@@ -100,7 +75,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
                   href="#"
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
-                  <Package2 className="h-6 w-6" />
+                  <Image src="/logo.svg" alt="logo" width={30} height={30} />
                   <span className="sr-only">Acme Inc</span>
                 </Link>
                 <Link
@@ -143,46 +118,17 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
                 </Link>
               </nav>
               <div className="mt-auto">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Upgrade to Pro</CardTitle>
-                    <CardDescription>
-                      Unlock all features and get unlimited access to our
-                      support team.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button size="sm" className="w-full">
-                      Upgrade
-                    </Button>
-                  </CardContent>
-                </Card>
+                <LogoutButton />
               </div>
             </SheetContent>
           </Sheet>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          {children}
+          {session.user.role === UserRole.ADMIN ? admin : user}
         </main>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;

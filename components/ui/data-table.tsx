@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { SlidersHorizontal, X } from "lucide-react"
+import { useState } from "react";
+import { SlidersHorizontal, X } from "lucide-react";
 import {
   ColumnDef,
   flexRender,
@@ -13,8 +13,8 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   getFacetedUniqueValues,
-  getFacetedRowModel
-} from "@tanstack/react-table"
+  getFacetedRowModel,
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -23,20 +23,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
-import { Button } from "./button"
-import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./dropdown-menu"
-import { statusOptions, typeOptions } from "@/data/data"
-import { DataTablePagination } from "./data-table-pagination"
-import { DataTableFacetedFilter } from "@/app/[slug]/admin/ordenes/components/data-table-faceted-filter"
+import { Button } from "./button";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./dropdown-menu";
+import { statusOptions, typeOptions } from "@/data/data";
+import { DataTablePagination } from "./data-table-pagination";
+import { DataTableFacetedFilter } from "@/app/dashboard/@user/ordenes/components/data-table-faceted-filter";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  visibility?: boolean
-  order?: boolean
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  visibility?: boolean;
+  order?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -45,8 +52,8 @@ export function DataTable<TData, TValue>({
   visibility = false,
   order = false,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -62,17 +69,15 @@ export function DataTable<TData, TValue>({
     state: {
       columnFilters,
       sorting,
-    }
-  })
+    },
+  });
 
-  const isFiltered = table.getState().columnFilters.length > 0
+  const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
     <div>
       <div className="flex items-center py-4">
-        <div
-          className="flex items-center gap-4"
-        >
+        <div className="flex items-center gap-4">
           <Input
             placeholder="Buscar..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -81,74 +86,65 @@ export function DataTable<TData, TValue>({
             }
             className="max-w-sm"
           />
-          {
-            visibility && (
-              <div
-                className="hidden sm:flex space-x-2"
-              >
-                {
-                  order && (
-                    <>
-                      <DataTableFacetedFilter
-                        column={table.getColumn("type")}
-                        title='Tipo'
-                        options={typeOptions}
-                      />
-                      <DataTableFacetedFilter
-                        column={table.getColumn("status")}
-                        title='Estado'
-                        options={statusOptions}
-                      />
-                    </>
-                  )
-                }
-                {isFiltered && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => table.resetColumnFilters()}
-                  >
-                    Limpiar filtros
-                    <X className="ml-2 h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-            )
-          }
-        </div>
-        {
-          visibility && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto">
-                  <SlidersHorizontal className="w-4 h-4 mr-2" />Columnas
+          {visibility && (
+            <div className="hidden sm:flex space-x-2">
+              {order && (
+                <>
+                  <DataTableFacetedFilter
+                    column={table.getColumn("type")}
+                    title="Tipo"
+                    options={typeOptions}
+                  />
+                  <DataTableFacetedFilter
+                    column={table.getColumn("status")}
+                    title="Estado"
+                    options={statusOptions}
+                  />
+                </>
+              )}
+              {isFiltered && (
+                <Button
+                  variant="ghost"
+                  onClick={() => table.resetColumnFilters()}
+                >
+                  Limpiar filtros
+                  <X className="ml-2 h-4 w-4" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Ver columnas</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {table
-                  .getAllColumns()
-                  .filter(
-                    (column) => column.getCanHide()
-                  )
-                  .map((column) => {
-                    return (
-                      <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className="capitalize"
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) =>
-                          column.toggleVisibility(!!value)
-                        }
-                      >
-                        {column.id}
-                      </DropdownMenuCheckboxItem>
-                    )
-                  })}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )
-        }
+              )}
+            </div>
+          )}
+        </div>
+        {visibility && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                <SlidersHorizontal className="w-4 h-4 mr-2" />
+                Columnas
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Ver columnas</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
       <div className="rounded-md border bg-white max-w-[calc(100vw-4em)] sm:max-w-2xl md:max-w-full overflow-auto ">
         <Table>
@@ -161,11 +157,11 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -179,14 +175,20 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No hay resultados.
                 </TableCell>
               </TableRow>
@@ -194,9 +196,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination
-        table={table}
-      />
+      <DataTablePagination table={table} />
     </div>
-  )
+  );
 }

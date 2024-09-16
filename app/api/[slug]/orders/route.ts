@@ -4,11 +4,12 @@ import { NextResponse } from "next/server";
 import { type FullOrderItem } from "@/types/types";
 import { type OrderItemExtra } from "@prisma/client";
 import { getUserBySlug } from "@/utils/user";
-import { OrderSchema } from "@/schemas";
+// import { OrderSchema } from "@/schemas";
 
 export async function POST(req: Request, { params }: { params: { slug: string } }) {
   const { slug } = params;
   const body = await req.json();
+  // TODO: Agregar zod para validar los campos
   // const validatedFields = OrderSchema.safeParse(body);
   const { name, phone, comment, type, place, products } = body;
   // const { name, phone, comment, type, place, products } = validatedFields.;

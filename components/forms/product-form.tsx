@@ -72,27 +72,22 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
-    defaultValues: initialData
-      ? // TODO: Refactor this
-      {
-        ...initialData,
-        description: initialData.description
-          ? initialData.description
-          : undefined,
-        promoPrice: initialData.promoPrice ? initialData.promoPrice : 0,
-      }
-      : {
-        name: "",
-        description: "",
-        price: 0,
-        image: "",
-        subcategoryId: subcategory || "",
-        sizes: [],
-        extras: [],
-        promoPrice: 0,
-        isPromo: false,
-        isArchived: false,
-      },
+    defaultValues: initialData ? {
+      ...initialData,
+      description: initialData.description || undefined,
+      promoPrice: initialData.promoPrice || 0,
+    } : {
+      name: "",
+      description: "",
+      price: 0,
+      image: "",
+      subcategoryId: subcategory || "",
+      sizes: [],
+      extras: [],
+      promoPrice: 0,
+      isPromo: false,
+      isArchived: false,
+    },
   });
 
   const title = initialData ? "Editar producto" : "Crear producto";
