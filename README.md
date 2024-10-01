@@ -20,3 +20,10 @@ Carta es un menu digital con opciones de takeaway y delivery.
 - CRUD de categorías, subcategorías y productos.
 - Realizar pedidos para takeaway, delivery y las mesas del restaurant.
 - JWT Auth
+
+# Env
+
+```
+  DATABASE_URL=
+  DIRECT_URL=
+```

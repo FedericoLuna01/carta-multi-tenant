@@ -8,6 +8,7 @@ import { getUserByEmail } from "@/utils/user";
 import prismadb from "@/lib/prismadb";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
+  // TODO: Agregar validacion que sea admin para crear la cuenta
   const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields.success) {

@@ -18,8 +18,7 @@ export default async function Home({ params }: { params: { slug: string } }) {
   const subdominio = domain.split(".")[0];
 
   // console.log("Subdominio:", subdominio);
-  const user = await getUserBySlug(subdominio);
-  // const user = await getUserBySlug(params.slug);
+  const user = await getUserBySlug(params.slug);
   if (!user) {
     return <div>Usuario no encontrado</div>;
   }
@@ -28,7 +27,10 @@ export default async function Home({ params }: { params: { slug: string } }) {
   const products = await prismadb.product.findMany({
     where: {
       isPromo: true,
-      userId: user.id,
+      // userId: user.id,
+      user: {
+        slug: params.slug,
+      }
     },
     include: {
       sizes: true,

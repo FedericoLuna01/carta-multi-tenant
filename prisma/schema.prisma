@@ -146,17 +146,17 @@ model Subcategory {
 }
 
 model Order {
-  id       Int         @id @default(autoincrement())
+  id       Int          @id @default(autoincrement())
   name     String
   phone    String
   place    String?
   comment  String?
   type     OrderType
-  status   OrderStatus @default(PENDING)
-  products OrderItem[] @relation("OrderItemToOrder")
+  status   OrderStatus  @default(PENDING)
+  products OrderItem[]  @relation("OrderItemToOrder")
   userId   String
-  user     User        @relation("OrderToUser", fields: [userId], references: [id])
-  payment OrderPayment
+  user     User         @relation("OrderToUser", fields: [userId], references: [id])
+  payment  OrderPayment
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
