@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { Eye, MoreHorizontal, Phone, Trash } from "lucide-react";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/modals/alert-modal";
@@ -18,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useUser } from "@/utils/user";
 
 interface CellActionProps {
   data: Order;
@@ -27,12 +28,12 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const params = useParams()
+  const user = useUser()
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.slug}/orders/${data.id}`);
+      await axios.delete(`/api/${user.slug}/orders/${data.id}`);
       router.refresh();
       toast.success("Orden eliminada");
     } catch (error) {
@@ -64,7 +65,7 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link href={`/${params.slug}/admin/ordenes/${data.id}`}>
+            <Link href={`/dashboard/ordenes/${data.id}`}>
               <Eye className="w-5 h-5 mr-2" /> Ver orden
             </Link>
           </DropdownMenuItem>

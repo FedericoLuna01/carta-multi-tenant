@@ -9,13 +9,17 @@ import BadgeOrderType from "../components/badge-order-type"
 import { getTotalProductPrice } from "@/actions/getTotalPrice"
 import { formatter } from "@/lib/utils"
 import Link from "next/link"
+import { auth } from "@/auth"
 
-const OrderPage = async ({ params }: { params: { orderId: string, slug: string } }) => {
+const OrderPage = async ({ params }: { params: { orderId: string } }) => {
   noStore()
+
+  const user = await auth()
 
   const order = await prismadb.order.findUnique({
     where: {
-      id: Number(params.orderId)
+      id: Number(params.orderId),
+      userId: user.user.id
     },
     include: {
       products: {
@@ -62,7 +66,7 @@ const OrderPage = async ({ params }: { params: { orderId: string, slug: string }
           className="flex flex-col items-start gap-2"
         >
           <Link
-            href={`/${params.slug}/admin/ordenes`}
+            href={`/dashboard/ordenes`}
             className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
           >
             ← Volver

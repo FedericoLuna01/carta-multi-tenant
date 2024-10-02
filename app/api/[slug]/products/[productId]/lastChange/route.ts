@@ -1,24 +1,28 @@
-import getAuth from "@/actions/getAuth";
+import { auth } from "@/auth";
 import prismadb from "@/lib/prismadb";
+import { checkUserAccess } from "@/utils/user";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { productId: string } }
+  { params }: { params: { productId: string, slug: string } }
 ) {
-  if (!params.productId) {
+  const { slug, productId } = params;
+  if (!productId) {
     return new NextResponse("Missing product id", { status: 400 });
   }
+
   // TODO: Refactor. Tengo que crear una nueva tabla con los datos viejos
-  const user = await getAuth();
-  if (!user) {
+  const user = await auth();
+  const hasAccess = await checkUserAccess(slug, user)
+  if (!hasAccess) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
   try {
     const oldProduct = await prismadb.product.findUnique({
       where: {
-        id: params.productId,
+        id: productId,
       },
     });
 

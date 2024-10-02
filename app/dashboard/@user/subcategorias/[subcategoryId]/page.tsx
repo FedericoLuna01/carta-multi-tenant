@@ -2,14 +2,15 @@ import { unstable_noStore as noStore } from "next/cache"
 
 import SubcategoryForm from '@/components/forms/subcategory-form'
 import prismadb from '@/lib/prismadb'
+import { auth } from "@/auth"
 
-const SubcategoryPage = async ({ params }: { params: { subcategoryId: string, slug: string } }) => {
+const SubcategoryPage = async ({ params }: { params: { subcategoryId: string } }) => {
   noStore()
-
+  const user = await auth()
   const categories = await prismadb.category.findMany({
     where: {
       user: {
-        slug: params.slug
+        slug: user.user.slug
       }
     }
   })
@@ -18,7 +19,7 @@ const SubcategoryPage = async ({ params }: { params: { subcategoryId: string, sl
     where: {
       id: params.subcategoryId,
       user: {
-        slug: params.slug
+        slug: user.user.slug
       }
     }
   })

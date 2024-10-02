@@ -22,7 +22,7 @@ import { Order, OrderStatus } from "@prisma/client"
 import { cn } from "@/lib/utils"
 import axios from "axios"
 import { useState } from "react"
-import { useParams } from "next/navigation"
+import { useUser } from "@/utils/user"
 
 const FormSchema = z.object({
   state: z.enum(['PENDING',
@@ -40,7 +40,8 @@ interface StatusSelectProps {
 
 export function StatusSelect({ order }: StatusSelectProps) {
   const [loading, setLoading] = useState(false)
-  const params = useParams()
+  const user = useUser()
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -54,7 +55,7 @@ export function StatusSelect({ order }: StatusSelectProps) {
     }
     try {
       setLoading(true)
-      await axios.patch(`/api/${params.slug}/orders/${order.id}`, data)
+      await axios.patch(`/api/${user.slug}/orders/${order.id}`, data)
       toast.success('Estado actualizado')
     } catch (error: any) {
       toast.error('Algo salio mal')

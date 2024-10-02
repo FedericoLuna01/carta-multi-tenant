@@ -21,8 +21,8 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "../ui/input";
 import { UserSettings } from "@prisma/client";
 import ImageUpload from "../ui/image-upload";
-import { useParams } from "next/navigation";
 import { UserSettingsSchema } from "@/schemas";
+import { useUser } from "@/utils/user";
 
 export default function UserSettingsForm({
   userSettings,
@@ -30,7 +30,7 @@ export default function UserSettingsForm({
   userSettings: UserSettings | null;
 }) {
   const [loading, setLoading] = useState(false);
-  const params = useParams()
+  const user = useUser()
 
   const form = useForm<z.infer<typeof UserSettingsSchema>>({
     resolver: zodResolver(UserSettingsSchema),
@@ -52,9 +52,9 @@ export default function UserSettingsForm({
     try {
       setLoading(true);
       if (!userSettings) {
-        await axios.post(`/api/${params.slug}/usersettings`, data);
+        await axios.post(`/api/${user.slug}/usersettings`, data);
       } else {
-        await axios.patch(`/api/${params.slug}/usersettings`, data);
+        await axios.patch(`/api/${user.slug}/usersettings`, data);
       }
       toast.success("Se guardaron los cambios");
     } catch (error) {

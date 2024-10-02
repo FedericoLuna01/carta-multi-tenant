@@ -17,12 +17,12 @@ export default auth(async (req) => {
   // Extract subdomain if not a main domain
   const subdomain = isMainDomain ? null : hostname.split('.')[0];
 
-  console.log('Middleware: Hostname:', hostname);
-  console.log('Middleware: Subdomain:', subdomain);
+  // console.log('Middleware: Hostname:', hostname);
+  // console.log('Middleware: Subdomain:', subdomain);
 
   // If it's a main domain, allow the request to proceed
   if (isMainDomain) {
-    console.log('Middleware: Main domain detected, passing through');
+    // console.log('Middleware: Main domain detected, passing through');
     return NextResponse.next();
   }
 

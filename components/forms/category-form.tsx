@@ -25,6 +25,7 @@ import { Category } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { AlertModal } from "../modals/alert-modal";
 import { CategorySchema } from "@/schemas";
+import { useUser } from "@/utils/user";
 
 interface CategoryFormProps {
   initialData: Category | null;
@@ -35,7 +36,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
-  const params = useParams()
+  const user = useUser()
 
   const form = useForm<z.infer<typeof CategorySchema>>({
     resolver: zodResolver(CategorySchema),
@@ -57,11 +58,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/${params.slug}/categories/${initialData.id}`, data);
+        await axios.patch(`/api/${user.slug}/categories/${initialData.id}`, data);
       } else {
-        await axios.post(`/api/${params.slug}/categories`, data);
+        await axios.post(`/api/${user.slug}/categories`, data);
       }
-      router.push(`/${params.slug}/admin/categorias`);
+      router.push(`/dashboard/categorias`);
       router.refresh();
       toast.success(toastText);
     } catch (error: any) {
@@ -74,8 +75,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   async function onDelete() {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.slug}/categories/${initialData?.id}`);
-      router.push(`/${params.slug}/admin/categorias`);
+      await axios.delete(`/api/${user.slug}/categories/${initialData?.id}`);
+      router.push(`/dashboard/categorias`);
       router.refresh();
       toast.success("Categoría eliminada con éxito");
     } catch (error: any) {
@@ -95,7 +96,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       />
       <div className="flex flex-col items-start gap-2">
         <Link
-          href={`/${params.slug}/admin/categorias`}
+          href={`/dashboard/categorias`}
           className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
         >
           ← Volver

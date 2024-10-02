@@ -8,19 +8,18 @@ import { Separator } from "@/components/ui/separator";
 import Heading from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import prismadb from "@/lib/prismadb";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Carta - Admin - Categorías",
 };
 
-export async function CategoriesPage({ params }: { params: { slug: string } }) {
+export async function CategoriesPage() {
   noStore();
-  console.log(params.slug);
+  const user = await auth();
   const categories = await prismadb.category.findMany({
     where: {
-      user: {
-        slug: params.slug,
-      },
+      userId: user.user.id,
     },
   });
 
@@ -33,7 +32,7 @@ export async function CategoriesPage({ params }: { params: { slug: string } }) {
         />
         <Button asChild>
           <Link
-            href={`/${params.slug}/admin/categorias/nuevo`}
+            href={`/dashboard/categorias/nuevo`}
             className="my-4 sm:my-0"
           >
             Crear categoría

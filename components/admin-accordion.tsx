@@ -33,7 +33,7 @@ const AdminAccordion = ({ data, slug }: { data: FullData[]; slug: string }) => {
                 <div className="text-left flex items-center flex-wrap gap-4">
                   <p className="uppercase">{category.name}</p>
                   <Button asChild size="icon" title="Editar categoría">
-                    <Link href={`/${slug}/admin/categorias/${category.id}`}>
+                    <Link href={`/dashboard/categorias/${category.id}`}>
                       <Pencil className="w-4 h-4" />
                     </Link>
                   </Button>
@@ -48,7 +48,7 @@ const AdminAccordion = ({ data, slug }: { data: FullData[]; slug: string }) => {
                       </h4>
                       <Button asChild size="icon" title="Editar subcategoría">
                         <Link
-                          href={`/${slug}/admin/subcategorias/${subcategory.id}`}
+                          href={`/dashboard/subcategorias/${subcategory.id}`}
                         >
                           <Pencil className="w-4 h-4" />
                         </Link>
@@ -65,7 +65,7 @@ const AdminAccordion = ({ data, slug }: { data: FullData[]; slug: string }) => {
                       <div className="mx-auto flex justify-center mt-8">
                         <Button asChild>
                           <Link
-                            href={`/${slug}/admin/productos/nuevo?subcategory=${subcategory.id}`}
+                            href={`/dashboard/productos/nuevo?subcategory=${subcategory.id}`}
                           >
                             <Plus className="w-4 h-4 mr-2" />
                             Nuevo Producto
@@ -78,7 +78,7 @@ const AdminAccordion = ({ data, slug }: { data: FullData[]; slug: string }) => {
                 <div className="mx-auto flex justify-center mt-8">
                   <Button asChild>
                     <Link
-                      href={`/${slug}/admin/subcategorias/nueva?category=${category.id}`}
+                      href={`/dashboard/subcategorias/nueva?category=${category.id}`}
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Nueva Subcategoría
@@ -91,7 +91,7 @@ const AdminAccordion = ({ data, slug }: { data: FullData[]; slug: string }) => {
         </Accordion>
         <div className="flex justify-center mt-8">
           <Button asChild>
-            <Link href={`/${slug}/admin/categorias/nueva`}>
+            <Link href={`/dashboard/categorias/nueva`}>
               <Plus className="w-4 h-4 mr-2" />
               Nueva Categoría
             </Link>

@@ -6,22 +6,21 @@ import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/prismadb";
 import { columns } from "./components/columns";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Carta - Admin - Órdenes",
 };
 
-export default async function OrdersPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function OrdersPage() {
   noStore();
+
+  const user = await auth();
 
   const orders = await prismadb.order.findMany({
     where: {
       user: {
-        slug: params.slug,
+        slug: user.user.slug,
       },
     },
     orderBy: {

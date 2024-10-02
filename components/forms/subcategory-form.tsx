@@ -32,6 +32,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { SubcategorySchema } from "@/schemas";
+import { useUser } from "@/utils/user";
 
 interface SubcategoryFormProps {
   initialData: Subcategory | null;
@@ -49,6 +50,7 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
   const category = searchParams.get("category");
   const router = useRouter();
   const params = useParams()
+  const user = useUser()
 
   const form = useForm<z.infer<typeof SubcategorySchema>>({
     resolver: zodResolver(SubcategorySchema),
@@ -71,11 +73,11 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/${params.slug}/subcategories/${initialData?.id}`, data);
+        await axios.patch(`/api/${user.slug}/subcategories/${initialData?.id}`, data);
       } else {
-        await axios.post(`/api/${params.slug}/subcategories`, data);
+        await axios.post(`/api/${user.slug}/subcategories`, data);
       }
-      router.push(`/${params.slug}/admin/subcategorias`);
+      router.push(`/dashboard/subcategorias`);
       router.refresh();
       toast.success(toastText);
     } catch (error: any) {
@@ -88,8 +90,8 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
   async function onDelete() {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.slug}/subcategories/${initialData?.id}`);
-      router.push(`/${params.slug}/admin/subcategorias`);
+      await axios.delete(`/api/${user.slug}/subcategories/${initialData?.id}`);
+      router.push(`/dashboard/subcategorias`);
       router.refresh();
       toast.success("Subcategoría eliminada con éxito");
     } catch (error: any) {
@@ -109,7 +111,7 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
       />
       <div className="flex flex-col items-start gap-2">
         <Link
-          href={`/${params.slug}/admin/subcategorias`}
+          href={`/dashboard/subcategorias`}
           className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
         >
           ← Volver

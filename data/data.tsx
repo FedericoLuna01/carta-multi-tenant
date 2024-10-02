@@ -52,7 +52,7 @@ export const userNavItems = [
   {
     id: 1,
     label: "Mi cuenta",
-    href: "/dashboard",
+    href: "/dashboard/cuenta",
     icon: User,
   },
   {

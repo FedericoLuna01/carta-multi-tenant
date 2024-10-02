@@ -33,7 +33,7 @@ export async function ProductsPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center ">
         <Heading title="Productos" description="Administra tus productos" />
         <Button className="my-4 sm:my-0" asChild>
-          <Link href={`/${user.user.slug}/admin/productos/nuevo`}>
+          <Link href={`/dashboard/productos/nuevo`}>
             Crear producto
           </Link>
         </Button>

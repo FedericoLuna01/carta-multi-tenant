@@ -1,5 +1,11 @@
 import prismadb from "@/lib/prismadb";
 import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
+
+export const useUser = () => {
+  const user = useSession();
+  return user.data?.user;
+}
 
 export const getUserByEmail = async (email: string) => {
   try {

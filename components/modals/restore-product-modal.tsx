@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Spinner from "../ui/spinner";
+import { useUser } from "@/utils/user";
 
 const ProductDescription = ({ data }) => {
   return (
@@ -103,6 +104,7 @@ const RestoreProductModal = () => {
   const [loading, setLoading] = useState(false);
   const { data, onClose, isRestoreModalOpen } = useRestoreProductModal();
   const router = useRouter();
+  const user = useUser()
 
   const handleChange = () => {
     if (isRestoreModalOpen) {
@@ -113,7 +115,7 @@ const RestoreProductModal = () => {
   const handleRestore = async () => {
     try {
       setLoading(true);
-      await axios.patch(`/api/products/${data.id}/lastChange`);
+      await axios.patch(`/api/${user.slug}/products/${data.id}/lastChange`);
       router.refresh();
       toast.success("Producto actualizado");
     } catch (error) {

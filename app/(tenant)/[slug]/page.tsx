@@ -8,16 +8,10 @@ import prismadb from "@/lib/prismadb";
 import BackToTop from "@/components/back-to-top";
 import Navbar from "@/components/navbar";
 import { getUserBySlug } from "@/utils/user";
-import { headers } from "next/headers";
 
 export default async function Home({ params }: { params: { slug: string } }) {
   noStore();
-  console.log({ slug: params.slug });
-  const headersList = headers();
-  const domain = headersList.get("host") || "";
-  const subdominio = domain.split(".")[0];
 
-  // console.log("Subdominio:", subdominio);
   const user = await getUserBySlug(params.slug);
   if (!user) {
     return <div>Usuario no encontrado</div>;

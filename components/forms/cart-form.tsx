@@ -90,7 +90,11 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
 
     try {
       setLoading(true);
-      const res = await axios.post(`/api/${params.slug}/orders`, data);
+      const baseUrl = window.location.hostname.includes('localhost')
+        ? 'http://localhost:3000'
+        : `http://${window.location.hostname}`;
+
+      const res = await axios.post(`${baseUrl}/api/${params.slug}/orders`, data);
       // Guardar la orden en local storage
       localStorage.setItem("orderId", res.data.id);
 
@@ -101,6 +105,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
         window.location.reload();
       }, 6000);
     } catch (error: any) {
+      console.log(error)
       toast.error("Algo salio mal");
     } finally {
       setLoading(false);

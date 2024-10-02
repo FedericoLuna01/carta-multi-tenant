@@ -8,19 +8,18 @@ import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { columns } from "./components/columns";
 import prismadb from "@/lib/prismadb";
-import { getUserBySlug } from "@/utils/user";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Carta - Admin - Subcategorias",
 };
 
-const SubcategoriesPage = async ({ params }: { params: { slug: string } }) => {
+const SubcategoriesPage = async () => {
   noStore();
-  const user = await getUserBySlug(params.slug);
-
+  const user = await auth()
   const subcategories = await prismadb.subcategory.findMany({
     where: {
-      userId: user.id
+      userId: user.user.id
     },
     include: {
       category: true,
@@ -35,7 +34,7 @@ const SubcategoriesPage = async ({ params }: { params: { slug: string } }) => {
           description="Acá podrás ver todas las subcategorias que tienes en tu tienda."
         />
         <Button asChild className="my-4 sm:my-0">
-          <Link href={`/${params.slug}/admin/subcategorias/nuevo`}>Crear subcategoría</Link>
+          <Link href={`/dashboard/subcategorias/nuevo`}>Crear subcategoría</Link>
         </Button>
       </div>
       <Separator />

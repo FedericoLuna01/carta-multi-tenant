@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { MoreHorizontal, Pencil, Trash, Undo2 } from "lucide-react";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/modals/alert-modal";
@@ -21,6 +21,7 @@ import {
 import RestoreProductModal from "@/components/modals/restore-product-modal";
 import useRestoreProductModal from "@/hooks/use-restore-product-modal";
 import { FullProduct } from "@/types/types";
+import { useUser } from "@/utils/user";
 
 interface CellActionProps {
   data: FullProduct;
@@ -31,13 +32,13 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const params = useParams()
+  const user = useUser()
   const { onOpen } = useRestoreProductModal();
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.slug}/products/${data.id}`);
+      await axios.delete(`/api/${user.slug}/products/${data.id}`);
       router.refresh();
       toast.success("Producto eliminado");
     } catch (error) {
@@ -72,7 +73,7 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link href={`/${params.slug}/admin/productos/${data.id}`}>
+            <Link href={`/dashboard/productos/${data.id}`}>
               <Pencil className="w-5 h-5 mr-2" /> Editar producto
             </Link>
           </DropdownMenuItem>

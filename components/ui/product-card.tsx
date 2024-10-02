@@ -59,11 +59,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <CardContent className="flex justify-between items-center space-x-12">
           <div className="flex flex-col lg:flex-row items-center gap-2 ">
             <p
-              className={`font-semibold text-[1rem] ${
-                product.isPromo
+              className={`font-semibold text-[1rem] ${product.isPromo
                   ? "text-gray-500 line-through"
                   : "text-slate-800"
-              }`}
+                }`}
             >
               {formatter.format(product.price)}
             </p>
@@ -78,7 +77,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <div className="flex flex-col gap-2">
                 <Button asChild className="">
                   <Link
-                    href={`/admin/productos/${product.id}`}
+                    href={`/dashboard/productos/${product.id}`}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Pencil className="w-4 h-4 mr-2" />

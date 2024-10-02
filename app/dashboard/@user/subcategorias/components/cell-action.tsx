@@ -10,6 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { type Category } from "@prisma/client";
+import { useUser } from "@/utils/user";
 
 interface CellActionProps {
   data: Category;
@@ -19,12 +20,12 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const params = useParams()
+  const user = useUser()
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.slug}/subcategories/${data.id}`);
+      await axios.delete(`/api/${user.slug}/subcategories/${data.id}`);
       router.refresh();
       toast.success("Subcategoría eliminada");
     } catch (error) {
@@ -46,7 +47,7 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
       />
       <div className="space-x-2">
         <Button size="icon" variant="outline" asChild title="Editar categoría">
-          <Link href={`/${params.slug}/admin/subcategorias/${data.id}`} prefetch={false}>
+          <Link href={`/dashboard/subcategorias/${data.id}`} prefetch={false}>
             <Pencil className="w-5 h-5" />
           </Link>
         </Button>

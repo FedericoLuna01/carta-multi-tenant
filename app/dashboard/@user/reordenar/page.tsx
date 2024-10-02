@@ -4,19 +4,20 @@ import prismadb from "@/lib/prismadb";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import SortableGrid from "./components/sortable-grid";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Carta - Admin - Reordenar",
 };
 
-export async function SortingPage ({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export async function SortingPage() {
   noStore();
+
+  const user = await auth();
+
   const data = await prismadb.category.findMany({
     where: {
-      user: {
-        slug: slug,
-      },
+      userId: user.user.id
     },
     include: {
       subcategories: {

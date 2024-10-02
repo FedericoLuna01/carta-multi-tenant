@@ -18,7 +18,7 @@ import { Category, Product, Subcategory } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import SortableItem from "./sortable-item";
 import Spinner from "@/components/ui/spinner";
-import { useParams } from "next/navigation";
+import { useUser } from "@/utils/user";
 
 interface SortableGridProps {
   data: CategoryWithSubcategories[];
@@ -29,7 +29,7 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
   const [activeId, setActiveId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const { slug } = useParams();
+  const user = useUser()
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -119,7 +119,7 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
         }
       );
 
-      await axios.patch(`/api/${slug}/reorder`, {
+      await axios.patch(`/api/${user.slug}/reorder`, {
         categories: sortedData,
       });
 

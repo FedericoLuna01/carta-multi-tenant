@@ -50,7 +50,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       ))}
       <CldUploadWidget
         onUpload={onUpload}
-        uploadPreset="cpoiw4y7"
+        uploadPreset="il9ksh2s"
       >
         {({ open }) => {
           const onClick = () => {
@@ -63,7 +63,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               onClick={onClick}
             >
               <ImagePlus className="w-4 h-4 mr-2" />
-                Subir una imagen
+              Subir una imagen
             </Button>
           )
         }}
