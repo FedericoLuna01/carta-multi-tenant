@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import useUser from "@/hooks/use-user";
+import userOrderUser from "@/hooks/use-order-user";
 import { Button } from "../ui/button";
 import CartProductsTable from "../cart-products-table";
 import useCart from "@/hooks/use-cart";
@@ -33,7 +33,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
   const [successModalState, setSuccessModalState] = useState(false);
 
   const params = useParams()
-  const { user, setUser } = useUser();
+  const { user, setUser } = userOrderUser();
   const { items, removeAll } = useCart();
 
   const form = useForm<z.infer<typeof OrderSchema>>({
@@ -90,11 +90,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
 
     try {
       setLoading(true);
-      const baseUrl = window.location.hostname.includes('localhost')
-        ? 'http://localhost:3000'
-        : `http://${window.location.hostname}`;
-
-      const res = await axios.post(`${baseUrl}/api/${params.slug}/orders`, data);
+      const res = await axios.post(`${process.env.DOMAIN_URL || "http://localhost:3000"}/api/${params.slug}/orders`, data);
       // Guardar la orden en local storage
       localStorage.setItem("orderId", res.data.id);
 

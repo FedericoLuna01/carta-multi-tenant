@@ -1,13 +1,13 @@
-import { User } from "@/types/types";
+import { OrderUser } from "@/types/types";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UserStore {
-  user: User;
-  setUser: (user: User) => void;
+  user: OrderUser;
+  setUser: (user: OrderUser) => void;
 }
 
-const useUser = create(
+const useOrderUser = create(
   persist<UserStore>(
     (set) => ({
       user: {
@@ -17,7 +17,7 @@ const useUser = create(
         type: "DELIVERY",
         place: "",
       },
-      setUser: (user: User) => set({ user }),
+      setUser: (user: OrderUser) => set({ user }),
     }),
     {
       name: "user-storage",
@@ -26,4 +26,4 @@ const useUser = create(
   )
 );
 
-export default useUser;
+export default useOrderUser;

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Carta - Admin - Categorías",
 };
 
-export async function CategoriesPage() {
+async function CategoriesPage() {
   noStore();
   const user = await auth();
   const categories = await prismadb.category.findMany({
@@ -45,4 +45,4 @@ export async function CategoriesPage() {
   );
 }
 
-export default CategoriesPage;
+export default CategoriesPage

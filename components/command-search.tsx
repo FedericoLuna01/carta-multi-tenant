@@ -12,12 +12,14 @@ import {
   CommandItem,
   CommandList,
 } from "./ui/command";
-import { FullProduct } from "@/types/types";
+import { FullData } from "@/types/types";
 import useProductModal from "@/hooks/use-product-modal";
 
-const CommandSearch = ({ products }: { products: FullProduct[] }) => {
+const CommandSearch = ({ products }: { products: FullData[] }) => {
   const [open, setOpen] = useState(false);
   const { onOpen } = useProductModal();
+
+  const data = products.flatMap((category) => category.subcategories.map((subcategory) => subcategory.products)).flat();
 
   return (
     <div>
@@ -44,7 +46,7 @@ const CommandSearch = ({ products }: { products: FullProduct[] }) => {
         <CommandList>
           <CommandEmpty>No se encontraron resultados.</CommandEmpty>
           <CommandGroup heading="Productos">
-            {products.map((product) => (
+            {data.map((product) => (
               <CommandItem
                 key={product.id}
                 value={product.name}

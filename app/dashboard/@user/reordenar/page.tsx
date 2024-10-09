@@ -10,7 +10,7 @@ export const metadata = {
   title: "Carta - Admin - Reordenar",
 };
 
-export async function SortingPage() {
+async function SortingPage() {
   noStore();
 
   const user = await auth();

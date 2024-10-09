@@ -80,6 +80,11 @@ export const columns: ColumnDef<OrderColumn>[] = [
     },
   },
   // TODO: Agregar el precio total
+  // {
+  //   accessorKey: "totalPrice",
+  //   header: "Total",
+
+  // },
   {
     accessorKey: "products",
     header: "Productos",

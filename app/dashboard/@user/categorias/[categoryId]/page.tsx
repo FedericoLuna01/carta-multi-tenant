@@ -3,7 +3,7 @@ import CategoryForm from "@/components/forms/category-form";
 import prismadb from "@/lib/prismadb";
 import { unstable_noStore as noStore } from "next/cache";
 
-export async function CategoryPage({ params }: { params: { categoryId: string, slug: string } }) {
+export default async function CategoryPage({ params }: { params: { categoryId: string } }) {
   noStore();
 
   const user = await auth();
@@ -18,4 +18,3 @@ export async function CategoryPage({ params }: { params: { categoryId: string, s
   return <CategoryForm initialData={category} />;
 };
 
-export default CategoryPage;

@@ -7,6 +7,13 @@ export async function GET(
   req: Request,
   { params }: { params: { orderId: string, slug: string } }
 ) {
+  const origin = req.headers.get('origin');
+  const isAllowedOrigin = origin && (
+    origin.endsWith('.tudominio.com') ||
+    // TODO: Cambiar por el dominio original
+    origin.includes("localhost") ||
+    origin === 'https://tudominio.com'
+  );
   const { slug, orderId } = params;
   if (!slug) {
     return new NextResponse("Missing slug", { status: 400 });
@@ -25,7 +32,12 @@ export async function GET(
       },
     });
 
-    return NextResponse.json(order);
+    return NextResponse.json(order, {
+      headers: {
+        'Access-Control-Allow-Origin': isAllowedOrigin ? origin : '',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+    });
   } catch (error: any) {
     console.log("[ORDER_GET]", error);
     return new NextResponse("Something went wrong", { status: 500 });
@@ -105,4 +117,25 @@ export async function DELETE(
     console.log("[ORDER_DELETE]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
+}
+
+export async function OPTIONS(req: Request) {
+  const origin = req.headers.get('origin');
+  // Verifica si el origen termina con tu dominio principal
+  const isAllowedOrigin = origin && (
+    // TODO: Cambiar por el dominio original
+    origin.endsWith('.tudominio.com') ||
+    origin.includes("localhost") ||
+    origin === 'https://tudominio.com'
+  );
+
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': isAllowedOrigin ? origin : '',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Allow-Credentials': 'true',
+    },
+  });
 }

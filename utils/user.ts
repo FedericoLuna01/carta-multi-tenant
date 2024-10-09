@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { UserRole } from "@prisma/client";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 
@@ -57,3 +58,15 @@ export const checkUserAccess = async (slug: string, user: Session) => {
 
   return true;
 };
+
+export const checkAdminAccess = async (user: Session) => {
+  if (!user) {
+    return false;
+  }
+
+  if (user.user.role !== UserRole.ADMIN) {
+    return false;
+  }
+
+  return true;
+}

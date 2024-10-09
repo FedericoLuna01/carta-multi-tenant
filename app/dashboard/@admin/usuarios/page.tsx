@@ -3,8 +3,9 @@ import { Metadata } from "next";
 import NewUserModal from "@/components/modals/new-user-modal";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import UserCard from "./components/user-card";
+import { DataTable } from "@/components/ui/data-table";
+import { columns } from "./components/columns";
 
 export const metadata: Metadata = {
   title: "Carta - Administrar usuarios ",
@@ -20,10 +21,11 @@ export default async function UsersPage() {
       email: true,
       role: true,
       slug: true,
-      createdAt: true,
       updatedAt: true,
+      createdAt: true,
     },
   })
+
   return (
     <div className="">
       <div className="flex flex-row items-center justify-between">
@@ -34,30 +36,15 @@ export default async function UsersPage() {
         <NewUserModal />
       </div>
       <Separator />
-      <div className="mt-4 grid grid-cols-4 gap-10">
+      <DataTable columns={columns} data={users} />
+      {/* TODO: Agregar tab para tener 2 vistas. 1 de card y otra de tabla */}
+      {/* <div className="mt-4 grid grid-cols-4 gap-10">
         {
-          users.map(({ id, name, email, role, slug }) => (
-            <Card key={id} className="w-full max-w-md relative">
-              <CardHeader className="flex flex-row items-center gap-4">
-                <div className="flex flex-col">
-                  <CardTitle>{name}</CardTitle>
-                  <p className="text-sm text-muted-foreground">{email}</p>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <Badge variant="secondary">
-                    {
-                      role === "ADMIN" ? "Administrador" : "Usuario"
-                    }
-                  </Badge>
-                  <span className="text-sm text-muted-foreground">Link: {slug}</span>
-                </div>
-              </CardContent>
-            </Card>
+          users.map((user) => (
+            <UserCard key={user.id} user={user} />
           ))
         }
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -52,8 +52,9 @@ export const ProductSchema = z.object({
       price: z.coerce.number().min(1, { message: "El precio es requerido" }),
     })
   ),
-  promoPrice: z.coerce.number().optional(),
   isPromo: z.boolean().optional().default(false),
+  // TODO: Agregar que en caso de isPromo == true promoPrice != 0 - https://zod.dev/?id=refine
+  promoPrice: z.coerce.number().optional(),
   isArchived: z.boolean().optional().default(false),
 })
 

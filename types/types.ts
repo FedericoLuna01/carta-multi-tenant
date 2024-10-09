@@ -8,6 +8,7 @@ import {
   Product,
   Size,
   Subcategory,
+  User,
 } from "@prisma/client";
 
 export type FullProduct = Product & {
@@ -31,20 +32,17 @@ export interface FullData extends Category {
   subcategories: SubcategoryWithFullProducts[];
 }
 
-// export interface ProductWithSizesAndExtras extends Product {
-//   sizes: Size[];
-//   extras: Extra[];
-// }
-
 export interface FullOrderItem extends OrderItem {
   size: OrderItemSize | null;
   extras: OrderItemExtra[] | null;
 }
 
-export type User = {
+export type OrderUser = {
   name: string;
   phone: string;
   comment: string;
   type: OrderType;
   place: string;
 };
+
+export type UserNoPass = Omit<User, 'password' | 'emailVerified'>

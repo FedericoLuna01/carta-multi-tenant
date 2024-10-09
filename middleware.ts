@@ -30,13 +30,9 @@ export default auth(async (req) => {
   if (subdomain) {
     return NextResponse.rewrite(new URL(`/${subdomain}${url.pathname}`, req.url));
   }
-
-  console.log('Middleware: Invalid subdomain or domain, returning 404');
-  // If none of the above conditions are met, return a 404 response
-  return new NextResponse(null, { status: 404 });
 });
 
 // Path donde el middleware no se va a ejecutar
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)", "/api/:path*"],
 };

@@ -13,7 +13,7 @@ export const metadata = {
   title: "Carta - Admin - Productos",
 };
 
-export async function ProductsPage() {
+async function ProductsPage() {
   noStore();
   const user = await auth();
   const products = await prismadb.product.findMany({

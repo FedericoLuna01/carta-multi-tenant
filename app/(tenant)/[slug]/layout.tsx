@@ -1,15 +1,13 @@
-import type { Metadata } from "next";
-
 import Footer from "@/components/footer";
+import { capitalize } from "@/lib/utils";
+import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Carta - Demo",
-  description:
-    "Demo de carta digital. Una web donde podrás administrar tu carta y tus pedidos.",
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
+export const generateMetadata = ({ params }: { params: { slug: string } }): Metadata => {
+  return {
+    title: `${capitalize(params.slug)} | Carta`,
+    description: ``
+  }
+}
 
 export default async function RootLayout({
   children,

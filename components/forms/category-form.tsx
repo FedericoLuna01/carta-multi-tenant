@@ -20,7 +20,7 @@ import Heading from "../ui/heading";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Category } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { AlertModal } from "../modals/alert-modal";

@@ -9,3 +9,7 @@ export const formatter = new Intl.NumberFormat("es-AR", {
   style: "currency",
   currency: "ARS",
 });
+
+export function capitalize(word: string) {
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}

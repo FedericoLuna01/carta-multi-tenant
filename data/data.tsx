@@ -1,5 +1,4 @@
 import {
-  Home,
   Users,
   User,
   Package,
@@ -36,12 +35,6 @@ export const statusOptions = [
 export const adminNavItems = [
   {
     id: 1,
-    label: "Dashboard",
-    href: "/dashboard",
-    icon: Home,
-  },
-  {
-    id: 2,
     label: "Usuarios",
     href: "/dashboard/usuarios",
     icon: Users,

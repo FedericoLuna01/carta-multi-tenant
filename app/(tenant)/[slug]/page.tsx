@@ -13,24 +13,45 @@ export default async function Home({ params }: { params: { slug: string } }) {
   noStore();
 
   const user = await getUserBySlug(params.slug);
+
+  // TODO: Mostrar un mensaje de error si el usuario no existe
   if (!user) {
     return <div>Usuario no encontrado</div>;
   }
 
-  // TODO: Traer todo y enviarlo también al nav
-  const products = await prismadb.product.findMany({
+  const products = await prismadb.category.findMany({
     where: {
-      isPromo: true,
-      // userId: user.id,
       user: {
         slug: params.slug,
-      }
+      },
     },
     include: {
-      sizes: true,
-      extras: true,
+      subcategories: {
+        include: {
+          products: {
+            where: {
+              isArchived: false,
+            },
+            include: {
+              sizes: true,
+              extras: true,
+            },
+            orderBy: {
+              sort: "asc",
+            },
+          },
+        },
+        orderBy: {
+          sort: "asc",
+        },
+      },
+    },
+    orderBy: {
+      sort: "asc",
     },
   });
+
+  const carouselProducts = products.flatMap((category) => category.subcategories.map((subcategory) => subcategory.products)).flat().filter((product) => product.isPromo);
 
   const userSettings = await prismadb.userSettings.findUnique({
     where: {
@@ -40,7 +61,7 @@ export default async function Home({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <Navbar slug={params.slug} userSettings={userSettings} />
+      <Navbar products={products} slug={params.slug} userSettings={userSettings} />
       <div
         className="pt-24"
         style={{
@@ -55,8 +76,8 @@ export default async function Home({ params }: { params: { slug: string } }) {
         <Header image={userSettings?.image} />
         <div>
           <UserInfo userSettings={userSettings} />
-          {products.length > 0 && <Carousel slides={products} />}
-          <Main slug={params.slug} />
+          {carouselProducts.length > 0 && <Carousel slides={carouselProducts} />}
+          <Main products={products} />
         </div>
         <BackToTop />
       </div>

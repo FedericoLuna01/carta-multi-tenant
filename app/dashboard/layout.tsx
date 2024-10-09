@@ -18,7 +18,6 @@ import { UserRole } from "@prisma/client";
 import Image from "next/image";
 import LogoutButton from "@/components/ui/logout-button";
 import Sidebar from "@/components/sidebar";
-import { unstable_noStore } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Carta - Admin ",
@@ -36,10 +35,9 @@ const DashboardLayout = async ({
   admin: React.ReactNode;
   user: React.ReactNode;
 }) => {
-  unstable_noStore();
   const session = await auth();
-  // console.log({ session });
   if (!session) redirect("/login");
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -124,7 +122,7 @@ const DashboardLayout = async ({
           </Sheet>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          {session.user.role === UserRole.ADMIN ? admin : user}
+          {session && session.user.role === UserRole.ADMIN ? admin : user}
         </main>
       </div>
     </div>

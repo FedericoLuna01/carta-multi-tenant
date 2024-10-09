@@ -1,3 +1,4 @@
+import { FullData } from "@/types/types";
 import {
   Accordion,
   AccordionContent,
@@ -5,45 +6,12 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 import ProductCard from "./ui/product-card";
-import prismadb from "@/lib/prismadb";
 
-const Main = async ({ slug }: { slug: string }) => {
-  const data = await prismadb.category.findMany({
-    where: {
-      user: {
-        slug,
-      },
-    },
-    include: {
-      subcategories: {
-        include: {
-          products: {
-            where: {
-              isArchived: false,
-            },
-            include: {
-              sizes: true,
-              extras: true,
-            },
-            orderBy: {
-              sort: "asc",
-            },
-          },
-        },
-        orderBy: {
-          sort: "asc",
-        },
-      },
-    },
-    orderBy: {
-      sort: "asc",
-    },
-  });
-
+const Main = async ({ products }: { products: FullData[] }) => {
   return (
     <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-28">
       <Accordion type="single" collapsible>
-        {data.map((category) => (
+        {products.map((category) => (
           <AccordionItem
             value={`item-${category.id}`}
             key={category.id}

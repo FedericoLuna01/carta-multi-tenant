@@ -17,6 +17,7 @@ declare module "next-auth" {
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET || "default-secret",
+  trustHost: true,
   session: {
     strategy: "jwt",
   },
@@ -59,7 +60,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
-        console.log(validatedFields);
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
 
@@ -75,4 +75,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  pages: {
+    signIn: "/login"
+  }
 });

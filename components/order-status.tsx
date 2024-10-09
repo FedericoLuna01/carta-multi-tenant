@@ -26,7 +26,7 @@ const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId }) => {
   useEffect(() => {
     const getOrder = async () => {
       setLoading(true);
-      const res = await axios(`/api/${params.slug}/orders/${orderId}`);
+      const res = await axios(`${process.env.DOMAIN_URL || "http://localhost:3000"}/api/${params.slug}/orders/${orderId}`);
       setOrder(res.data);
       setLoading(false);
     };

@@ -6,9 +6,18 @@ import bcrypt from "bcryptjs";
 import { RegisterSchema } from "@/schemas";
 import { getUserByEmail } from "@/utils/user";
 import prismadb from "@/lib/prismadb";
+import { auth } from "@/auth";
+import { UserRole } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
-  // TODO: Agregar validacion que sea admin para crear la cuenta
+
+  const user = await auth()
+
+  if (!user || user.user.role !== UserRole.ADMIN) {
+    return { error: "No tienes permisos para realizar esta acción" };
+  }
+
   const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -33,6 +42,8 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
       slug,
     },
   });
+
+  revalidatePath("/dashboard/usuarios")
 
   return { success: "Cuenta creada correctamente" };
 };
