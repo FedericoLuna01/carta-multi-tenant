@@ -10,6 +10,7 @@ export const RegisterSchema = z.object({
   password: z.string().min(2, { message: "Mínimo 2 caracteres" }),
   name: z.string().min(1, { message: "El nombre es requerido" }),
   slug: z.string().min(1, { message: "Link es requerido" }).regex(/^\S*$/, "El link no debe contener espacios"),
+  role: z.enum(["USER", "ADMIN"]),
 });
 
 export const UserSettingsSchema = z.object({
@@ -53,10 +54,12 @@ export const ProductSchema = z.object({
     })
   ),
   isPromo: z.boolean().optional().default(false),
-  // TODO: Agregar que en caso de isPromo == true promoPrice != 0 - https://zod.dev/?id=refine
   promoPrice: z.coerce.number().optional(),
   isArchived: z.boolean().optional().default(false),
-})
+}).refine(data => !data.isPromo || (data.isPromo && data.promoPrice && data.promoPrice > 0), {
+  message: "El precio de promo es requerido",
+  path: ["promoPrice"],
+});
 
 export const OrderSchema = z.object({
   name: z.string().min(2, { message: "El nombre es requerido" }).max(50),

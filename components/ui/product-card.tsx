@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       onClick={() => productModal.onOpen(product)}
     >
       {product.isPromo && (
-        <div className="absolute top-0 right-0 bg-green-600 text-white text-xs px-12 py-2 translate-y-1 translate-x-8 rotate-[30deg] z-10 font-semibold">
+        <div className="absolute top-0 right-0 bg-green-600 text-white text-xs px-12 py-2 translate-y-1 translate-x-8 rotate-[30deg] z-10 font-semibold shadow-sm">
           Promo
         </div>
       )}
@@ -60,8 +60,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="flex flex-col lg:flex-row items-center gap-2 ">
             <p
               className={`font-semibold text-[1rem] ${product.isPromo
-                  ? "text-gray-500 line-through"
-                  : "text-slate-800"
+                ? "text-gray-500 line-through"
+                : "text-slate-800"
                 }`}
             >
               {formatter.format(product.price)}
