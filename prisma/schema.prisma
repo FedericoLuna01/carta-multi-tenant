@@ -18,6 +18,7 @@ model User {
   sessions      Session[]
   role          UserRole  @default(USER)
   slug          String    @unique
+  isActive      Boolean   @default(true)
 
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt

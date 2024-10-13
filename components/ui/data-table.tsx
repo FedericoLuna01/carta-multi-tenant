@@ -37,7 +37,7 @@ import {
 } from "./dropdown-menu";
 import { statusOptions, typeOptions } from "@/data/data";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableFacetedFilter } from "@/app/dashboard/@user/ordenes/components/data-table-faceted-filter";
+import { DataTableFacetedFilter } from "@/app/(app)/dashboard/@user/ordenes/components/data-table-faceted-filter";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({
             onChange={(event) =>
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
-            className="max-w-sm"
+            className="max-w-sm mr-2 sm:mr-0"
           />
           {visibility && (
             <div className="hidden sm:flex space-x-2">
@@ -146,7 +146,8 @@ export function DataTable<TData, TValue>({
           </DropdownMenu>
         )}
       </div>
-      <div className="rounded-md border bg-white max-w-[calc(100vw-4em)] sm:max-w-2xl md:max-w-full overflow-auto ">
+      <div className="rounded-md border bg-white max-w-[calc(100vw-2em)] md:max-w-[calc(100vw-2em-220px)]
+      lg:max-w-[calc(100vw-2em-280px)] overflow-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -157,9 +158,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}

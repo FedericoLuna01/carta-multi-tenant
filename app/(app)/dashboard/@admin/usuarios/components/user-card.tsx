@@ -1,20 +1,18 @@
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { UserNoPass } from "@/types/types";
-import { EllipsisVerticalIcon } from "lucide-react";
+import CellAction from "./cell-action";
+import { UserRole } from "@prisma/client";
 
 const UserCard = ({ user }: { user: UserNoPass }) => {
   const { name, email, role, slug } = user;
   return (
     <Card className="w-full max-w-md relative">
-      <Button
-        size='icon'
-        variant="ghost"
-        asChild
+      <div
+        className="absolute top-2 right-2"
       >
-        <EllipsisVerticalIcon className="w-6 h-6 p-1 rounded-full absolute top-2 right-2" />
-      </Button>
+        <CellAction data={user} />
+      </div>
       <CardHeader className="flex flex-row items-center gap-4">
         <div className="flex flex-col">
           <CardTitle>{name}</CardTitle>
@@ -25,7 +23,7 @@ const UserCard = ({ user }: { user: UserNoPass }) => {
         <div className="flex items-center justify-between">
           <Badge variant="secondary">
             {
-              role === "ADMIN" ? "Administrador" : "Usuario"
+              role === UserRole.ADMIN ? "Administrador" : "Usuario"
             }
           </Badge>
           <span className="text-sm text-muted-foreground">Link: {slug}</span>

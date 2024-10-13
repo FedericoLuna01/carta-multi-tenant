@@ -37,7 +37,7 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
   const getFullProductName = (item: any) => {
     const price = getTotalProductPrice(item)
     const extras = item.extras.map((extra: any) => extra.name).join(', ')
-    let name
+    let name: string
     name = `${item.quantity}x ${item.product.name}`
     if (item.size) {
       name += ` (${item.size.name})`

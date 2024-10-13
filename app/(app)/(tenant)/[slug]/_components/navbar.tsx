@@ -1,7 +1,7 @@
-import CartModal from "./modals/cart-modal";
 import { UserSettings } from "@prisma/client";
-import CommandSearch from "./command-search";
 import { FullData } from "@/types/types";
+import CommandSearch from "@/components/command-search";
+import CartModal from "@/components/modals/cart-modal";
 
 const Navbar = async ({
   userSettings,

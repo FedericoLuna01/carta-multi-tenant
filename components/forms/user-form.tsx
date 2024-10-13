@@ -3,9 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Trash } from "lucide-react";
-import axios from "axios";
-import { useState } from "react";
+import { useTransition } from "react";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -22,29 +20,29 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { AlertModal } from "../modals/alert-modal";
 import Link from "next/link";
-import { RegisterSchema } from "@/schemas";
+import { EditUserSchema, RegisterSchema } from "@/schemas";
+import { register } from "@/actions/auth/register";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { editUser } from "@/actions/user/edit-user";
 
 interface UserFormProps {
   initialData: {
     name: string;
     email: string;
-    password: string;
     slug: string;
     role: "USER" | "ADMIN";
   } | null;
 }
 
 const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
-  const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  const router = useRouter();
-  const params = useParams();
+  const router = useRouter()
+  const params = useParams()
 
-  const form = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
+  const form = useForm<z.infer<typeof RegisterSchema | typeof EditUserSchema>>({
+    resolver: zodResolver(initialData ? EditUserSchema : RegisterSchema),
     defaultValues: initialData || {
       name: "",
       email: "",
@@ -59,50 +57,39 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
     ? "Edita los datos del usuario"
     : "Agrega un nuevo usuario al sistema";
   const buttonText = initialData ? "Guardar cambios" : "Crear usuario";
-  const toastText = initialData
-    ? "Usuario actualizado con éxito"
-    : "Usuario creado con éxito";
 
-  async function onSubmit(data: z.infer<typeof RegisterSchema>) {
-    try {
-      setLoading(true);
-      if (initialData) {
-        await axios.patch(`/api/users/${params.userId}`, data);
-      } else {
-        await axios.post(`/api/users`, data);
-      }
-      router.push(`/dashboard/usuarios`);
-      router.refresh();
-      toast.success(toastText);
-    } catch (error: any) {
-      toast.error("Algo salió mal");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function onDelete() {
-    try {
-      setLoading(true);
-      await axios.delete(`/api/users/${params.userId}`);
-      router.push(`/dashboard/usuarios`);
-      router.refresh();
-      toast.success("Usuario eliminado con éxito");
-    } catch (error: any) {
-      toast.error("Algo salió mal");
-    } finally {
-      setLoading(false);
+  async function onSubmit(values: z.infer<typeof RegisterSchema | typeof EditUserSchema>) {
+    if (!initialData) {
+      startTransition(() => {
+        register(values).then((data) => {
+          if (data.success) {
+            toast.success(data.success);
+            router.push("/dashboard/usuarios");
+          }
+          if (data.error) {
+            toast.error(data.error);
+          }
+          console.log(data);
+        });
+      });
+    } else {
+      startTransition(() => {
+        editUser(values, Array.isArray(params.userId) ? params.userId[0] : params.userId).then((data) => {
+          if (data.success) {
+            toast.success(data.success);
+            router.push("/dashboard/usuarios");
+          }
+          if (data.error) {
+            toast.error(data.error);
+          }
+          console.log(data);
+        });
+      });
     }
   }
 
   return (
     <div className="pb-10">
-      <AlertModal
-        isOpen={isOpen}
-        loading={loading}
-        onClose={() => setIsOpen(false)}
-        onConfirm={onDelete}
-      />
       <div className="flex flex-col items-start gap-2">
         <Link
           href={`/dashboard/usuarios`}
@@ -112,20 +99,11 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         </Link>
         <div className="flex justify-between items-center w-full">
           <Heading title={title} description={description} />
-          {initialData && (
-            <Button
-              size="icon"
-              variant="destructive"
-              onClick={() => setIsOpen(true)}
-            >
-              <Trash className="w-5 h-5" />
-            </Button>
-          )}
         </div>
       </div>
       <Separator />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-3 gap-4 mt-4">
           <FormField
             control={form.control}
             name="name"
@@ -157,21 +135,46 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="role"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contraseña</FormLabel>
+                <FormLabel>Rol</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="***********"
-                    type="password"
-                    {...field}
-                  />
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona un rol" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="USER">Usuario</SelectItem>
+                      <SelectItem value="ADMIN">Administrador</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          {
+            !initialData && (
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Contraseña</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="***********"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )
+          }
           <FormField
             control={form.control}
             name="slug"
@@ -189,8 +192,8 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          <Button disabled={loading} type="submit">
-            Crear
+          <Button className="col-span-3 w-fit" disabled={isPending} type="submit">
+            {buttonText}
           </Button>
         </form>
       </Form>

@@ -6,8 +6,8 @@ import Main from "@/components/main";
 import UserInfo from "@/components/user-info";
 import prismadb from "@/lib/prismadb";
 import BackToTop from "@/components/back-to-top";
-import Navbar from "@/components/navbar";
 import { getUserBySlug } from "@/utils/user";
+import Navbar from "./_components/navbar";
 
 export default async function Home({ params }: { params: { slug: string } }) {
   noStore();

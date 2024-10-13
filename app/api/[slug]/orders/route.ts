@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 import { type FullOrderItem } from "@/types/types";
 import { type OrderItemExtra } from "@prisma/client";
 import { getUserBySlug } from "@/utils/user";
-// import { OrderSchema } from "@/schemas";
+import { auth } from "@/auth";
+import socket from "@/lib/socketio";
 
 export async function POST(req: Request, { params }: { params: { slug: string } }) {
   const origin = req.headers.get('origin');
@@ -21,6 +22,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
   // const validatedFields = OrderSchema.safeParse(body);
   const { name, phone, comment, type, place, products } = body;
   // const { name, phone, comment, type, place, products } = validatedFields.;
+  // TODO: Check auth
   const user = await getUserBySlug(slug)
 
   try {
@@ -65,9 +67,20 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
       });
     });
 
-    revalidatePath("(admin)/admin/ordenes", "page");
-
-    return NextResponse.json(order, {
+    const newOrderWithProducts = await prismadb.order.findUnique({
+      where: { id: order.id },
+      include: {
+        products: {
+          include: {
+            extras: true,
+            size: true,
+            product: true,
+          },
+        },
+      },
+    });
+    
+    return NextResponse.json({order, newOrderWithProducts}, {
       headers: {
         'Access-Control-Allow-Origin': isAllowedOrigin ? origin : '',
         'Access-Control-Allow-Credentials': 'true',
@@ -77,6 +90,37 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
     console.log("[ORDERS_POST]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
+}
+
+export async function GET() {
+  const user = await auth();
+
+  // TODO: Check auth
+  // if(!user) {
+  //   return 
+  // }
+
+  const orders = await prismadb.order.findMany({
+    where: {
+      user: {
+        slug: user.user.slug,
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      products: {
+        include: {
+          extras: true,
+          size: true,
+          product: true,
+        },
+      },
+    },
+  });
+
+  return NextResponse.json(orders);
 }
 
 export async function OPTIONS(req: Request) {

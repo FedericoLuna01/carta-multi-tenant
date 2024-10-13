@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css"
+import "../globals.css"
 
 import { ToasterProvider } from "@/providers/toaster-provider";
 import ModalsProviders from "@/providers/modals-provider";
@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Carta",
   description:
-    "Demo de carta digital. Una web donde podrás administrar tu carta y tus pedidos.",
+    "Administra tu restaurante de manera fácil y rápida con Carta. ",
   icons: {
     icon: "/favicon.ico",
   },

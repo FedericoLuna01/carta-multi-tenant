@@ -24,7 +24,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: "Error en los campos" };
   }
 
-  const { password, email, name, slug } = validatedFields.data;
+  const { password, email, name, slug, role } = validatedFields.data;
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -40,6 +40,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
       password: hashedPassword,
       name,
       slug,
+      role
     },
   });
 

@@ -61,19 +61,19 @@ export const userNavItems = [
     icon: List,
   },
   {
-    id: 6,
+    id: 4,
     label: "Subcategorías",
     href: "/dashboard/subcategorias",
     icon: List,
   },
   {
-    id: 4,
+    id: 5,
     label: "Órdenes",
     href: "/dashboard/ordenes",
     icon: ShoppingBasket,
   },
   {
-    id: 5,
+    id: 6,
     label: "Reordenar",
     href: "/dashboard/reordenar",
     icon: ListOrdered,

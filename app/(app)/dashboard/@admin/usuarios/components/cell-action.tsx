@@ -3,7 +3,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { Eye, MoreHorizontal, Pencil, Trash } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/modals/alert-modal";
@@ -56,7 +56,7 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link href={`/dashboard/usuarios/${data.id}`}>
-              <Eye className="w-5 h-5 mr-2" /> Ver Usuario
+              <Pencil className="w-5 h-5 mr-2" /> Editar Usuario
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>

@@ -26,6 +26,7 @@ import { getIsOpen } from "@/actions/getIsOpen";
 import { SuccessOrderModal } from "../modals/success-order-modal";
 import { OrderSchema } from "@/schemas";
 import { useParams } from "next/navigation";
+import socket from "@/lib/socketio";
 
 
 const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
@@ -92,7 +93,9 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
       setLoading(true);
       const res = await axios.post(`${process.env.DOMAIN_URL || "http://localhost:3000"}/api/${params.slug}/orders`, data);
       // Guardar la orden en local storage
-      localStorage.setItem("orderId", res.data.id);
+      localStorage.setItem("orderId", res.data.order.id);
+      console.log("orden desde form", res.data.newOrderWithProducts)
+      socket.emit("newOrder", res.data.newOrderWithProducts)
 
       setSuccessModalState(true);
       removeAll();

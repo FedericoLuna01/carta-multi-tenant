@@ -15,9 +15,8 @@ export default async function SingleUserPage({ params }: { params: { userId: str
   })
 
   return (
-    <h1>
-      {/* TODO: Arreglar error de tipado */}
+    <section>
       <UserForm initialData={user} />
-    </h1>
+    </section>
   );
 }

@@ -13,6 +13,13 @@ export const RegisterSchema = z.object({
   role: z.enum(["USER", "ADMIN"]),
 });
 
+export const EditUserSchema = z.object({
+  email: z.string().email({ message: "El email inválido" }),
+  name: z.string().min(1, { message: "El nombre es requerido" }),
+  role: z.enum(["USER", "ADMIN"]),
+  slug: z.string().min(1, { message: "Link es requerido" }).regex(/^\S*$/, "El link no debe contener espacios"),
+})
+
 export const UserSettingsSchema = z.object({
   dayOpenTime: z.string().min(1, { message: "El horario es requerido" }),
   dayCloseTime: z.string().min(1, { message: "El horario es requerido" }),
