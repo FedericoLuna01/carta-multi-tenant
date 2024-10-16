@@ -21,7 +21,7 @@ import {
 import { Order, OrderStatus } from "@prisma/client"
 import { cn } from "@/lib/utils"
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useUser } from "@/utils/user"
 
 const FormSchema = z.object({
@@ -40,29 +40,36 @@ interface StatusSelectProps {
 
 export function StatusSelect({ order }: StatusSelectProps) {
   const [loading, setLoading] = useState(false)
+  const [currentStatus, setCurrentStatus] = useState(order.status)
   const user = useUser()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      state: order.status,
+      state: currentStatus,
     }
   })
 
-  const handleChange = async (value: OrderStatus) => {
+  useEffect(() => {
+    setCurrentStatus(order.status);
+    form.reset({ state: order.status });
+  }, [order.status, form]);
+
+  const handleChange = useCallback(async (value: OrderStatus) => {
     const data = {
       status: value
     }
     try {
       setLoading(true)
       await axios.patch(`/api/${user.slug}/orders/${order.id}`, data)
+      setCurrentStatus(value)
       toast.success('Estado actualizado')
     } catch (error: any) {
-      toast.error('Algo salio mal')
+      toast.error('Algo salió mal')
     } finally {
       setLoading(false)
     }
-  }
+  }, [user.slug, order.id])
 
   const status = Object.values(OrderStatus).map(v => {
     if (v === 'PENDING') return { value: v, label: 'Pendiente' }
@@ -85,9 +92,9 @@ export function StatusSelect({ order }: StatusSelectProps) {
               <Select
                 onValueChange={(value) => {
                   field.onChange(value)
-                  handleChange(value as any)
+                  handleChange(value as OrderStatus)
                 }}
-                defaultValue={field.value}
+                value={currentStatus}
               >
                 <FormControl>
                   <SelectTrigger>

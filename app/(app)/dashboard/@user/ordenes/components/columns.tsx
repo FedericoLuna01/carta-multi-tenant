@@ -99,7 +99,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
       return value.includes(row.getValue(id));
     },
     cell: ({ row }) => {
-      return <StatusSelect order={row.original} />;
+      return <StatusSelect key={row.original.id} order={row.original} />;
     },
   },
   {

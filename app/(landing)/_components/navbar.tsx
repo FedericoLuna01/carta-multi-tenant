@@ -18,6 +18,9 @@ const Navbar = () => {
             <li>
               <Link item="Caracteristicas" />
             </li>
+            <li>
+              <Link item="Precios" />
+            </li>
           </ul>
         </nav>
       </div>

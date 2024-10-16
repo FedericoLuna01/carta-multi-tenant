@@ -11,7 +11,7 @@ import { columns } from "./components/columns";
 import { auth } from "@/auth";
 import { OrdersPageClient } from "./page.client";
 import socket, { joinUserRoom } from "@/lib/socketio";
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useUser } from "@/utils/user";
 
 // export const metadata: Metadata = {
@@ -22,6 +22,14 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const user = useUser();
 
+  const fetchOrders = useCallback(async () => {
+    if (user && user.slug) {
+      const response = await fetch(`/api/${user.slug}/orders`);
+      const data = await response.json();
+      setOrders(data.map(order => ({ ...order, key: order.id })));
+    }
+  }, [user]);
+
   useEffect(() => {
     if (user && user.id) {
       console.log("adentro de use effect", user)
@@ -29,7 +37,7 @@ export default function OrdersPage() {
 
       // Escuchar nuevas órdenes
       socket.on('receiveOrder', (order) => {
-        setOrders((prevOrders) => [order, ...prevOrders]);
+        setOrders((prevOrders) => [{ ...order, key: order.id }, ...prevOrders]);
       });
 
       // Cargar órdenes iniciales
@@ -40,15 +48,7 @@ export default function OrdersPage() {
         socket.off('receiveOrder');
       };
     }
-  }, [user]);
-
-  const fetchOrders = async () => {
-    if (user && user.slug) {
-      const response = await fetch(`/api/${user.slug}/orders`);
-      const data = await response.json();
-      setOrders(data);
-    }
-  };
+  }, [user, fetchOrders]);
 
   return (
     <section>
