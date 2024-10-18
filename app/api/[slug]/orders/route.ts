@@ -1,11 +1,9 @@
 import prismadb from "@/lib/prismadb";
-import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { type FullOrderItem } from "@/types/types";
 import { type OrderItemExtra } from "@prisma/client";
 import { getUserBySlug } from "@/utils/user";
 import { auth } from "@/auth";
-import socket from "@/lib/socketio";
 
 export async function POST(req: Request, { params }: { params: { slug: string } }) {
   const origin = req.headers.get('origin');
@@ -79,8 +77,8 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
         },
       },
     });
-    
-    return NextResponse.json({order, newOrderWithProducts}, {
+
+    return NextResponse.json({ order, newOrderWithProducts }, {
       headers: {
         'Access-Control-Allow-Origin': isAllowedOrigin ? origin : '',
         'Access-Control-Allow-Credentials': 'true',
@@ -97,7 +95,7 @@ export async function GET() {
 
   // TODO: Check auth
   // if(!user) {
-  //   return 
+  //   return
   // }
 
   const orders = await prismadb.order.findMany({

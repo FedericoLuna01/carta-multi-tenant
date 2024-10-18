@@ -11,7 +11,7 @@ import ProductCard from "./ui/product-card";
 import { Button } from "./ui/button";
 import { FullData } from "@/types/types";
 
-const AdminAccordion = ({ data, slug }: { data: FullData[]; slug: string }) => {
+const AdminAccordion = ({ data }: { data: FullData[] }) => {
   return (
     <div className="w-full my-20">
       <div className="max-w-5xl mx-auto">

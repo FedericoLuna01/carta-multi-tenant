@@ -1,3 +1,4 @@
+import { Instagram, WhatsApp } from "@/components/ui/icons";
 import {
   Users,
   User,
@@ -5,6 +6,7 @@ import {
   List,
   ListOrdered,
   ShoppingBasket,
+  MailIcon,
 } from "lucide-react";
 
 export const typeOptions = [
@@ -79,3 +81,46 @@ export const userNavItems = [
     icon: ListOrdered,
   },
 ];
+
+export const socialsItems = [
+  {
+    title: "WhatsApp",
+    label: "+54 341 312 5385",
+    icon: WhatsApp,
+    href: "https://wa.me/543413125385?text=Hola, quiero obtener carta!",
+    description: "Envianos un mensaje",
+  },
+  {
+    title: "Instagram",
+    label: "@cartadigital.arg",
+    icon: Instagram,
+    href: "https://www.instagram.com/cartadigital.arg/",
+    description: "Mantenete al tanto de todas las actualizaciones"
+  },
+  {
+    title: "Email",
+    label: "carta@carta.com",
+    icon: MailIcon,
+    href: "mailto:carta",
+    description: "Nuestro equipo está para ayudarte"
+  }
+]
+
+export const accordionItems = [
+  {
+    question: "¿En cuanto tiempo estarán lista mi carta?",
+    answer: "El tiempo de entrega de tu carta estará lista en una semana",
+  },
+  {
+    question: "¿Cómo puedo pagar mi carta?",
+    answer: "Puedes pagar tu carta con tarjeta de crédito o débito",
+  },
+  {
+    question: "¿Puedo cancelar mi carta?",
+    answer: "Sí, puedes cancelar tu carta en cualquier momento",
+  },
+  {
+    question: "¿Cómo puedo contactarlos?",
+    answer: "Puedes contactarnos a través de WhatsApp, Instagram o Email",
+  }
+]

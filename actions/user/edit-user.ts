@@ -26,7 +26,7 @@ export const editUser = async (values: z.infer<typeof EditUserSchema>, userId: s
 
   const existingUser = await getUserByEmail(email);
 
-  if (existingUser) {
+  if (existingUser && existingUser.email !== email) {
     return { error: "Correo en uso" };
   }
 
@@ -44,5 +44,5 @@ export const editUser = async (values: z.infer<typeof EditUserSchema>, userId: s
 
   revalidatePath("/dashboard/usuarios")
 
-  return { success: "Cuenta creada correctamente" };
+  return { success: "Cuenta editada correctamente" };
 }

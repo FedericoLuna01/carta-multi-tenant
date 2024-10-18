@@ -40,7 +40,7 @@ const DashboardLayout = async ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col pb-4">
+      <div className="grid grid-rows-[80px,1fr,auto] pb-4">
         <header className="flex justify-end h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
           <div className="md:hidden flex mr-auto">
             <LogoutButton />
@@ -50,6 +50,12 @@ const DashboardLayout = async ({
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           {session && session.user.role === UserRole.ADMIN ? admin : user}
         </main>
+        {/* TODO: Agregar un footer */}
+        <footer
+          className="flex items-center border-t bg-muted/40 px-4 lg:px-6"
+        >
+          footer
+        </footer>
       </div>
     </div>
   );

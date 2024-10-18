@@ -1,10 +1,11 @@
 import Logo from "@/components/logo"
 import { Separator } from "@/components/ui/separator"
+import { socialsItems } from "@/data/data"
 
 const Footer = () => {
   const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t border-border bg-muted/40">
       <div className="container py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
@@ -12,14 +13,17 @@ const Footer = () => {
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6">
             <div>
-              <h2 className="mb-6 text-sm font-semibold uppercase">Seguinos</h2>
+              <h2 className="mb-6 text-sm font-semibold uppercase">Redes</h2>
               <ul className="text-gray-500 font-medium">
-                <li className="mb-4">
-                  <a href="https://github.com/themesberg/flowbite" className="hover:underline ">Github</a>
-                </li>
-                <li>
-                  <a href="https://discord.gg/4eeurUVvTy" className="hover:underline">Discord</a>
-                </li>
+                {
+                  socialsItems.map((item, index) => (
+                    <li key={index} className="mb-4">
+                      <a href={item.href} target="_blank" className="hover:underline ">
+                        {item.title}
+                      </a>
+                    </li>
+                  ))
+                }
               </ul>
             </div>
             <div>

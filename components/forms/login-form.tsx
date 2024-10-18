@@ -85,8 +85,7 @@ const LoginForm = () => {
         }
         <p className="text-xs">
           En caso de no poder ingresar comunicarse con{" "}
-          {/* TODO: Agregar link de contacto */}
-          <a href="#" className="text-blue-500 hover:underline">
+          <a href="https://www.instagram.com/cartadigital.arg/" target="_blank" className="text-blue-500 hover:underline">
             Carta
           </a>
         </p>

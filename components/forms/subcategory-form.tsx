@@ -7,7 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Trash } from "lucide-react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 import {
@@ -49,7 +49,6 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const router = useRouter();
-  const params = useParams()
   const user = useUser()
 
   const form = useForm<z.infer<typeof SubcategorySchema>>({

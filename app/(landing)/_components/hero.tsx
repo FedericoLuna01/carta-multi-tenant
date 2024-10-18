@@ -12,7 +12,7 @@ const Hero = () => {
             Seguí tus pedidos en tiempo real
           </span>
           <p className="text-6xl font-extrabold">
-            Tu nuevo menú digital en un click!
+            Tu menú digital en un solo click!
           </p>
           <p className="text-xl text-muted-foreground">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur dicta laudantium tempore ratione ullam, aliquam molestias et magni dolorum sed!
@@ -23,7 +23,7 @@ const Hero = () => {
             <Button
               size='lg'
             >
-              Comenzar
+              Quiero mi carta!
             </Button>
             <Button
               size='lg'

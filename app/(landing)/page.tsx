@@ -1,7 +1,7 @@
-import Customers from "./_components/customers";
+import Contact from "./_components/contact";
+import Faq from "./_components/faq";
 import Features from "./_components/features";
 import Hero from "./_components/hero";
-import HowItWorks from "./_components/how-it-works";
 import Pricing from "./_components/pricing";
 
 export default async function LandingPage() {
@@ -10,8 +10,9 @@ export default async function LandingPage() {
       <Hero />
       <Features />
       <Pricing />
-      <HowItWorks />
-      <Customers />
+      <Faq />
+      <Contact />
+      {/* TODO: Agregar boton de whatsapp */}
     </main>
   );
 }

@@ -21,6 +21,12 @@ const Navbar = () => {
             <li>
               <Link item="Precios" />
             </li>
+            <li>
+              <Link item="Preguntas" />
+            </li>
+            <li>
+              <Link item="Contacto" />
+            </li>
           </ul>
         </nav>
       </div>

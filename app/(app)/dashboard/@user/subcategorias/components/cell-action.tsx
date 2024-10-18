@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { Pencil, Trash } from "lucide-react";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/modals/alert-modal";

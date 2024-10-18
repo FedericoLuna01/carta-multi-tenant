@@ -36,7 +36,7 @@ export async function PATCH(req: Request, { params }: { params: { slug: string }
         ),
       ]),
     ]);
-    
+
     await prismadb.$transaction(updateOperations);
 
     return NextResponse.json("Updated", { status: 200 });
