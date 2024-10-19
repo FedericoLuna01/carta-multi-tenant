@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UserStore {
   user: OrderUser;
+  // eslint-disable-next-line no-unused-vars
   setUser: (user: OrderUser) => void;
 }
 

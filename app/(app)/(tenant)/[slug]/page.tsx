@@ -8,6 +8,8 @@ import prismadb from "@/lib/prismadb";
 import BackToTop from "@/components/back-to-top";
 import { getUserBySlug } from "@/utils/user";
 import Navbar from "./_components/navbar";
+import WhatsAppButton from "@/components/whatsapp-button";
+import UserNotFound from "@/components/user-not-found";
 
 export default async function Home({ params }: { params: { slug: string } }) {
   noStore();
@@ -16,7 +18,7 @@ export default async function Home({ params }: { params: { slug: string } }) {
 
   // TODO: Mostrar un mensaje de error si el usuario no existe
   if (!user) {
-    return <div>Usuario no encontrado</div>;
+    return <UserNotFound />;
   }
 
   const products = await prismadb.category.findMany({
@@ -79,6 +81,7 @@ export default async function Home({ params }: { params: { slug: string } }) {
           {carouselProducts.length > 0 && <Carousel slides={carouselProducts} />}
           <Main products={products} />
         </div>
+        <WhatsAppButton number={userSettings.phone} message={`Hola! Me gustaría hacer un pedido`} />
         <BackToTop />
       </div>
     </>

@@ -1,5 +1,7 @@
 import Logo from "@/components/logo"
 import Link from "./link"
+import NavbarMobile from "./navbar-mobile"
+import { landingNavbarItems } from "@/data/data"
 
 const Navbar = () => {
   return (
@@ -10,25 +12,20 @@ const Navbar = () => {
         className="flex justify-between items-center h-full container"
       >
         <Logo />
-        <nav>
+        <nav className="hidden md:flex">
           <ul className="flex items-center gap-2">
-            <li>
-              <Link item="Inicio" />
-            </li>
-            <li>
-              <Link item="Caracteristicas" />
-            </li>
-            <li>
-              <Link item="Precios" />
-            </li>
-            <li>
-              <Link item="Preguntas" />
-            </li>
-            <li>
-              <Link item="Contacto" />
-            </li>
+            {
+              landingNavbarItems.map((item) => (
+                <li
+                  key={item.id}
+                >
+                  <Link item={item.label} />
+                </li>
+              ))
+            }
           </ul>
         </nav>
+        <NavbarMobile />
       </div>
     </header>
   )

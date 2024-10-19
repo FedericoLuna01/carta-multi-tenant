@@ -4,14 +4,14 @@ import ButtonScroll from "./scroll"
 const Hero = () => {
   return (
     <section id="inicio"
-      className="bg-[url('/hero-bg.png')] bg-no-repeat bg-cover bg-center relative"
+      className="bg-[url('/hero-bg-mobile.webp')] md:bg-[url('/hero-bg.webp')] bg-no-repeat bg-cover bg-center relative min-h-[calc(100vh-80px)]"
     >
-      <div className="min-h-[calc(100vh-80px)] container flex pt-[20vh] justify-center">
+      <div className="container flex pt-[15vh] md:pt-[20vh] justify-center">
         <div className="max-w-2xl text-center flex items-center justify-start flex-col">
           <span className="text-[#ba1e09] font-bold">
             Seguí tus pedidos en tiempo real
           </span>
-          <p className="text-6xl font-extrabold">
+          <p className="text-5xl md:text-6xl font-extrabold">
             Tu menú digital en un solo click!
           </p>
           <p className="text-xl text-muted-foreground">
@@ -34,9 +34,9 @@ const Hero = () => {
           </div>
           <ButtonScroll />
         </div>
-        <div className="absolute bg-[#f7270b] text-white w-3/6 bottom-0 flex justify-center items-center gap-20 py-5 px-12 rounded-md translate-y-1/2">
+        <div className="absolute bg-[#f7270b] text-white xl:w-5/6 2xl:w-4/6 bottom-0 hidden lg:flex justify-center items-center flex-row gap-20 py-5 px-12 rounded-md translate-y-1/2">
           <div className="flex items-center flex-col text-center">
-            <p className="text-5xl font-semibold">
+            <p className="text-3xl lg:text-5xl font-semibold">
               200+
             </p>
             <p className="text-xl uppercase">
@@ -45,7 +45,7 @@ const Hero = () => {
           </div>
           <span className="w-[1px] h-[100px] bg-white"></span>
           <div className="flex items-center flex-col text-center">
-            <p className="text-5xl font-semibold">
+            <p className="text-3xl lg:text-5xl font-semibold">
               10+
             </p>
             <p className="text-xl uppercase">
@@ -54,7 +54,7 @@ const Hero = () => {
           </div>
           <span className="w-[1px] h-[100px] bg-white"></span>
           <div className="flex items-center flex-col text-center">
-            <p className="text-5xl font-semibold">
+            <p className="text-3xl lg:text-5xl font-semibold">
               30+
             </p>
             <p className="text-xl uppercase">

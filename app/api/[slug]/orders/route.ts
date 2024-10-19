@@ -1,8 +1,8 @@
 import prismadb from "@/lib/prismadb";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { type FullOrderItem } from "@/types/types";
 import { type OrderItemExtra } from "@prisma/client";
-import { getUserBySlug } from "@/utils/user";
+import { checkUserAccess, getUserBySlug } from "@/utils/user";
 import { auth } from "@/auth";
 
 export async function POST(req: Request, { params }: { params: { slug: string } }) {
@@ -16,12 +16,13 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
 
   const { slug } = params;
   const body = await req.json();
-  // TODO: Agregar zod para validar los campos
-  // const validatedFields = OrderSchema.safeParse(body);
   const { name, phone, comment, type, place, products } = body;
-  // const { name, phone, comment, type, place, products } = validatedFields.;
-  // TODO: Check auth
+
   const user = await getUserBySlug(slug)
+
+  if (!user) {
+    return new NextResponse("User not found", { status: 404 });
+  }
 
   try {
     const order = await prismadb.order.create({
@@ -90,13 +91,14 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
+  const { slug } = params;
   const user = await auth();
 
-  // TODO: Check auth
-  // if(!user) {
-  //   return
-  // }
+  const hasAccess = await checkUserAccess(slug, user)
+  if (!hasAccess) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   const orders = await prismadb.order.findMany({
     where: {

@@ -82,6 +82,29 @@ export const userNavItems = [
   },
 ];
 
+export const landingNavbarItems = [
+  {
+    label: "Inicio",
+    id: "Inicio"
+  },
+  {
+    label: "Caracteristicas",
+    id: "Caracteristicas"
+  },
+  {
+    label: "Precios",
+    id: "Precios"
+  },
+  {
+    label: "Preguntas",
+    id: "Preguntas"
+  },
+  {
+    label: "Contacto",
+    id: "Contacto"
+  }
+]
+
 export const socialsItems = [
   {
     title: "WhatsApp",

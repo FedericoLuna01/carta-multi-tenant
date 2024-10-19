@@ -1,3 +1,4 @@
+import WhatsAppButton from "@/components/whatsapp-button";
 import Contact from "./_components/contact";
 import Faq from "./_components/faq";
 import Features from "./_components/features";
@@ -12,7 +13,7 @@ export default async function LandingPage() {
       <Pricing />
       <Faq />
       <Contact />
-      {/* TODO: Agregar boton de whatsapp */}
+      <WhatsAppButton number="3413125385" message="hola" />
     </main>
   );
 }

@@ -53,7 +53,7 @@ const AdminPage = async () => {
   return (
     <section className="flex items-center flex-col">
       <UserSettings userSettings={userSettings} />
-      <AdminAccordion slug={user.user.slug} data={data} />
+      <AdminAccordion data={data} />
     </section>
   );
 };

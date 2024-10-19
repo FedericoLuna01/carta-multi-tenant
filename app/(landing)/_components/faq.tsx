@@ -13,7 +13,7 @@ const Faq = () => {
             Aquí encontrarás las preguntas más comunes que nos hacen nuestros clientes.
           </p>
         </div>
-        <div className="w-[40em] mx-auto">
+        <div className="w-full md:w-[40em] mx-auto">
           <Accordion type="single" collapsible className="w-full">
             {
               accordionItems.map((item, index) => (

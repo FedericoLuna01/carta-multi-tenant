@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
+import { ChevronUp } from "lucide-react";
 
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,13 +37,12 @@ const BackToTop = () => {
     <div>
       {isVisible && (
         <Button
-          className={`fixed font-bold bottom-5 sm:bottom-10 right-5 sm:right-10 z-50 transition-opacity duration-500 ease-in-out transform hover:scale-110 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
+          className={`fixed font-bold bottom-24 sm:bottom-32 right-8 sm:right-12 z-50 transition-opacity duration-500 ease-in-out transform hover:scale-110 ${isVisible ? "opacity-100" : "opacity-0"
+            }`}
           onClick={scrollToTop}
           size="icon"
         >
-          ↑
+          <ChevronUp className="w-6 h-6" />
         </Button>
       )}
     </div>

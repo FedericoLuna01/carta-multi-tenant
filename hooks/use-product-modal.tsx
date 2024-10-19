@@ -4,6 +4,7 @@ import { create } from "zustand";
 interface ProductModalStore {
   isOpen: boolean;
   data?: FullProduct;
+  // eslint-disable-next-line no-unused-vars
   onOpen: (data: FullProduct) => void;
   onClose: () => void;
 }

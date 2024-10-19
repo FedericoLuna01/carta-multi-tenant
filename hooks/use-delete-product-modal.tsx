@@ -4,6 +4,7 @@ import { SafeOrderItem } from "./use-cart";
 interface DeleteProductModalStore {
   isOpen: boolean;
   data?: SafeOrderItem;
+  // eslint-disable-next-line no-unused-vars
   onOpen: (data: SafeOrderItem) => void;
   onClose: () => void;
 }

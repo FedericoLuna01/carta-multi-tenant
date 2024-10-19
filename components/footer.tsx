@@ -1,7 +1,16 @@
 const Footer = () => {
+  const year = new Date().getFullYear();
   return (
-    <footer className="text-center py-4 backdrop-blur-sm border-t border-slate-300">
-      Carta © {new Date().getFullYear()}
+    <footer className="py-8 border-t border-border w-full">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center md:justify-between">
+        <p>
+          {/* TODO: Agregar link */}
+          Te interesa una carta como esta? <a className="text-blue-500 underline cursor-pointer" href="#">Contacto</a>
+        </p>
+        <p>
+          &copy; {year} <a className="text-blue-500 underline cursor-pointer" href="#">Carta</a>. Todos los derechos reservados.
+        </p>
+      </div>
     </footer>
   );
 };
