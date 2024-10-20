@@ -45,4 +45,4 @@ export type OrderUser = {
   place: string;
 };
 
-export type UserNoPass = Omit<User, 'password' | 'emailVerified'>
+export type UserNoPass = Omit<User, 'password'>

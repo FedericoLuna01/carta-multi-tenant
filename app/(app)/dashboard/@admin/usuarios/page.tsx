@@ -23,6 +23,7 @@ export default async function UsersPage() {
       email: true,
       role: true,
       slug: true,
+      isActive: true,
       updatedAt: true,
       createdAt: true,
     },

@@ -25,6 +25,13 @@ export const columns: ColumnDef<UserNoPass>[] = [
     header: "Link",
   },
   {
+    accessorKey: "isActive",
+    header: "Activo",
+    cell: ({ row }) => {
+      return row.getValue("isActive") ? "Si" : "No";
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       return <CellAction data={row.original} />;

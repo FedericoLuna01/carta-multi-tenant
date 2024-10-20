@@ -17,6 +17,7 @@ import { StatusSelect } from "./status-select";
 import { Button } from "@/components/ui/button";
 import PopoverProducts from "./popover-products";
 import BadgeOrderType from "./badge-order-type";
+import BadgeOrderStatus from "./badge-order-status";
 
 export type SafeOrderItem = OrderItem & {
   size: OrderItemSize | null;
@@ -98,9 +99,12 @@ export const columns: ColumnDef<OrderColumn>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
+    // cell: ({ row }) => {
+    //   return <StatusSelect key={row.original.id} order={row.original} />;
+    // },
     cell: ({ row }) => {
-      return <StatusSelect key={row.original.id} order={row.original} />;
-    },
+      return <BadgeOrderStatus order={row.original} />
+    }
   },
   {
     accessorKey: "createdAt",

@@ -21,8 +21,7 @@ export const editUser = async (values: z.infer<typeof EditUserSchema>, userId: s
     return { error: "Error en los campos" };
   }
 
-  const { email, name, slug, role } = validatedFields.data;
-
+  const { email, name, slug, role, isActive } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
 
@@ -38,7 +37,8 @@ export const editUser = async (values: z.infer<typeof EditUserSchema>, userId: s
       email,
       name,
       slug,
-      role
+      role,
+      isActive
     },
   });
 

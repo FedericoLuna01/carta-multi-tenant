@@ -10,14 +10,14 @@ import { getUserBySlug } from "@/utils/user";
 import Navbar from "./_components/navbar";
 import WhatsAppButton from "@/components/whatsapp-button";
 import UserNotFound from "@/components/user-not-found";
+import { UserRole } from "@prisma/client";
 
 export default async function Home({ params }: { params: { slug: string } }) {
   noStore();
 
   const user = await getUserBySlug(params.slug);
 
-  // TODO: Mostrar un mensaje de error si el usuario no existe
-  if (!user) {
+  if (!user || !user.isActive || user.role !== UserRole.USER) {
     return <UserNotFound />;
   }
 
@@ -81,7 +81,9 @@ export default async function Home({ params }: { params: { slug: string } }) {
           {carouselProducts.length > 0 && <Carousel slides={carouselProducts} />}
           <Main products={products} />
         </div>
-        <WhatsAppButton number={userSettings.phone} message={`Hola! Me gustaría hacer un pedido`} />
+        {
+          userSettings?.phone && <WhatsAppButton number={userSettings.phone} message={`Hola! Me gustaría hacer un pedido`} />
+        }
         <BackToTop />
       </div>
     </>

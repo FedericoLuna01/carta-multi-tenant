@@ -11,6 +11,7 @@ export const RegisterSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }),
   slug: z.string().min(1, { message: "Link es requerido" }).regex(/^\S*$/, "El link no debe contener espacios"),
   role: z.enum(["USER", "ADMIN"]),
+  isActive: z.boolean(),
 });
 
 export const EditUserSchema = z.object({
@@ -18,6 +19,7 @@ export const EditUserSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }),
   role: z.enum(["USER", "ADMIN"]),
   slug: z.string().min(1, { message: "Link es requerido" }).regex(/^\S*$/, "El link no debe contener espacios"),
+  isActive: z.boolean(),
 })
 
 export const UserSettingsSchema = z.object({

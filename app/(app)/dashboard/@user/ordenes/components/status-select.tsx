@@ -39,6 +39,8 @@ interface StatusSelectProps {
 }
 
 export function StatusSelect({ order }: StatusSelectProps) {
+  // TODO: Arreglar este componente para poder usarlo.
+  // Cuando llega una orden nueva, el estado de la siguiente orden, se duplica
   const [loading, setLoading] = useState(false)
   const [currentStatus, setCurrentStatus] = useState(order.status)
   const user = useUser()
@@ -104,7 +106,6 @@ export function StatusSelect({ order }: StatusSelectProps) {
                 <SelectContent>
                   {
                     status && status.map((item) => {
-                      if (!item) return
                       return (
                         <SelectItem
                           key={item.value}

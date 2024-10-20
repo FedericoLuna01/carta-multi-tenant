@@ -17,6 +17,7 @@ const UserCard = ({ user }: { user: UserNoPass }) => {
         <div className="flex flex-col">
           <CardTitle>{name}</CardTitle>
           <p className="text-sm text-muted-foreground">{email}</p>
+          <p className="text-sm text-muted-foreground">Activo: {user.isActive ? "Si" : "No"}</p>
         </div>
       </CardHeader>
       <CardContent>

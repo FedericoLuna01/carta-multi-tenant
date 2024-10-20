@@ -11,6 +11,7 @@ export default async function SingleUserPage({ params }: { params: { userId: str
       email: true,
       role: true,
       slug: true,
+      isActive: true
     }
   })
 

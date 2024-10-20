@@ -34,7 +34,7 @@ const Hero = () => {
           </div>
           <ButtonScroll />
         </div>
-        <div className="absolute bg-[#f7270b] text-white xl:w-5/6 2xl:w-4/6 bottom-0 hidden lg:flex justify-center items-center flex-row gap-20 py-5 px-12 rounded-md translate-y-1/2">
+        <div className="absolute bg-[#f7270b] text-white xl:w-5/6 2xl:w-3/6 bottom-0 hidden lg:flex justify-center items-center flex-row gap-20 py-5 px-12 rounded-md translate-y-1/2">
           <div className="flex items-center flex-col text-center">
             <p className="text-3xl lg:text-5xl font-semibold">
               200+
