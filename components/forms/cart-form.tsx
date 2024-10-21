@@ -21,7 +21,7 @@ import { Button } from "../ui/button";
 import CartProductsTable from "../cart-products-table";
 import useCart from "@/hooks/use-cart";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { OrderType, UserSettings } from "@prisma/client";
+import { OrderPayment, OrderType, UserSettings } from "@prisma/client";
 import { getIsOpen } from "@/actions/getIsOpen";
 import { SuccessOrderModal } from "../modals/success-order-modal";
 import { OrderSchema } from "@/schemas";
@@ -45,11 +45,12 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
       comment: "",
       type: "DELIVERY",
       place: "",
+      payment: "CASH",
     },
   });
 
   async function onSubmit(values: z.infer<typeof OrderSchema>) {
-    const { name, phone, comment, type, place } = values;
+    const { name, phone, comment, type, place, payment } = values;
     const formattedProducts = items.map((product) => {
       return {
         productId: product.id,
@@ -66,6 +67,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
       comment,
       type,
       place,
+      payment,
       products: formattedProducts,
     };
 
@@ -251,6 +253,61 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
               )}
             />
           ) : null}
+          <div>
+            <FormField
+              control={form.control}
+              name="payment"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Método de pago</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setUser({ ...user, payment: value as OrderPayment });
+                      }}
+                      defaultValue={user?.payment}
+                      className="flex flex-col space-y-1"
+                    >
+                      {userSettings?.cash && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="CASH" />
+                          </FormControl>
+                          <FormLabel>Efectivo</FormLabel>
+                        </FormItem>
+                      )}
+                      {userSettings?.card && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="CARD" />
+                          </FormControl>
+                          <FormLabel>Tarjeta</FormLabel>
+                        </FormItem>
+                      )}
+                      {userSettings?.transfer && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="TRANSFER" />
+                          </FormControl>
+                          <FormLabel>Transferencia</FormLabel>
+                        </FormItem>
+                      )}
+                      {userSettings?.qr && (
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="QR" />
+                          </FormControl>
+                          <FormLabel>QR</FormLabel>
+                        </FormItem>
+                      )}
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <div>
             <CartProductsTable />
           </div>

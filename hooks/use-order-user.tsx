@@ -17,6 +17,7 @@ const useOrderUser = create(
         comment: "",
         type: "DELIVERY",
         place: "",
+        payment: "CASH",
       },
       setUser: (user: OrderUser) => set({ user }),
     }),

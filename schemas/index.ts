@@ -33,7 +33,21 @@ export const UserSettingsSchema = z.object({
   table: z.boolean(),
   delivery: z.boolean(),
   takeaway: z.boolean(),
+  qr: z.boolean(),
+  cash: z.boolean(),
+  card: z.boolean(),
+  transfer: z.boolean(),
+  qrImage: z.string().optional(),
+  cbu: z.string().optional(),
 })
+  .refine(data => !data.qr || (data.qr && data.qrImage?.length > 0), {
+    message: "Si se puede pagar con QR, la imagen del QR es obligatoria",
+    path: ["qrImage"],
+  })
+  .refine(data => !data.transfer || (data.transfer && data.cbu?.length > 0), {
+    message: "Si la transferencia está habilitada, el CBU es obligatorio",
+    path: ["cbu"],
+  });
 
 export const CategorySchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }).max(50),
@@ -75,5 +89,6 @@ export const OrderSchema = z.object({
   phone: z.string().min(2, { message: "El teléfono es requerido" }).max(10),
   comment: z.string().max(50).optional(),
   type: z.enum(["DELIVERY", "TAKEAWAY", "TABLE"]),
+  payment: z.enum(["CASH", "CARD", "TRANSFER", "QR"]).default("CASH"),
   place: z.string().max(50).optional(),
 });

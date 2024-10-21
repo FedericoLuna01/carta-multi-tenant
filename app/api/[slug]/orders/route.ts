@@ -16,7 +16,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
 
   const { slug } = params;
   const body = await req.json();
-  const { name, phone, comment, type, place, products } = body;
+  const { name, phone, comment, type, place, products, payment } = body;
 
   const user = await getUserBySlug(slug)
 
@@ -32,6 +32,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
         comment,
         type,
         place,
+        payment,
         userId: user.id,
       },
     });

@@ -1,9 +1,11 @@
 import {
   Category,
   Extra,
+  Order,
   OrderItem,
   OrderItemExtra,
   OrderItemSize,
+  OrderPayment,
   OrderType,
   Product,
   Size,
@@ -37,12 +39,17 @@ export interface FullOrderItem extends OrderItem {
   extras: OrderItemExtra[] | null;
 }
 
+export interface FullOrder extends Order {
+  products: FullOrderItem[];
+}
+
 export type OrderUser = {
   name: string;
   phone: string;
   comment: string;
   type: OrderType;
   place: string;
+  payment: OrderPayment;
 };
 
 export type UserNoPass = Omit<User, 'password'>

@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import {
   Dialog,
   DialogContent,
@@ -20,14 +18,6 @@ export const SuccessOrderModal: React.FC<SuccessOrderModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
-
   const handleChange = () => {
     if (isOpen) {
       onClose();

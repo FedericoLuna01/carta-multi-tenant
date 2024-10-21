@@ -30,6 +30,15 @@ export async function GET(
         id: Number(orderId),
         userId: user.id,
       },
+      include: {
+        products: {
+          include: {
+            extras: true,
+            size: true,
+            product: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json(order, {

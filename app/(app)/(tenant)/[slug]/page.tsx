@@ -82,7 +82,7 @@ export default async function Home({ params }: { params: { slug: string } }) {
           <Main products={products} />
         </div>
         {
-          userSettings?.phone && <WhatsAppButton number={userSettings.phone} message={`Hola! Me gustaría hacer un pedido`} />
+          userSettings?.phone && <WhatsAppButton number={userSettings.phone} message={`Hola ${user.name}!`} />
         }
         <BackToTop />
       </div>

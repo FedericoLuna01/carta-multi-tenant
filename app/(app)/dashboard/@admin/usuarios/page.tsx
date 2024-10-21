@@ -8,6 +8,7 @@ import { columns } from "./components/columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import prismadb from "@/lib/prismadb";
 
 export const metadata: Metadata = {
   title: "Carta - Administrar usuarios ",
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function UsersPage() {
-  const users = await prisma.user.findMany({
+  const users = await prismadb.user.findMany({
     select: {
       id: true,
       name: true,

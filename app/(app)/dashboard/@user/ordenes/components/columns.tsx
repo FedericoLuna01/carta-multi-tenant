@@ -18,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import PopoverProducts from "./popover-products";
 import BadgeOrderType from "./badge-order-type";
 import BadgeOrderStatus from "./badge-order-status";
+import BadgePaymentType from "./badge-payment-type";
+import BadgePaymentStatus from "./badge-payment-status";
 
 export type SafeOrderItem = OrderItem & {
   size: OrderItemSize | null;
@@ -80,12 +82,6 @@ export const columns: ColumnDef<OrderColumn>[] = [
       );
     },
   },
-  // TODO: Agregar el precio total
-  // {
-  //   accessorKey: "totalPrice",
-  //   header: "Total",
-
-  // },
   {
     accessorKey: "products",
     header: "Productos",
@@ -104,6 +100,24 @@ export const columns: ColumnDef<OrderColumn>[] = [
     // },
     cell: ({ row }) => {
       return <BadgeOrderStatus order={row.original} />
+    }
+  },
+  {
+    accessorKey: "payment",
+    header: "Método de pago",
+    cell: ({ row }) => {
+      return (
+        <BadgePaymentType order={row.original} />
+      )
+    }
+  },
+  {
+    accessorKey: "paymentStatus",
+    header: "Estado de pago",
+    cell: ({ row }) => {
+      return (
+        <BadgePaymentStatus order={row.original} />
+      )
     }
   },
   {

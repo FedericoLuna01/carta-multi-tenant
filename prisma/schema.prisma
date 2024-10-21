@@ -51,12 +51,18 @@ model UserSettings {
   dayCloseTime   String
   nightOpenTime  String
   nightCloseTime String
-  table          Boolean
-  delivery       Boolean
-  takeaway       Boolean
   location       String
   phone          String
   image          String
+  table          Boolean
+  delivery       Boolean
+  takeaway       Boolean
+  qr             Boolean
+  cash           Boolean
+  card           Boolean
+  transfer       Boolean
+  qrImage        String?
+  cbu            String?
 
   userId String @unique
   user   User   @relation("UserToUserSettings", fields: [userId], references: [id], onDelete: Cascade)
@@ -146,17 +152,18 @@ model Subcategory {
 }
 
 model Order {
-  id       Int         @id @default(autoincrement())
-  name     String
-  phone    String
-  place    String?
-  comment  String?
-  type     OrderType
-  status   OrderStatus @default(PENDING)
-  products OrderItem[] @relation("OrderItemToOrder")
-  userId   String
-  user     User        @relation("OrderToUser", fields: [userId], references: [id])
-  // payment  OrderPayment
+  id            Int                @id @default(autoincrement())
+  name          String
+  phone         String
+  place         String?
+  comment       String?
+  type          OrderType
+  status        OrderStatus        @default(PENDING)
+  products      OrderItem[]        @relation("OrderItemToOrder")
+  userId        String
+  user          User               @relation("OrderToUser", fields: [userId], references: [id])
+  payment       OrderPayment       @default(CASH)
+  paymentStatus OrderPaymentStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -164,12 +171,17 @@ model Order {
   @@index([userId])
 }
 
-// TODO: add payment method
-// enum OrderPayment {
-//   CASH
-//   CARD
-//   QR
-// }
+enum OrderPaymentStatus {
+  PENDING
+  PAID
+}
+
+enum OrderPayment {
+  CASH
+  CARD
+  TRANSFER
+  QR
+}
 
 enum OrderType {
   DELIVERY
@@ -181,7 +193,6 @@ enum OrderStatus {
   PENDING
   IN_PROGRESS
   ON_THE_WAY
-  PAID
   READY
   DONE
   CANCELED

@@ -25,6 +25,12 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
     location,
     phone,
     image,
+    qr,
+    cash,
+    card,
+    cbu,
+    qrImage,
+    transfer
   } = validatedFields.data;
 
   const user = await auth();
@@ -46,6 +52,12 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
         location,
         phone,
         image,
+        qr,
+        cash,
+        card,
+        cbu,
+        qrImage,
+        transfer,
         userId: user.user.id
       },
     });
@@ -77,6 +89,12 @@ export async function PATCH(req: Request, { params }: { params: { slug: string }
     location,
     phone,
     image,
+    qr,
+    cash,
+    card,
+    cbu,
+    qrImage,
+    transfer
   } = validatedFields.data;
 
   const user = await auth();
@@ -98,6 +116,12 @@ export async function PATCH(req: Request, { params }: { params: { slug: string }
         location,
         phone,
         image,
+        qr,
+        cash,
+        card,
+        cbu,
+        qrImage,
+        transfer
       },
       where: {
         userId: user.user.id,

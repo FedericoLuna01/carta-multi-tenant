@@ -50,7 +50,7 @@ const CartModal = ({ userSettings }: { userSettings: UserSettings | null }) => {
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {orderId ? (
-          <OrderStatusVisualizer orderId={orderId} />
+          <OrderStatusVisualizer orderId={orderId} userSettings={userSettings} />
         ) : (
           <CartForm userSettings={userSettings} />
         )}
