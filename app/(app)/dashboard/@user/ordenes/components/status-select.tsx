@@ -28,7 +28,6 @@ const FormSchema = z.object({
   state: z.enum(['PENDING',
     'IN_PROGRESS',
     'ON_THE_WAY',
-    'PAID',
     'READY',
     'DONE',
     'CANCELED']),
@@ -77,7 +76,6 @@ export function StatusSelect({ order }: StatusSelectProps) {
     if (v === 'PENDING') return { value: v, label: 'Pendiente' }
     if (v === 'IN_PROGRESS') return { value: v, label: 'En progreso' }
     if (v === 'ON_THE_WAY') return { value: v, label: 'En camino' }
-    if (v === 'PAID') return { value: v, label: 'Pagado' }
     if (v === 'READY') return { value: v, label: 'Listo' }
     if (v === 'DONE') return { value: v, label: 'Entregado' }
     if (v === 'CANCELED') return { value: v, label: 'Cancelado' }
@@ -117,7 +115,6 @@ export function StatusSelect({ order }: StatusSelectProps) {
                               'bg-yellow-200 border-yellow-400': item.value === 'PENDING',
                               'bg-orange-200 border-orange-400': item.value === 'IN_PROGRESS',
                               'bg-blue-200 border-blue-400': item.value === 'ON_THE_WAY',
-                              'bg-green-200 border-green-400': item.value === 'PAID',
                               'bg-emerald-200 border-emerald-400': item.value === 'READY',
                               'bg-green-300 border-green-400': item.value === 'DONE',
                               'bg-red-200 border-red-400': item.value === 'CANCELED',
