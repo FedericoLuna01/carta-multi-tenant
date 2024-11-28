@@ -1,0 +1,71 @@
+{
+  "pages": {
+    "/(landing)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(landing)/page.js"
+    ],
+    "/(landing)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(landing)/layout.css",
+      "static/chunks/app/(landing)/layout.js"
+    ],
+    "/(app)/dashboard/@admin/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/dashboard/@admin/page.js"
+    ],
+    "/(app)/dashboard/@user/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/dashboard/@user/page.js"
+    ],
+    "/(app)/dashboard/@user/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/dashboard/@user/loading.js"
+    ],
+    "/(app)/dashboard/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/dashboard/layout.js"
+    ],
+    "/(app)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(app)/layout.css",
+      "static/chunks/app/(app)/layout.js"
+    ],
+    "/(app)/(tenant)/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/(tenant)/[slug]/page.js"
+    ],
+    "/(app)/(tenant)/[slug]/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/(tenant)/[slug]/layout.js"
+    ],
+    "/(app)/dashboard/@user/ordenes/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/dashboard/@user/ordenes/page.js"
+    ],
+    "/(app)/dashboard/@user/ordenes/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/dashboard/@user/ordenes/loading.js"
+    ],
+    "/(app)/dashboard/@user/subcategorias/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/dashboard/@user/subcategorias/page.js"
+    ],
+    "/(app)/dashboard/@user/subcategorias/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/dashboard/@user/subcategorias/loading.js"
+    ]
+  }
+}
