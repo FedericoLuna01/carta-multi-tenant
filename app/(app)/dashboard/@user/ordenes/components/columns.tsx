@@ -17,9 +17,8 @@ import { StatusSelect } from "./status-select";
 import { Button } from "@/components/ui/button";
 import PopoverProducts from "./popover-products";
 import BadgeOrderType from "./badge-order-type";
-import BadgeOrderStatus from "./badge-order-status";
 import BadgePaymentType from "./badge-payment-type";
-import BadgePaymentStatus from "./badge-payment-status";
+import PaymentStatusSelect from "./payment-status-select";
 
 export type SafeOrderItem = OrderItem & {
   size: OrderItemSize | null;
@@ -95,12 +94,9 @@ export const columns: ColumnDef<OrderColumn>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
-    // cell: ({ row }) => {
-    //   return <StatusSelect key={row.original.id} order={row.original} />;
-    // },
     cell: ({ row }) => {
-      return <BadgeOrderStatus order={row.original} />
-    }
+      return <StatusSelect key={row.original.id} order={row.original} />;
+    },
   },
   {
     accessorKey: "payment",
@@ -116,7 +112,9 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Estado de pago",
     cell: ({ row }) => {
       return (
-        <BadgePaymentStatus order={row.original} />
+        <PaymentStatusSelect
+          order={row.original}
+        />
       )
     }
   },

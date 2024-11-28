@@ -10,15 +10,14 @@ const Logo: React.FC<LogoProps> = ({ size = "md" }) => {
   return (
     <Link
       href="/"
-      className="flex items-center space-x-2"
     >
       <Image
-        src="/logo.svg"
+        src="/logo.png"
         alt="Carta"
-        width={size === "sm" ? 35 : 50}
-        height={size === "sm" ? 35 : 50}
+        width={size === "sm" ? 120 : 150}
+        height={size === "sm" ? 120 : 150}
       />
-      <span className={cn("text-2xl md:text-3xl font-bold", size === "sm" && "text-xl md:text-2xl")}>Carta</span>
+      <span className={cn("text-2xl md:text-3xl font-bold sr-only", size === "sm" && "text-xl md:text-2xl")}>Plato</span>
     </Link>
   )
 }

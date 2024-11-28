@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
-import { unstable_noStore as noStore } from "next/cache";
+// import { unstable_noStore as noStore } from "next/cache";
+import { unstable_cache } from 'next/cache'
 
 import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./components/columns";
@@ -14,14 +15,29 @@ export const metadata: Metadata = {
   title: "Carta - Admin - Categorías",
 };
 
+const getCategories = unstable_cache(
+  async (user) => {
+    return await prismadb.category.findMany({
+      where: {
+        userId: user.user.id,
+      },
+    });
+  },
+  ["categories"],
+  {
+    revalidate: 3600, tags: ["categories"]
+  }
+)
+
 async function CategoriesPage() {
-  noStore();
+  // noStore();
   const user = await auth();
-  const categories = await prismadb.category.findMany({
-    where: {
-      userId: user.user.id,
-    },
-  });
+  const categories = await getCategories(user)
+  // const categories = await prismadb.category.findMany({
+  //   where: {
+  //     userId: user.user.id,
+  //   },
+  // });
 
   return (
     <div>

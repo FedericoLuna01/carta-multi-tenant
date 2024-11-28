@@ -31,7 +31,6 @@ const Footer = () => {
         <Separator className="my-8" />
         <div className="flex items-center justify-center">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {year} {" "}
-            {/* TODO: Poner dominio de carta */}
             <a href="https://carta.ar/" className="hover:underline">Carta</a>. Todos los derechos reservados.
           </span>
         </div>

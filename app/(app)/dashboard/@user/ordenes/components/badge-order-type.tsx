@@ -1,26 +1,30 @@
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { OrderType } from "@prisma/client";
 
-interface BadgeOrderTypeProps {
-  type: OrderType;
+const BADGE_CONFIG = {
+  DELIVERY: {
+    color: "bg-cyan-200 hover:bg-cyan-300 border-cyan-400",
+    label: "Delivery",
+  },
+  TAKEAWAY: {
+    color: "bg-purple-200 hover:bg-purple-300 border-purple-400",
+    label: "Retiro",
+  },
+  TABLE: {
+    color: "bg-blue-200 hover:bg-blue-300 border-blue-400",
+    label: "Mesa",
+  },
 }
 
-const BadgeOrderType: React.FC<BadgeOrderTypeProps> = ({ type }) => {
-  const label =
-    type === "DELIVERY" ? "Delivery" : type === "TAKEAWAY" ? "Retiro" : "Mesa";
+const BadgeOrderType = ({ type }: { type: OrderType }) => {
+  const config = BADGE_CONFIG[type];
   return (
-    <div
-      className={cn(
-        "font-semibold text-center py-1 px-2 rounded-md border-2 w-fit",
-        {
-          "bg-cyan-200 border-cyan-400": type === "DELIVERY",
-          "bg-purple-200 border-purple-400": type === "TAKEAWAY",
-          "bg-blue-200 border-blue-400": type === "TABLE",
-        }
-      )}
+    <Badge
+      className={cn("text-black", config.color)}
     >
-      <p>{label}</p>
-    </div>
+      {config.label}
+    </Badge>
   );
 };
 

@@ -10,6 +10,7 @@ import { getTotalProductPrice } from "@/actions/getTotalPrice"
 import { formatter } from "@/lib/utils"
 import Link from "next/link"
 import { auth } from "@/auth"
+import PaymentStatusSelect from "../components/payment-status-select"
 
 const OrderPage = async ({ params }: { params: { orderId: string } }) => {
   noStore()
@@ -113,6 +114,12 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
             <div>
               <p className="font-semibold">Estado</p>
               <StatusSelect
+                order={order}
+              />
+            </div>
+            <div>
+              <p className="font-semibold">Pago</p>
+              <PaymentStatusSelect
                 order={order}
               />
             </div>

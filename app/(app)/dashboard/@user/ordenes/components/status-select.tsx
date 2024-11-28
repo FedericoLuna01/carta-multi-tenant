@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils"
 import axios from "axios"
 import { useEffect, useState, useCallback } from "react"
 import { useUser } from "@/utils/user"
+import { Badge } from "@/components/ui/badge"
 
 const FormSchema = z.object({
   state: z.enum(['PENDING',
@@ -33,13 +34,7 @@ const FormSchema = z.object({
     'CANCELED']),
 })
 
-interface StatusSelectProps {
-  order: Order
-}
-
-export function StatusSelect({ order }: StatusSelectProps) {
-  // TODO: Arreglar este componente para poder usarlo.
-  // Cuando llega una orden nueva, el estado de la siguiente orden, se duplica
+export function StatusSelect({ order }: { order: Order }) {
   const [loading, setLoading] = useState(false)
   const [currentStatus, setCurrentStatus] = useState(order.status)
   const user = useUser()
@@ -50,11 +45,6 @@ export function StatusSelect({ order }: StatusSelectProps) {
       state: currentStatus,
     }
   })
-
-  useEffect(() => {
-    setCurrentStatus(order.status);
-    form.reset({ state: order.status });
-  }, [order.status, form]);
 
   const handleChange = useCallback(async (value: OrderStatus) => {
     const data = {
@@ -71,6 +61,10 @@ export function StatusSelect({ order }: StatusSelectProps) {
       setLoading(false)
     }
   }, [user.slug, order.id])
+
+  useEffect(() => {
+    setCurrentStatus(order.status)
+  }, [order.status])
 
   const status = Object.values(OrderStatus).map(v => {
     if (v === 'PENDING') return { value: v, label: 'Pendiente' }
@@ -95,6 +89,7 @@ export function StatusSelect({ order }: StatusSelectProps) {
                   handleChange(value as OrderStatus)
                 }}
                 value={currentStatus}
+                disabled={loading}
               >
                 <FormControl>
                   <SelectTrigger>
@@ -108,20 +103,19 @@ export function StatusSelect({ order }: StatusSelectProps) {
                         <SelectItem
                           key={item.value}
                           value={item.value}
-                          disabled={loading}
                         >
-                          <p
-                            className={cn('font-semibold text-center py-1 px-2 rounded-md border-2', {
-                              'bg-yellow-200 border-yellow-400': item.value === 'PENDING',
-                              'bg-orange-200 border-orange-400': item.value === 'IN_PROGRESS',
-                              'bg-blue-200 border-blue-400': item.value === 'ON_THE_WAY',
-                              'bg-emerald-200 border-emerald-400': item.value === 'READY',
-                              'bg-green-300 border-green-400': item.value === 'DONE',
-                              'bg-red-200 border-red-400': item.value === 'CANCELED',
+                          <Badge
+                            className={cn('text-black', {
+                              'bg-yellow-200 hover:bg-yellow-300 border-yellow-400': item.value === 'PENDING',
+                              'bg-orange-200 hover:bg-orange-300 border-orange-400': item.value === 'IN_PROGRESS',
+                              'bg-blue-200 hover:bg-blue-300 border-blue-400': item.value === 'ON_THE_WAY',
+                              'bg-emerald-200 hover:bg-emerald-300 border-emerald-400': item.value === 'READY',
+                              'bg-green-200 hover:bg-green-300 border-green-400': item.value === 'DONE',
+                              'bg-red-200 hover:bg-red-300 border-red-400': item.value === 'CANCELED',
                             })}
                           >
                             {item.label}
-                          </p>
+                          </Badge>
                         </SelectItem>
                       )
                     })

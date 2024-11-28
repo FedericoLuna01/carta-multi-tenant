@@ -9,10 +9,10 @@ export async function GET(
 ) {
   const origin = req.headers.get('origin');
   const isAllowedOrigin = origin && (
-    origin.endsWith('.tudominio.com') ||
+    origin.endsWith('.carta.ar') ||
     // TODO: Cambiar por el dominio original
     origin.includes("localhost") ||
-    origin === 'https://tudominio.com'
+    origin === 'https://carta.ar'
   );
   const { slug, orderId } = params;
   if (!slug) {
@@ -59,11 +59,7 @@ export async function PATCH(
 ) {
   const { slug, orderId } = params;
   const body = await req.json();
-  const { status } = body;
-
-  if (!status) {
-    return new NextResponse("Missing status", { status: 400 });
-  }
+  const { status, paymentStatus } = body;
 
   if (!orderId) {
     return new NextResponse("Missing order id", { status: 400 });
@@ -83,6 +79,7 @@ export async function PATCH(
       },
       data: {
         status,
+        paymentStatus
       },
     });
 
@@ -133,9 +130,9 @@ export async function OPTIONS(req: Request) {
   // Verifica si el origen termina con tu dominio principal
   const isAllowedOrigin = origin && (
     // TODO: Cambiar por el dominio original
-    origin.endsWith('.tudominio.com') ||
+    origin.endsWith('.carta.ar') ||
     origin.includes("localhost") ||
-    origin === 'https://tudominio.com'
+    origin === 'https://carta.ar'
   );
 
   return new NextResponse(null, {

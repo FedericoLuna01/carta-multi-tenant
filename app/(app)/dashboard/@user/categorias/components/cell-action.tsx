@@ -3,7 +3,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Pencil, Trash } from "lucide-react";
-import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/modals/alert-modal";
@@ -26,7 +25,9 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${user.slug}/categories/${data.id}`);
+      await fetch(`/api/${user.slug}/categories/${data.id}`, {
+        method: "DELETE",
+      },);
       router.refresh();
       toast.success("Categoría eliminada");
     } catch (error) {

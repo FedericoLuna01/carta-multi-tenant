@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import prismadb from "@/lib/prismadb";
 import { CategorySchema } from "@/schemas";
 import { checkUserAccess } from "@/utils/user";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -27,6 +28,7 @@ export async function DELETE(
         userId: user.user.id,
       },
     });
+    revalidateTag("categories")
     return NextResponse.json(category);
   } catch (error) {
     console.log("[CATEGORY_DELETE]", error);
