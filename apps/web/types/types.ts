@@ -37,6 +37,7 @@ export interface FullData extends Category {
 export interface FullOrderItem extends OrderItem {
   size: OrderItemSize | null;
   extras: OrderItemExtra[] | null;
+  product: Product | null;
 }
 
 export interface FullOrder extends Order {

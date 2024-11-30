@@ -14,14 +14,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatter } from "@/lib/utils";
-import { SafeOrderItem } from "./columns";
+import { FullOrderItem } from "@/types/types";
 
 interface PopoverProductsProps {
-  data: SafeOrderItem[];
+  data: FullOrderItem[];
 }
 
 const PopoverProducts: React.FC<PopoverProductsProps> = ({ data }) => {
-  const getProductName = (item: SafeOrderItem) => {
+  const getProductName = (item: FullOrderItem) => {
     let name = item.product.name;
     if (item.size) {
       name += ` (${item.size.name})`;
@@ -35,7 +35,7 @@ const PopoverProducts: React.FC<PopoverProductsProps> = ({ data }) => {
     return name;
   };
 
-  const getTotalPrice = (item: SafeOrderItem) => {
+  const getTotalPrice = (item: FullOrderItem) => {
     const extrasPrice =
       item.extras?.reduce((acc, item) => acc + item.price, 0) || 0;
     const sizePrice = item.size?.price || 0;

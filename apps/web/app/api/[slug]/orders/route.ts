@@ -37,7 +37,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
       },
     });
 
-    products.map(async (product: FullOrderItem) => {
+    await Promise.all(products.map(async (product: FullOrderItem) => {
       const orderItem = await prismadb.orderItem.create({
         data: {
           productId: product.productId,
@@ -55,29 +55,30 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
           },
         });
       }
-      if (!product.extras) return;
-      product.extras.map(async (extra: OrderItemExtra) => {
-        await prismadb.orderItemExtra.create({
-          data: {
-            orderItemId: orderItem.id,
-            name: extra.name,
-            price: extra.price,
-          },
-        });
-      });
-    });
+      if (product.extras) {
+        await Promise.all(product.extras.map(async (extra: OrderItemExtra) => {
+          await prismadb.orderItemExtra.create({
+            data: {
+              orderItemId: orderItem.id,
+              name: extra.name,
+              price: extra.price,
+            },
+          });
+        }));
+      }
+    }));
 
     const newOrderWithProducts = await prismadb.order.findUnique({
       where: { id: order.id },
       include: {
         products: {
           include: {
-            extras: true,
-            size: true,
             product: true,
-          },
-        },
-      },
+            size: true,
+            extras: true
+          }
+        }
+      }
     });
 
     return NextResponse.json({ order, newOrderWithProducts }, {

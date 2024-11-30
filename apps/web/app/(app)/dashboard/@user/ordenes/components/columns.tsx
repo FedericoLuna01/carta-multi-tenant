@@ -6,31 +6,15 @@ import { es } from "date-fns/locale";
 import { formatDistanceToNowStrict } from "date-fns";
 
 import CellAction from "./cell-action";
-import {
-  OrderItem,
-  Order,
-  OrderItemSize,
-  OrderItemExtra,
-  Product,
-} from "@prisma/client";
 import { StatusSelect } from "./status-select";
 import { Button } from "@/components/ui/button";
 import PopoverProducts from "./popover-products";
 import BadgeOrderType from "./badge-order-type";
 import BadgePaymentType from "./badge-payment-type";
 import PaymentStatusSelect from "./payment-status-select";
+import { FullOrder } from "@/types/types";
 
-export type SafeOrderItem = OrderItem & {
-  size: OrderItemSize | null;
-  extras: OrderItemExtra[] | null;
-  product: Product;
-};
-
-export type OrderColumn = Order & {
-  products: SafeOrderItem[];
-};
-
-export const columns: ColumnDef<OrderColumn>[] = [
+export const columns: ColumnDef<FullOrder>[] = [
   {
     accessorKey: "name",
     header: "Nombre",
@@ -95,7 +79,12 @@ export const columns: ColumnDef<OrderColumn>[] = [
       return value.includes(row.getValue(id));
     },
     cell: ({ row }) => {
-      return <StatusSelect key={row.original.id} order={row.original} />;
+      return (
+        <StatusSelect
+          key={`${row.original.id}-${row.original.status}`}
+          order={row.original}
+        />
+      );
     },
   },
   {
@@ -113,9 +102,10 @@ export const columns: ColumnDef<OrderColumn>[] = [
     cell: ({ row }) => {
       return (
         <PaymentStatusSelect
+          key={`${row.original.id}-${row.original.paymentStatus}`}
           order={row.original}
         />
-      )
+      );
     }
   },
   {

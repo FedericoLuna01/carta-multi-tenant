@@ -1,42 +1,33 @@
 "use client"
 
 import socket, { joinUserRoom } from "@/lib/socketio";
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react";
 import { useUser } from "@/utils/user";
 import { columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
+import { FullOrder } from "@/types/types";
 
-export function OrdersPageClient() {
-  const [orders, setOrders] = useState([]);
+export function OrdersPageClient({ orders }: { orders: FullOrder[] }) {
+  const [data, setData] = useState<FullOrder[]>(orders);
   const user = useUser();
-
-  const fetchOrders = useCallback(async () => {
-    if (user && user.slug) {
-      const response = await fetch(`/api/${user.slug}/orders`);
-      const data = await response.json();
-      setOrders(data.map(order => ({ ...order, key: order.id })));
-    }
-  }, [user]);
 
   useEffect(() => {
     if (user && user.id) {
       joinUserRoom(user.id);
 
-      // Escuchar nuevas órdenes
-      socket.on('receiveOrder', (order) => {
-        setOrders((prevOrders) => [{ ...order, key: order.id }, ...prevOrders]);
-      });
+      const handleNewOrder = (newOrder: FullOrder) => {
+        setData((prevOrders) => [{ ...newOrder, key: newOrder.id }, ...prevOrders]);
+      };
 
-      // Cargar órdenes iniciales
-      fetchOrders();
+      socket.on('receiveOrder', handleNewOrder);
 
-      // Limpiar el listener cuando el componente se desmonte
       return () => {
-        socket.off('receiveOrder');
+        socket.off('receiveOrder', handleNewOrder);
       };
     }
-  }, [user, fetchOrders]);
+  }, [user]);
+
   return (
-    <DataTable data={orders} columns={columns} visibility order />
-  )
+    <DataTable data={data} columns={columns} visibility order />
+  );
 }
