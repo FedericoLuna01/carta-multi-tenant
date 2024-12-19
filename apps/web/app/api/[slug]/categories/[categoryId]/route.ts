@@ -31,7 +31,7 @@ export async function DELETE(
     revalidateTag("categories")
     return NextResponse.json(category);
   } catch (error) {
-    console.log("[CATEGORY_DELETE]", error);
+    // console.log("[CATEGORY_DELETE]", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
 }
@@ -73,7 +73,7 @@ export async function PATCH(
     });
     return NextResponse.json(category);
   } catch (error) {
-    console.log("[CATEGORY_PATCH]", error);
+    // console.log("[CATEGORY_PATCH]", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
 }

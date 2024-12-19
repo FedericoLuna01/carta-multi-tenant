@@ -1,7 +1,9 @@
+import { unstable_noStore as noStore } from "next/cache";
+import { Metadata } from "next";
+
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { OrdersPageClient } from "./page.client";
-import { Metadata } from "next";
 import prismadb from "@/lib/prismadb";
 
 export const metadata: Metadata = {
@@ -9,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function OrdersPage() {
+  noStore()
   const orders = await prismadb.order.findMany({
     include: {
       products: {

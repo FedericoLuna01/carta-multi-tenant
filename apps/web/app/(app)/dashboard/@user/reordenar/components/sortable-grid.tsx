@@ -126,7 +126,7 @@ const SortableGrid: React.FC<SortableGridProps> = ({ data }) => {
       toast.success("Se ha guardado el orden correctamente");
     } catch (error) {
       toast.error("Ha ocurrido un error al guardar el orden");
-      console.log(error);
+      // console.log(error);
     } finally {
       setLoading(false);
     }

@@ -58,7 +58,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
 
     return NextResponse.json(category);
   } catch (error: any) {
-    console.log("[CATEGORY_POST]", error);
+    // console.log("[CATEGORY_POST]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }

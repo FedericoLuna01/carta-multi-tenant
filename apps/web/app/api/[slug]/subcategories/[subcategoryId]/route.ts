@@ -29,7 +29,7 @@ export async function DELETE(
     });
     return NextResponse.json(subcategory);
   } catch (error) {
-    console.log("[SUBCATEGORY_DELETE]", error);
+    // console.log("[SUBCATEGORY_DELETE]", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
 }
@@ -72,7 +72,7 @@ export async function PATCH(
     });
     return NextResponse.json(subcategory);
   } catch (error) {
-    console.log("[SUBCATEGORY_PATCH]", error);
+    // console.log("[SUBCATEGORY_PATCH]", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
 }

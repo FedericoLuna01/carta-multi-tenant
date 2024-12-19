@@ -130,7 +130,7 @@ export async function PATCH(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.log("[PRODUCTS_PATCH]", error);
+    // console.log("[PRODUCTS_PATCH]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }
@@ -160,7 +160,7 @@ export async function DELETE(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.log("[PRODUCT_DELETE]", error);
+    // console.log("[PRODUCT_DELETE]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }

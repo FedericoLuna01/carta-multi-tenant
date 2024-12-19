@@ -19,11 +19,11 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Order, OrderStatus } from "@prisma/client"
-import { cn } from "@/lib/utils"
 import axios from "axios"
 import { useState, useCallback } from "react"
 import { useUser } from "@/utils/user"
-import { Badge } from "@/components/ui/badge"
+import BadgeOrderStatus from "./badge-order-status"
+import { useRouter } from "next/navigation"
 
 const FormSchema = z.object({
   state: z.enum(['PENDING',
@@ -37,6 +37,7 @@ const FormSchema = z.object({
 export function StatusSelect({ order }: { order: Order }) {
   const [loading, setLoading] = useState(false)
   const user = useUser()
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -53,21 +54,13 @@ export function StatusSelect({ order }: { order: Order }) {
       setLoading(true)
       await axios.patch(`/api/${user.slug}/orders/${order.id}`, data)
       toast.success('Estado actualizado')
+      router.refresh()
     } catch (error: any) {
       toast.error('Algo salió mal')
     } finally {
       setLoading(false)
     }
-  }, [user.slug, order.id])
-
-  const status = Object.values(OrderStatus).map(v => {
-    if (v === 'PENDING') return { value: v, label: 'Pendiente' }
-    if (v === 'IN_PROGRESS') return { value: v, label: 'En progreso' }
-    if (v === 'ON_THE_WAY') return { value: v, label: 'En camino' }
-    if (v === 'READY') return { value: v, label: 'Listo' }
-    if (v === 'DONE') return { value: v, label: 'Entregado' }
-    if (v === 'CANCELED') return { value: v, label: 'Cancelado' }
-  })
+  }, [user.slug, order.id, router])
 
   return (
     <Form {...form}>
@@ -92,27 +85,15 @@ export function StatusSelect({ order }: { order: Order }) {
                 </FormControl>
                 <SelectContent>
                   {
-                    status && status.map((item) => {
-                      return (
-                        <SelectItem
-                          key={item.value}
-                          value={item.value}
-                        >
-                          <Badge
-                            className={cn('text-black', {
-                              'bg-yellow-200 hover:bg-yellow-300 border-yellow-400': item.value === 'PENDING',
-                              'bg-orange-200 hover:bg-orange-300 border-orange-400': item.value === 'IN_PROGRESS',
-                              'bg-blue-200 hover:bg-blue-300 border-blue-400': item.value === 'ON_THE_WAY',
-                              'bg-emerald-200 hover:bg-emerald-300 border-emerald-400': item.value === 'READY',
-                              'bg-green-200 hover:bg-green-300 border-green-400': item.value === 'DONE',
-                              'bg-red-200 hover:bg-red-300 border-red-400': item.value === 'CANCELED',
-                            })}
-                          >
-                            {item.label}
-                          </Badge>
-                        </SelectItem>
-                      )
-                    })
+                    Object.values(OrderStatus).map((item) => (
+                      <SelectItem
+                        key={item}
+                        value={item}
+                        disabled={loading}
+                      >
+                        <BadgeOrderStatus orderStatus={item} />
+                      </SelectItem>
+                    ))
                   }
                 </SelectContent>
               </Select>

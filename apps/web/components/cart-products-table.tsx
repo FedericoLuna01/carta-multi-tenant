@@ -30,10 +30,7 @@ const CartProductsTable = () => {
     onOpen(item);
   };
 
-  const total = cart.items.reduce(
-    (acc, item) => acc + getTotalProductPrice(item),
-    0
-  );
+  const total = cart.items.reduce((acc, item) => acc + getTotalProductPrice(item), 0);
 
   const getProductName = (item: SafeOrderItem) => {
     let name = item.name;

@@ -12,6 +12,7 @@ import { useUser } from "@/utils/user"
 import BadgePaymentStatus from "./badge-payment-status"
 import axios from "axios"
 import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 
 const FormSchema = z.object({
   state: z.enum(['PENDING', 'PAID']),
@@ -20,6 +21,7 @@ const FormSchema = z.object({
 const PaymentStatusSelect = ({ order }: { order: Order }) => {
   const [loading, setLoading] = useState(false)
   const user = useUser()
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -36,6 +38,7 @@ const PaymentStatusSelect = ({ order }: { order: Order }) => {
       setLoading(true)
       await axios.patch(`/api/${user.slug}/orders/${order.id}`, data)
       toast.success('Pago actualizado')
+      router.refresh()
     } catch (error: any) {
       toast.error('Algo salió mal')
     } finally {

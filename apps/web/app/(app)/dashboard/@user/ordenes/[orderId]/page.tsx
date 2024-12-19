@@ -69,6 +69,7 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
           <Link
             href={`/dashboard/ordenes`}
             className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
+            prefetch={false}
           >
             ← Volver
           </Link>

@@ -72,7 +72,7 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           if (data.error) {
             toast.error(data.error);
           }
-          console.log(data);
+          // console.log(data);
         });
       });
     } else {
@@ -85,7 +85,7 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           if (data.error) {
             toast.error(data.error);
           }
-          console.log(data);
+          // console.log(data);
         });
       });
     }

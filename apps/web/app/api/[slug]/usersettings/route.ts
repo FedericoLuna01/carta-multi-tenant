@@ -64,7 +64,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
 
     return NextResponse.json("User settings created", { status: 201 });
   } catch (error) {
-    console.log("[USER_SETTINGS_POST]", error);
+    // console.log("[USER_SETTINGS_POST]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }
@@ -130,7 +130,7 @@ export async function PATCH(req: Request, { params }: { params: { slug: string }
 
     return NextResponse.json("User settings updated", { status: 200 });
   } catch (error) {
-    console.log("[USER_SETTINGS_PATCH]", error);
+    // console.log("[USER_SETTINGS_PATCH]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }

@@ -15,7 +15,7 @@ import { useParams } from "next/navigation";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
 import useOrderUser from "@/hooks/use-order-user";
-import { getTotalProductPrice } from "@/actions/getTotalPrice";
+import { getTotalOrderPrice } from "@/actions/getTotalPrice";
 import { FullOrder } from "@/types/types";
 import { formatter } from "@/lib/utils";
 
@@ -35,11 +35,9 @@ const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId, userSettin
     const getOrder = async () => {
       setLoading(true);
       const res = await axios(`${process.env.DOMAIN_URL || "http://localhost:3000"}/api/${params.slug}/orders/${orderId}`);
-      console.log(res.data)
       setOrder(res.data);
-      // TODO: Sacar bien el total
-      // const total = order.products.reduce((acc, item) => acc + getTotalProductPrice(item as any), 0)
-      setTotal(total)
+      const total = getTotalOrderPrice(res.data)
+      setTotal(total);
       setLoading(false);
     };
     getOrder();
@@ -49,7 +47,6 @@ const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId, userSettin
     localStorage.removeItem("orderId");
     window.location.reload();
   };
-
 
   let icon = <Spinner />;
   let title = "Cargando...";

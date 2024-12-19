@@ -1,7 +1,7 @@
-FROM node:18-alpine AS base
+FROM node:19-alpine3.16 AS base
 
 FROM base AS builder
-RUN apk add --no-cache libc6-compat 
+RUN apk add --no-cache openssl libc6-compat 
 RUN apk update
 
 WORKDIR /app
@@ -10,12 +10,9 @@ COPY . .
 RUN turbo prune web --docker
 
 FROM base AS installer
-RUN apk add --no-cache libc6-compat 
+RUN apk add --no-cache openssl libc6-compat 
 RUN apk update
 WORKDIR /app
-
-ENV DATABASE_URL="postgresql://postgres:postgres@db:5432/carta"
-ENV DIRECT_URL="postgresql://postgres:postgres@db:5432/carta"
 
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .

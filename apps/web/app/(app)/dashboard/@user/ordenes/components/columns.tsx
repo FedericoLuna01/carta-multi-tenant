@@ -6,13 +6,15 @@ import { es } from "date-fns/locale";
 import { formatDistanceToNowStrict } from "date-fns";
 
 import CellAction from "./cell-action";
-import { StatusSelect } from "./status-select";
+// import { StatusSelect } from "./status-select";
 import { Button } from "@/components/ui/button";
 import PopoverProducts from "./popover-products";
 import BadgeOrderType from "./badge-order-type";
 import BadgePaymentType from "./badge-payment-type";
-import PaymentStatusSelect from "./payment-status-select";
+// import PaymentStatusSelect from "./payment-status-select";
 import { FullOrder } from "@/types/types";
+import BadgePaymentStatus from "./badge-payment-status";
+import BadgeOrderStatus from "./badge-order-status";
 
 export const columns: ColumnDef<FullOrder>[] = [
   {
@@ -80,10 +82,11 @@ export const columns: ColumnDef<FullOrder>[] = [
     },
     cell: ({ row }) => {
       return (
-        <StatusSelect
-          key={`${row.original.id}-${row.original.status}`}
-          order={row.original}
-        />
+        <BadgeOrderStatus orderStatus={row.original.status} />
+        // <StatusSelect
+        //   key={`${row.original.id}-${row.original.status}`}
+        //   order={row.original}
+        // />
       );
     },
   },
@@ -101,10 +104,11 @@ export const columns: ColumnDef<FullOrder>[] = [
     header: "Estado de pago",
     cell: ({ row }) => {
       return (
-        <PaymentStatusSelect
-          key={`${row.original.id}-${row.original.paymentStatus}`}
-          order={row.original}
-        />
+        <BadgePaymentStatus orderPaymentStatus={row.original.paymentStatus} />
+        // <PaymentStatusSelect
+        //   key={`${row.original.id}-${row.original.paymentStatus}`}
+        //   order={row.original}
+        // />
       );
     }
   },

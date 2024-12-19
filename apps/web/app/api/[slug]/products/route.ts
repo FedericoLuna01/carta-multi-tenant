@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import prismadb from "@/lib/prismadb";
-import { ProductSchema } from "@/schemas";
 import { checkUserAccess } from "@/utils/user";
 import { NextResponse } from "next/server";
 
@@ -113,7 +112,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
 
     return NextResponse.json(product);
   } catch (error) {
-    console.log("[PRODUCTS_POST]", error);
+    // console.log("[PRODUCTS_POST]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }

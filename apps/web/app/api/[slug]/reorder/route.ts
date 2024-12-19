@@ -41,7 +41,7 @@ export async function PATCH(req: Request, { params }: { params: { slug: string }
 
     return NextResponse.json("Updated", { status: 200 });
   } catch (error) {
-    console.log("[REORDER_PATCH]", error);
+    // console.log("[REORDER_PATCH]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }

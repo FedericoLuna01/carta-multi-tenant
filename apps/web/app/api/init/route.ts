@@ -7,14 +7,14 @@ export async function POST() {
   try {
     // Verificar si ya existe algún usuario
     const userCount = await prismadb.user.count();
-    
+
     if (userCount > 0) {
       return new NextResponse("Ya existe un usuario administrador", { status: 400 });
     }
 
     // Crear el primer usuario admin
     const hashedPassword = await bcrypt.hash("12345", 10);
-    
+
     const admin = await prismadb.user.create({
       data: {
         email: "admin@carta.com",
@@ -26,10 +26,10 @@ export async function POST() {
       },
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       message: "Admin creado exitosamente",
       email: admin.email,
-      password: "admin123"
+      password: "12345"
     });
 
   } catch (error) {

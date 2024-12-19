@@ -48,7 +48,7 @@ export async function GET(
       },
     });
   } catch (error: any) {
-    console.log("[ORDER_GET]", error);
+    // console.log("[ORDER_GET]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }
@@ -85,7 +85,7 @@ export async function PATCH(
 
     return NextResponse.json(order);
   } catch (error: any) {
-    console.log("[ORDER_PATCH]", error);
+    // console.log("[ORDER_PATCH]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }
@@ -120,7 +120,7 @@ export async function DELETE(
 
     return NextResponse.json(order);
   } catch (error: any) {
-    console.log("[ORDER_DELETE]", error);
+    // console.log("[ORDER_DELETE]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }

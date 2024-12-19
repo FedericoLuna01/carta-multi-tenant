@@ -58,7 +58,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
 
     return NextResponse.json(subcategory);
   } catch (error) {
-    console.log("[SUBCATEGORY_POST]", error);
+    // console.log("[SUBCATEGORY_POST]", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
 }

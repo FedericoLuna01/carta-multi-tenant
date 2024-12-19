@@ -96,7 +96,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
       const res = await axios.post(`${process.env.DOMAIN_URL || "http://localhost:3000"}/api/${params.slug}/orders`, data);
       // Guardar la orden en local storage
       localStorage.setItem("orderId", res.data.order.id);
-      console.log("orden desde form", res.data.newOrderWithProducts)
+      // console.log("orden desde form", res.data.newOrderWithProducts)
       socket.emit("newOrder", res.data.newOrderWithProducts)
 
       setSuccessModalState(true);
@@ -106,7 +106,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
         window.location.reload();
       }, 6000);
     } catch (error: any) {
-      console.log(error)
+      // console.log(error)
       toast.error("Algo salio mal");
     } finally {
       setLoading(false);

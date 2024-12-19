@@ -88,7 +88,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
       },
     });
   } catch (error) {
-    console.log("[ORDERS_POST]", error);
+    // console.log("[ORDERS_POST]", error);
     return new NextResponse("Something went wrong", { status: 500 });
   }
 }
