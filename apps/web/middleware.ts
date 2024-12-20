@@ -9,7 +9,7 @@ export default auth(async (req) => {
   hostname = hostname.split(':')[0];
 
   // Define allowed domains (including main domain and localhost)
-  const allowedDomains = ["tudominio.ar", "www.tudominio.ar", "localhost"];
+  const allowedDomains = ["carta.ar", "www.carta.ar", "localhost"];
 
   // Check if the current hostname is in the list of allowed domains
   const isMainDomain = allowedDomains.includes(hostname);
