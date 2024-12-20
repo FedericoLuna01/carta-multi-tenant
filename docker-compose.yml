@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: carta-db
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - carta-network
+
+  web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    container_name: carta-web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - carta-network
+
+  socket:
+    build:
+      context: .
+      dockerfile: ./apps/socket/Dockerfile
+    container_name: carta-socket
+    ports:
+      - "3001:3001"
+    networks:
+      - carta-network
+
+networks:
+  carta-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

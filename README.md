@@ -33,11 +33,11 @@ Actualmente está en desarrollo, aunque el lanzamiento.
 
 # To-do
 
-[ ] Migrar axios a fetch  
-[ ] Migrar react-hot-toast a toast de ShadCN  
-[ ] Agregar posibilidad de pagar en la app  
-[ ] Agregar analytics de user y admin
-[ ] Migrar a monorepo con el server de SocketIO
+- [x] Migrar a monorepo con el server de SocketIO
+- [ ] Migrar axios a fetch
+- [ ] Migrar react-hot-toast a toast de ShadCN
+- [ ] Agregar posibilidad de pagar en la app
+- [ ] Agregar analytics de user y admin
 
 # Env
 
