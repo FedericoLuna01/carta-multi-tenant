@@ -16,6 +16,8 @@ const Sidebar = () => {
 
   const items = session?.data.user.role === UserRole.ADMIN ? adminNavItems : userNavItems;
 
+  if (!session) return null;
+
   return (
     <div className="flex-1">
       <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
