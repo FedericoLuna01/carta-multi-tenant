@@ -43,7 +43,7 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
       name: "",
       phone: "",
       comment: "",
-      type: "DELIVERY",
+      type: userSettings.takeaway ? "TAKEAWAY" : userSettings.delivery ? "DELIVERY" : "TABLE",
       place: "",
       payment: "CASH",
     },
@@ -93,10 +93,10 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
 
     try {
       setLoading(true);
-      const res = await axios.post(`${process.env.DOMAIN_URL || "http://localhost:3000"}/api/${params.slug}/orders`, data);
+      const url = process.env.DOMAIN_NAME ? "https://carta.ar" : "http://localhost:3000"
+      const res = await axios.post(`${url}/api/${params.slug}/orders`, data)
       // Guardar la orden en local storage
       localStorage.setItem("orderId", res.data.order.id);
-      // console.log("orden desde form", res.data.newOrderWithProducts)
       socket.emit("newOrder", res.data.newOrderWithProducts)
 
       setSuccessModalState(true);

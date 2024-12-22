@@ -11,6 +11,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
     // TODO: Cambiar por el dominio original
     origin.endsWith('.carta.ar') ||
     origin.includes("localhost") ||
+    origin.includes("carta.ar") ||
     origin === 'https://carta.ar'
   );
 
@@ -132,6 +133,7 @@ export async function OPTIONS(req: Request) {
     // TODO: Cambiar por el dominio original
     origin.endsWith('.carta.ar') ||
     origin.includes("localhost") ||
+    origin.includes("carta.ar") ||
     origin === 'https://carta.ar'
   );
 

@@ -72,7 +72,7 @@ export async function PATCH(
   }
 
   try {
-    const order = await prismadb.order.update({
+    const updatedOrder = await prismadb.order.update({
       where: {
         id: Number(orderId),
         userId: user.user.id,
@@ -83,7 +83,7 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json(order);
+    return NextResponse.json(updatedOrder);
   } catch (error: any) {
     // console.log("[ORDER_PATCH]", error);
     return new NextResponse("Something went wrong", { status: 500 });

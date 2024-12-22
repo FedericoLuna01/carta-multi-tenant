@@ -24,6 +24,7 @@ import { useState, useCallback } from "react"
 import { useUser } from "@/utils/user"
 import BadgeOrderStatus from "./badge-order-status"
 import { useRouter } from "next/navigation"
+import socket from "@/lib/socketio"
 
 const FormSchema = z.object({
   state: z.enum(['PENDING',
@@ -53,6 +54,7 @@ export function StatusSelect({ order }: { order: Order }) {
     try {
       setLoading(true)
       await axios.patch(`/api/${user.slug}/orders/${order.id}`, data)
+      socket.emit("updateOrder", { ...order, status: value })
       toast.success('Estado actualizado')
       router.refresh()
     } catch (error: any) {
@@ -60,7 +62,7 @@ export function StatusSelect({ order }: { order: Order }) {
     } finally {
       setLoading(false)
     }
-  }, [user.slug, order.id, router])
+  }, [user.slug, router, order])
 
   return (
     <Form {...form}>

@@ -34,13 +34,28 @@ const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId, userSettin
   useEffect(() => {
     const getOrder = async () => {
       setLoading(true);
-      const res = await axios(`${process.env.DOMAIN_URL || "http://localhost:3000"}/api/${params.slug}/orders/${orderId}`);
+      // const res = await axios(`https://carta.ar/api/${params.slug}/orders/${orderId}`);
+      const url = process.env.DOMAIN_NAME ? "https://carta.ar" : "http://localhost:3000";
+      const res = await axios(`${url}/api/${params.slug}/orders/${orderId}`);
       setOrder(res.data);
       const total = getTotalOrderPrice(res.data)
       setTotal(total);
       setLoading(false);
     };
     getOrder();
+
+    // Suscribirse a actualizaciones de la orden
+    // socket.on('orderUpdated', (updatedOrder: FullOrder) => {
+    //   if (updatedOrder.id === Number(orderId)) {
+    //     setOrder(updatedOrder);
+    //     const newTotal = getTotalOrderPrice(updatedOrder);
+    //     setTotal(newTotal);
+    //   }
+    // });
+
+    // return () => {
+    //   socket.off('orderUpdated');
+    // };
   }, [orderId, params.slug]);
 
   const handleClick = () => {
