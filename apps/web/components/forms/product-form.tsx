@@ -33,7 +33,6 @@ import { Separator } from "../ui/separator";
 import ImageUpload from "../ui/image-upload";
 import { Subcategory } from "@prisma/client";
 import { AlertModal } from "../modals/alert-modal";
-import Link from "next/link";
 import { ProductSchema } from "@/schemas";
 import { useUser } from "@/utils/user";
 
@@ -162,12 +161,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
         onConfirm={onDelete}
       />
       <div className="flex flex-col items-start gap-2">
-        <Link
-          href={`/dashboard/productos`}
-          className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
-        >
-          ← Volver
-        </Link>
         <div className="flex justify-between items-center w-full">
           <Heading title={title} description={description} />
           {initialData && (

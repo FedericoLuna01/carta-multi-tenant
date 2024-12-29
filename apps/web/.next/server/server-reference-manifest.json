@@ -1,20 +1,5 @@
 {
-  "node": {
-    "56887e1981d505c527783b051e66a17b90294fb8": {
-      "workers": {
-        "app/(app)/dashboard/@admin/page": "(rsc)/../../node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CWorkspace%5C%5Ccarta-multi-tenant%5C%5Capps%5C%5Cweb%5C%5Ccomponents%5C%5Cui%5C%5Clogout-button.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!",
-        "app/(app)/dashboard/@user/page": "(rsc)/../../node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CWorkspace%5C%5Ccarta-multi-tenant%5C%5Capps%5C%5Cweb%5C%5Ccomponents%5C%5Cui%5C%5Clogout-button.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!",
-        "app/(app)/dashboard/@user/ordenes/page": "(rsc)/../../node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CWorkspace%5C%5Ccarta-multi-tenant%5C%5Capps%5C%5Cweb%5C%5Ccomponents%5C%5Cui%5C%5Clogout-button.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!",
-        "app/(app)/dashboard/@user/ordenes/[orderId]/page": "(rsc)/../../node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CWorkspace%5C%5Ccarta-multi-tenant%5C%5Capps%5C%5Cweb%5C%5Ccomponents%5C%5Cui%5C%5Clogout-button.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!"
-      },
-      "layer": {
-        "app/(app)/dashboard/@admin/page": "rsc",
-        "app/(app)/dashboard/@user/page": "rsc",
-        "app/(app)/dashboard/@user/ordenes/page": "rsc",
-        "app/(app)/dashboard/@user/ordenes/[orderId]/page": "rsc"
-      }
-    }
-  },
+  "node": {},
   "edge": {},
-  "encryptionKey": "GQJFUoz2puE+pJkS7woVlaS7oBoYoyVDeLzrUTgIis4="
+  "encryptionKey": "w/USRaSS6NEaIhLn6dsZdG1p5ejJRCfdxU0eE9gppa8="
 }

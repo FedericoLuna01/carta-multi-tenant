@@ -1,7 +1,5 @@
 {
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/(app)/dashboard/@admin/page": "app/(app)/dashboard/@admin/page.js",
-  "/(app)/dashboard/@user/page": "app/(app)/dashboard/@user/page.js",
-  "/(app)/dashboard/@user/ordenes/page": "app/(app)/dashboard/@user/ordenes/page.js",
-  "/(app)/dashboard/@user/ordenes/[orderId]/page": "app/(app)/dashboard/@user/ordenes/[orderId]/page.js",
-  "/(app)/(tenant)/[slug]/page": "app/(app)/(tenant)/[slug]/page.js"
+  "/(app)/dashboard/@user/page": "app/(app)/dashboard/@user/page.js"
 }

@@ -30,10 +30,20 @@ io.on("connection", (socket) => {
   // Manejar nuevas órdenes
   socket.on("newOrder", (order) => {
     console.log("Nueva orden recibida:", order);
-
     // Emitir la orden solo a la sala del usuario correspondiente
     if (order.userId) {
       io.to(order.userId).emit("receiveOrder", order);
+    } else {
+      console.error("La orden no tiene userId:", order);
+    }
+  });
+
+  // Cuando se actualiza una orden
+  socket.on('updateOrder', (order: any) => {
+    // Emitir a todos los clientes conectados en la sala del usuario
+    if (order.userId) {
+      io.to(`user_${order.userId}`).emit('orderUpdated', order);
+      console.log("cambio de estado de orden");
     } else {
       console.error("La orden no tiene userId:", order);
     }

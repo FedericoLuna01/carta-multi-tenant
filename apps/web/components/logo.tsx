@@ -10,6 +10,7 @@ const Logo: React.FC<LogoProps> = ({ size = "md" }) => {
   return (
     <Link
       href="/"
+      className="flex items-center justify-center"
     >
       <Image
         src="/logo.png"
@@ -17,7 +18,9 @@ const Logo: React.FC<LogoProps> = ({ size = "md" }) => {
         width={size === "sm" ? 120 : 150}
         height={size === "sm" ? 120 : 150}
       />
-      <span className={cn("text-2xl md:text-3xl font-bold sr-only", size === "sm" && "text-xl md:text-2xl")}>Plato</span>
+      <span className={cn("text-2xl md:text-3xl font-bold sr-only", size === "sm" && "text-xl md:text-2xl")}>
+        Plato
+      </span>
     </Link>
   )
 }

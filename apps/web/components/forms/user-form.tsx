@@ -20,7 +20,6 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import Link from "next/link";
 import { EditUserSchema, RegisterSchema } from "@/schemas";
 import { register } from "@/actions/auth/register";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -94,12 +93,6 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   return (
     <div className="pb-10">
       <div className="flex flex-col items-start gap-2">
-        <Link
-          href={`/dashboard/usuarios`}
-          className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
-        >
-          ← Volver
-        </Link>
         <div className="flex justify-between items-center w-full">
           <Heading title={title} description={description} />
         </div>

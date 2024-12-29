@@ -23,6 +23,8 @@ import { UserSettings } from "@prisma/client";
 import ImageUpload from "../ui/image-upload";
 import { UserSettingsSchema } from "@/schemas";
 import { useUser } from "@/utils/user";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import Spinner from "../ui/spinner";
 
 export default function UserSettingsForm({
   userSettings,
@@ -72,333 +74,359 @@ export default function UserSettingsForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
-        <div>
-          <h3 className="mb-4 text-lg font-medium">Horarios de tu local</h3>
-          <div className="rounded-lg border p-3 shadow-sm">
-            <h4 className="font-semibold">Día</h4>
-            <div className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6 mt-4">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                Horarios de tu local
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-lg border p-3 shadow-sm">
+                <h4 className="font-semibold">Día</h4>
+                <div className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0">
+                  <FormField
+                    control={form.control}
+                    name="dayOpenTime"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col justify-between mr-4">
+                        <div className="space-x-2 flex items-center">
+                          <FormLabel>Desde</FormLabel>
+                          <FormControl>
+                            <Input type="time" {...field} />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="dayCloseTime"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col justify-between">
+                        <div className="space-x-2 flex items-center">
+                          <FormLabel>Hasta</FormLabel>
+                          <FormControl>
+                            <Input type="time" {...field} />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="rounded-lg border p-3 shadow-sm mt-4">
+                <h4 className="font-semibold">Noche</h4>
+                <div className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0">
+                  <FormField
+                    control={form.control}
+                    name="nightOpenTime"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col justify-between  mr-4">
+                        <div className="space-x-2 flex items-center">
+                          <FormLabel>Desde</FormLabel>
+                          <FormControl>
+                            <Input type="time" {...field} />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="nightCloseTime"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col justify-between">
+                        <div className="space-x-2 flex items-center">
+                          <FormLabel>Hasta</FormLabel>
+                          <FormControl>
+                            <Input type="time" {...field} />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                Contacto
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="rounded-lg border p-3 shadow-sm">
+                <div className="flex items-center">
+                  <FormField
+                    control={form.control}
+                    name="location"
+                    render={({ field }) => (
+                      <FormItem className="">
+                        <div className="space-y-2">
+                          <FormLabel>Ubicación</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Ej: Av. Corrientes 1234"
+                            />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="rounded-lg border p-3 shadow-sm">
+                <div className="flex items-center">
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem className="">
+                        <div className="space-y-2">
+                          <FormLabel>Teléfono</FormLabel>
+                          <FormControl>
+                            <Input {...field} placeholder="+54 9 11 1234 5678" />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                Formas de pedido
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
               <FormField
                 control={form.control}
-                name="dayOpenTime"
+                name="table"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col justify-between mr-4">
-                    <div className="space-x-2 flex items-center">
-                      <FormLabel>Desde</FormLabel>
-                      <FormControl>
-                        <Input type="time" {...field} />
-                      </FormControl>
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>Mesa</FormLabel>
+                      <FormDescription>
+                        Tus clientes van a poder hacer su orden desde una mesa.
+                      </FormDescription>
                     </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="dayCloseTime"
+                name="delivery"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col justify-between">
-                    <div className="space-x-2 flex items-center">
-                      <FormLabel>Hasta</FormLabel>
-                      <FormControl>
-                        <Input type="time" {...field} />
-                      </FormControl>
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>Delivery</FormLabel>
+                      <FormDescription>
+                        Tus clientes van a poder hacer su orden desde su casa.
+                      </FormDescription>
                     </div>
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-          <div className="rounded-lg border p-3 shadow-sm mt-4">
-            <h4 className="font-semibold">Noche</h4>
-            <div className="flex items-start sm:items-center flex-col sm:flex-row space-y-2 sm:space-y-0">
-              <FormField
-                control={form.control}
-                name="nightOpenTime"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col justify-between  mr-4">
-                    <div className="space-x-2 flex items-center">
-                      <FormLabel>Desde</FormLabel>
-                      <FormControl>
-                        <Input type="time" {...field} />
-                      </FormControl>
-                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="nightCloseTime"
+                name="takeaway"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col justify-between">
-                    <div className="space-x-2 flex items-center">
-                      <FormLabel>Hasta</FormLabel>
-                      <FormControl>
-                        <Input type="time" {...field} />
-                      </FormControl>
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>Takeaway</FormLabel>
+                      <FormDescription>
+                        Tus clientes van a poder retirar su pedido en tu local.
+                      </FormDescription>
                     </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
-            </div>
-          </div>
-        </div>
-        <div>
-          <h3 className="mb-4 text-lg font-medium">Contacto</h3>
-          <div className="space-y-4">
-            <div className="rounded-lg border p-3 shadow-sm">
-              <div className="flex items-center">
-                <FormField
-                  control={form.control}
-                  name="location"
-                  render={({ field }) => (
-                    <FormItem className="">
-                      <div className="space-y-2">
-                        <FormLabel>Ubicación</FormLabel>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                Métodos de pago
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="cash"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>Efectivo</FormLabel>
+                      <FormDescription>
+                        Tus clientes van a poder pagar con efectivo.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="card"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>Tarjeta</FormLabel>
+                      <FormDescription>
+                        Tus clientes van a poder pagar con tarjeta de débito con tu Posnet.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="qr"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>Código QR</FormLabel>
+                      <FormDescription>
+                        Tus clientes van a poder pagar escaneando tu código QR.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {
+                form.watch("qr") && (
+                  <FormField
+                    control={form.control}
+                    name="qrImage"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Imagen del código QR</FormLabel>
                         <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Ej: Av. Corrientes 1234"
+                          <ImageUpload
+                            value={field.value ? [field.value] : []}
+                            onChange={(url) => field.onChange(url)}
+                            onRemove={() => field.onChange("")}
                           />
                         </FormControl>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-            <div className="rounded-lg border p-3 shadow-sm">
-              <div className="flex items-center">
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem className="">
-                      <div className="space-y-2">
-                        <FormLabel>Teléfono</FormLabel>
-                        <FormControl>
-                          <Input {...field} placeholder="+54 9 11 1234 5678" />
-                        </FormControl>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h3 className="mb-4 text-lg font-medium">Tipos de ordenes</h3>
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="table"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Mesa</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder hacer su orden desde una mesa.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="delivery"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Delivery</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder hacer su orden desde su casa.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="takeaway"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Takeaway</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder retirar su pedido en tu local.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <div>
-          <h3 className="mb-4 text-lg font-medium">Métodos de pago</h3>
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="cash"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Efectivo</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder pagar con efectivo.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="card"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Tarjeta</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder pagar con tarjeta de débito con tu Posnet.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="qr"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Código QR</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder pagar escaneando tu código QR.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {
-              form.watch("qr") && (
-                <FormField
-                  control={form.control}
-                  name="qrImage"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Imagen del código QR</FormLabel>
-                      <FormControl>
-                        <ImageUpload
-                          value={field.value ? [field.value] : []}
-                          onChange={(url) => field.onChange(url)}
-                          onRemove={() => field.onChange("")}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )
-            }
-            <FormField
-              control={form.control}
-              name="transfer"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Transferencia</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder pagar con transferencia.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {
-              form.watch("transfer") && (
-                <FormField
-                  control={form.control}
-                  name="cbu"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>CBU o alias</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="Ej: 1234567890123456789012" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )
-            }
-          </div>
-        </div>
-        <div>
-          <h3 className="mb-4 text-lg font-medium">Logo de tu local</h3>
-          <FormField
-            control={form.control}
-            name="image"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Imagen</FormLabel>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value ? [field.value] : []}
-                    onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange("")}
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                )
+              }
+              <FormField
+                control={form.control}
+                name="transfer"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>Transferencia</FormLabel>
+                      <FormDescription>
+                        Tus clientes van a poder pagar con transferencia.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {
+                form.watch("transfer") && (
+                  <FormField
+                    control={form.control}
+                    name="cbu"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>CBU o alias</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="Ej: 1234567890123456789012" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )
+              }
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                Logo
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Imagen</FormLabel>
+                    <FormControl>
+                      <ImageUpload
+                        value={field.value ? [field.value] : []}
+                        onChange={(url) => field.onChange(url)}
+                        onRemove={() => field.onChange("")}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
         </div>
-        <Button type="submit" disabled={loading}>
-          Guardar
+        <Button size="lg" className="flex" type="submit" disabled={loading}>
+          Guardar {loading && <Spinner className="w-5 h-5 ml-2" />}
         </Button>
       </form>
     </Form>

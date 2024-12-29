@@ -8,7 +8,6 @@ import { StatusSelect } from "../components/status-select"
 import BadgeOrderType from "../components/badge-order-type"
 import { getTotalProductPrice } from "@/actions/getTotalPrice"
 import { formatter } from "@/lib/utils"
-import Link from "next/link"
 import { auth } from "@/auth"
 import PaymentStatusSelect from "../components/payment-status-select"
 
@@ -66,13 +65,6 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
         <div
           className="flex flex-col items-start gap-2"
         >
-          <Link
-            href={`/dashboard/ordenes`}
-            className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
-            prefetch={false}
-          >
-            ← Volver
-          </Link>
           <div
             className="flex justify-between items-center w-full"
           >

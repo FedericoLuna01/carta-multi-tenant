@@ -25,31 +25,6 @@
       "static/chunks/main-app.js",
       "static/css/app/(app)/layout.css",
       "static/chunks/app/(app)/layout.js"
-    ],
-    "/(app)/dashboard/@user/ordenes/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/dashboard/@user/ordenes/page.js"
-    ],
-    "/(app)/dashboard/@user/ordenes/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/dashboard/@user/ordenes/loading.js"
-    ],
-    "/(app)/dashboard/@user/ordenes/[orderId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/dashboard/@user/ordenes/[orderId]/page.js"
-    ],
-    "/(app)/(tenant)/[slug]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/(tenant)/[slug]/page.js"
-    ],
-    "/(app)/(tenant)/[slug]/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(app)/(tenant)/[slug]/layout.js"
     ]
   }
 }

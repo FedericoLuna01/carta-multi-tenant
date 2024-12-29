@@ -14,7 +14,7 @@ const UserSettings = ({
   userSettings: UserSettingsType | null;
 }) => {
   return (
-    <div className="w-full">
+    <div className="w-full mt-4">
       <Card className="max-w-5xl mx-auto">
         <CardHeader>
           <CardTitle>Configuración de usuario</CardTitle>

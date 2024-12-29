@@ -8,7 +8,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Trash } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 
 import {
   Form,
@@ -109,12 +108,6 @@ const SubcategoryForm: React.FC<SubcategoryFormProps> = ({
         onConfirm={onDelete}
       />
       <div className="flex flex-col items-start gap-2">
-        <Link
-          href={`/dashboard/subcategorias`}
-          className="flex flex-row items-center gap-2 font-semibold text-gray-700 hover:underline"
-        >
-          ← Volver
-        </Link>
         <div className="flex justify-between items-center w-full">
           <Heading title={title} description={description} />
           {initialData && (

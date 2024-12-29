@@ -1,9 +1,10 @@
 import { unstable_noStore as noStore } from "next/cache";
 
-import AdminAccordion from "@/components/admin-accordion";
-import UserSettings from "@/components/user-settings";
 import prismadb from "@/lib/prismadb";
 import { auth } from "@/auth";
+import Heading from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import UserSettingsForm from "@/components/forms/user-settings-form";
 
 const AdminPage = async () => {
   noStore();
@@ -18,42 +19,11 @@ const AdminPage = async () => {
     },
   });
 
-  const data = await prismadb.category.findMany({
-    where: {
-      user: {
-        slug: user.user.slug,
-      },
-    },
-    include: {
-      subcategories: {
-        include: {
-          products: {
-            where: {
-              isArchived: false,
-            },
-            include: {
-              sizes: true,
-              extras: true,
-            },
-            orderBy: {
-              sort: "asc",
-            },
-          },
-        },
-        orderBy: {
-          sort: "asc",
-        },
-      },
-    },
-    orderBy: {
-      sort: "asc",
-    },
-  });
-
   return (
-    <section className="flex items-center flex-col">
-      <UserSettings userSettings={userSettings} />
-      <AdminAccordion data={data} />
+    <section className="">
+      <Heading title="Configuración de usuario" description="Edita las preferencias de tu cuenta" />
+      <Separator />
+      <UserSettingsForm userSettings={userSettings} />
     </section>
   );
 };
