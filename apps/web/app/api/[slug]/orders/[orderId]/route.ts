@@ -9,10 +9,12 @@ export async function GET(
 ) {
   const origin = req.headers.get('origin');
   const isAllowedOrigin = origin && (
-    origin.endsWith('.carta.ar') ||
     // TODO: Cambiar por el dominio original
+    origin.endsWith('.carta.ar') ||
+    origin.endsWith('.cuppyagenciaweb.com') ||
     origin.includes("localhost") ||
-    origin === 'https://carta.ar'
+    origin === 'https://carta.ar' ||
+    origin === "https://cuppyagenciaweb.com"
   );
   const { slug, orderId } = params;
   if (!slug) {
@@ -130,9 +132,11 @@ export async function OPTIONS(req: Request) {
   // Verifica si el origen termina con tu dominio principal
   const isAllowedOrigin = origin && (
     // TODO: Cambiar por el dominio original
+    origin.endsWith('.cuppyagenciaweb.com') ||
     origin.endsWith('.carta.ar') ||
     origin.includes("localhost") ||
-    origin === 'https://carta.ar'
+    origin === 'https://carta.ar' ||
+    origin === "https://cuppyagenciaweb.com"
   );
 
   return new NextResponse(null, {

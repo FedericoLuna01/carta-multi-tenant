@@ -4,7 +4,8 @@ import { Server } from "socket.io";
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: ["https://carta.ar", "http://localhost:3000"],
+    // TODO: Cambiar el origen
+    origin: ["https://carta.ar", "http://localhost:3000", "https://cuppyagenciaweb.com"],
     methods: ["GET", "POST"],
     credentials: true
   }

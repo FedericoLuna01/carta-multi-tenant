@@ -12,7 +12,10 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
     origin.endsWith('.carta.ar') ||
     origin.includes("localhost") ||
     origin.includes("carta.ar") ||
-    origin === 'https://carta.ar'
+    origin === 'https://carta.ar' ||
+    origin.endsWith('.cuppyagenciaweb.com') ||
+    origin === "https://cuppyagenciaweb.com"
+
   );
 
   const { slug } = params;
@@ -132,9 +135,11 @@ export async function OPTIONS(req: Request) {
   const isAllowedOrigin = origin && (
     // TODO: Cambiar por el dominio original
     origin.endsWith('.carta.ar') ||
+    origin.endsWith('.cuppyagenciaweb.com') ||
     origin.includes("localhost") ||
     origin.includes("carta.ar") ||
-    origin === 'https://carta.ar'
+    origin === 'https://carta.ar' ||
+    origin === "https://cuppyagenciaweb.com"
   );
 
   return new NextResponse(null, {
