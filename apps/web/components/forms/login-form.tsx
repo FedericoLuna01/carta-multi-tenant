@@ -50,7 +50,7 @@ const LoginForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="border border-input p-4 rounded-md space-y-2"
       >
-        <h1 className="font-bold text-2xl text-center">Ingresar a Carta</h1>
+        <h1 className="font-bold text-2xl text-center">Ingresar a Plato</h1>
         <FormField
           control={form.control}
           name="email"
@@ -86,7 +86,7 @@ const LoginForm = () => {
         <p className="text-xs">
           En caso de no poder ingresar comunicarse con{" "}
           <a href="https://www.instagram.com/cartadigital.arg/" target="_blank" className="text-blue-500 hover:underline">
-            Carta
+            Plato Menu
           </a>
         </p>
       </form>

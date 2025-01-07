@@ -4,7 +4,7 @@ import { Metadata } from "next";
 
 export const generateMetadata = ({ params }: { params: { slug: string } }): Metadata => {
   return {
-    title: `${capitalize(params.slug)} | Carta`,
+    title: `${capitalize(params.slug)} | Plato Menu`,
     description: ``
   }
 }

@@ -9,9 +9,9 @@ import MobileNav from "@/components/mobile-nav";
 import Logo from "@/components/logo";
 
 export const metadata: Metadata = {
-  title: "Carta - Admin ",
+  title: "Plato - Admin",
   description:
-    "Demo de carta digital. Una web donde podrás administrar tu carta y tus pedidos.",
+    "Una web donde podrás administrar tu carta y tus pedidos.",
   icons: {
     icon: "/favicon.ico",
   },

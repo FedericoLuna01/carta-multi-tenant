@@ -7,7 +7,7 @@ import SortableGrid from "./components/sortable-grid";
 import { auth } from "@/auth";
 
 export const metadata = {
-  title: "Carta - Admin - Reordenar",
+  title: "Plato - Admin - Reordenar",
 };
 
 async function SortingPage() {

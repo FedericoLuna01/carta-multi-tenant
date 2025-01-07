@@ -114,7 +114,7 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Nombre</FormLabel>
                 <FormControl>
-                  <Input placeholder="Carta" {...field} />
+                  <Input placeholder="Plato" {...field} />
                 </FormControl>
                 <FormDescription>
                   Este es el nombre público.
@@ -185,11 +185,11 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Link de la página</FormLabel>
                 <FormControl>
-                  <Input placeholder="tucarta" {...field} />
+                  <Input placeholder="tumenu" {...field} />
                 </FormControl>
                 <FormDescription>
                   Este es el nombre que se mostrará en la URL. Por ejemplo:
-                  tucarta.carta.com
+                  tumenu.platomenu.com
                 </FormDescription>
                 <FormMessage />
               </FormItem>

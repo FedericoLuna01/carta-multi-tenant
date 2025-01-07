@@ -7,7 +7,7 @@ const UserNotFound = () => {
     <section>
       <div className='container h-full flex items-center justify-center flex-col'>
         <Logo />
-        <h1 className='text-4xl font-bold mt-3'>Esta carta puede ser tuya!</h1>
+        <h1 className='text-4xl font-bold mt-3'>Este menú puede ser tuyo!</h1>
         <p className='text-xl text-muted-foreground'>
           Si sos el dueño de este local, podés crear tu carta en minutos!
         </p>

@@ -9,12 +9,9 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
   const origin = req.headers.get('origin');
   const isAllowedOrigin = origin && (
     // TODO: Cambiar por el dominio original
-    origin.endsWith('.carta.ar') ||
     origin.includes("localhost") ||
-    origin.includes("carta.ar") ||
-    origin === 'https://carta.ar' ||
-    origin.endsWith('.cuppyagenciaweb.com') ||
-    origin === "https://cuppyagenciaweb.com"
+    origin.endsWith('.platomenu.com') ||
+    origin === "https://platomenu.com"
 
   );
 
@@ -134,12 +131,9 @@ export async function OPTIONS(req: Request) {
   // Verifica si el origen termina con tu dominio principal
   const isAllowedOrigin = origin && (
     // TODO: Cambiar por el dominio original
-    origin.endsWith('.carta.ar') ||
-    origin.endsWith('.cuppyagenciaweb.com') ||
-    origin.includes("localhost") ||
-    origin.includes("carta.ar") ||
-    origin === 'https://carta.ar' ||
-    origin === "https://cuppyagenciaweb.com"
+    origin.endsWith('.platomenu.com') ||
+    origin === "https://platomenu.com" ||
+    origin.includes("localhost")
   );
 
   return new NextResponse(null, {

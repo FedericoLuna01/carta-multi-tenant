@@ -7,7 +7,7 @@ import { OrdersPageClient } from "./page.client";
 import prismadb from "@/lib/prismadb";
 
 export const metadata: Metadata = {
-  title: "Carta - Admin - Órdenes",
+  title: "Plato - Admin - Órdenes",
 };
 
 export default async function OrdersPage() {

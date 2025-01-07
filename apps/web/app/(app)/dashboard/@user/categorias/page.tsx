@@ -12,7 +12,7 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@/auth";
 
 export const metadata: Metadata = {
-  title: "Carta - Admin - Categorías",
+  title: "Plato - Admin - Categorías",
 };
 
 const getCategories = unstable_cache(

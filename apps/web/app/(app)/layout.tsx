@@ -10,9 +10,9 @@ import { auth } from "@/auth";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Carta",
+  title: "Plato Menu",
   description:
-    "Administra tu restaurante de manera fácil y rápida con Carta. ",
+    "Administra tu restaurante de manera fácil y rápida con Plato Menu. ",
   icons: {
     icon: "/favicon.ico",
   },

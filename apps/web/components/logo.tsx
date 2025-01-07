@@ -13,7 +13,7 @@ const Logo: React.FC<LogoProps> = ({ size = "md" }) => {
     >
       <Image
         src="/logo.png"
-        alt="Carta"
+        alt="Plato Menu Logo"
         width={size === "sm" ? 120 : 150}
         height={size === "sm" ? 120 : 150}
       />

@@ -23,7 +23,7 @@ const Hero = () => {
             <Button
               size='lg'
             >
-              Quiero mi carta!
+              Quiero mi menú!
             </Button>
             <Button
               size='lg'

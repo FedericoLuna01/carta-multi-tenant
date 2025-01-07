@@ -11,9 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import prismadb from "@/lib/prismadb";
 
 export const metadata: Metadata = {
-  title: "Carta - Administrar usuarios ",
-  description:
-    "Demo de carta digital. Una web donde podrás administrar tu carta y tus pedidos.",
+  title: "Plato - Administrar usuarios ",
 };
 
 export default async function UsersPage() {
@@ -35,7 +33,7 @@ export default async function UsersPage() {
       <div className="flex flex-row items-center justify-between">
         <Heading
           title="Usuarios"
-          description="Administra los usuarios de carta"
+          description="Administra los usuarios de plato"
         />
         <Button
           asChild

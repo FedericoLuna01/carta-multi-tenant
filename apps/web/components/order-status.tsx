@@ -34,8 +34,7 @@ const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId, userSettin
   useEffect(() => {
     const getOrder = async () => {
       setLoading(true);
-      // const res = await axios(`https://carta.ar/api/${params.slug}/orders/${orderId}`);
-      const url = process.env.DOMAIN_NAME || "http://localhost:3000";
+      const url = process.env.DOMAIN_NAME ? `https://${process.env.DOMAIN_NAME}` : "http://localhost:3000";
       const res = await axios(`${url}/api/${params.slug}/orders/${orderId}`);
       setOrder(res.data);
       const total = getTotalOrderPrice(res.data)

@@ -5,7 +5,7 @@ const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
     // TODO: Cambiar el origen
-    origin: ["https://carta.ar", "http://localhost:3000", "https://cuppyagenciaweb.com"],
+    origin: ["https://platomenu.com.ar", "http://localhost:3000"],
     methods: ["GET", "POST"],
     credentials: true
   }

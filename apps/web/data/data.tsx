@@ -110,7 +110,7 @@ export const socialsItems = [
     title: "WhatsApp",
     label: "+54 341 312 5385",
     icon: WhatsApp,
-    href: "https://wa.me/543413125385?text=Hola, quiero obtener carta!",
+    href: "https://wa.me/543413125385?text=Hola, quiero obtener el menú!",
     description: "Envianos un mensaje",
   },
   {
@@ -131,16 +131,16 @@ export const socialsItems = [
 
 export const accordionItems = [
   {
-    question: "¿En cuanto tiempo estarán lista mi carta?",
-    answer: "El tiempo de entrega de tu carta estará lista en una semana",
+    question: "¿En cuanto tiempo estarán lista mi menú?",
+    answer: "El tiempo de entrega de tu menú estará lista en una semana",
   },
   {
-    question: "¿Cómo puedo pagar mi carta?",
-    answer: "Puedes pagar tu carta con tarjeta de crédito o débito",
+    question: "¿Cómo puedo pagar mi menú?",
+    answer: "Puedes pagar tu menú con tarjeta de crédito o débito",
   },
   {
-    question: "¿Puedo cancelar mi carta?",
-    answer: "Sí, puedes cancelar tu carta en cualquier momento",
+    question: "¿Puedo cancelar mi menú?",
+    answer: "Sí, puedes cancelar tu menú en cualquier momento",
   },
   {
     question: "¿Cómo puedo contactarlos?",

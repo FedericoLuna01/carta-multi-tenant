@@ -10,7 +10,7 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@/auth";
 
 export const metadata = {
-  title: "Carta - Admin - Productos",
+  title: "Plato - Admin - Productos",
 };
 
 async function ProductsPage() {
