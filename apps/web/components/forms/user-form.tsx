@@ -34,6 +34,7 @@ interface UserFormProps {
     slug: string;
     role: "USER" | "ADMIN";
     isActive: boolean;
+    isPremium?: boolean;
   } | null;
 }
 
@@ -51,7 +52,8 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       password: "",
       slug: "",
       role: "USER",
-      isActive: true
+      isActive: true,
+      isPremium: false,
     },
   });
 
@@ -195,28 +197,46 @@ const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          {
-            <FormField
-              control={form.control}
-              name="isActive"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 h-fit">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Activo</FormLabel>
-                    <FormDescription>
-                      Este usuario podrá acceder al sistema
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-          }
+          <FormField
+            control={form.control}
+            name="isActive"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 h-fit">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Activo</FormLabel>
+                  <FormDescription>
+                    Este usuario podrá acceder al sistema
+                  </FormDescription>
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="isPremium"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 h-fit">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Premium</FormLabel>
+                  <FormDescription>
+                    Este usuario podrá acceder a funciones premium
+                  </FormDescription>
+                </div>
+              </FormItem>
+            )}
+          />
           <Button className="col-span-3 w-fit" disabled={isPending} type="submit">
             {buttonText}
           </Button>

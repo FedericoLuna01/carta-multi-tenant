@@ -1,4 +1,4 @@
-import { FullData } from "@/types/types";
+import { FullData, UserNoPass } from "@/types/types";
 import {
   Accordion,
   AccordionContent,
@@ -7,7 +7,7 @@ import {
 } from "./ui/accordion";
 import ProductCard from "./ui/product-card";
 
-const Main = async ({ products }: { products: FullData[] }) => {
+const Main = async ({ products, user }: { products: FullData[], user: UserNoPass }) => {
   return (
     <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-28">
       <Accordion type="single" collapsible>
@@ -37,7 +37,7 @@ const Main = async ({ products }: { products: FullData[] }) => {
                 </h4>
                 <div className="flex flex-col space-y-6 items-center lg:items-start w-full">
                   {subcategory.products.map((product) => (
-                    <ProductCard key={product.name} product={product} />
+                    <ProductCard user={user} key={product.name} product={product} />
                   ))}
                 </div>
               </AccordionContent>

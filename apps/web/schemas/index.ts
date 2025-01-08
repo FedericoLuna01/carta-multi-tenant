@@ -12,6 +12,7 @@ export const RegisterSchema = z.object({
   slug: z.string().min(1, { message: "Link es requerido" }).regex(/^\S*$/, "El link no debe contener espacios"),
   role: z.enum(["USER", "ADMIN"]),
   isActive: z.boolean(),
+  isPremium: z.boolean(),
 });
 
 export const EditUserSchema = z.object({

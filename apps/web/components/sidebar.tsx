@@ -14,9 +14,9 @@ const Sidebar = () => {
   const session = useSession();
   const pathname = usePathname();
 
-  const items = session?.data.user.role === UserRole.ADMIN ? adminNavItems : userNavItems;
-
   if (!session) return null;
+
+  const items = session?.data.user.role === UserRole.ADMIN ? adminNavItems : userNavItems;
 
   return (
     <div className="flex-1">

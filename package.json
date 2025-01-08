@@ -1,5 +1,5 @@
 {
-  "name": "carta-monorepo",
+  "name": "plato-menu",
   "private": true,
   "workspaces": [
     "apps/*",

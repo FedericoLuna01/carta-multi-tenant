@@ -12,6 +12,7 @@ declare module "next-auth" {
   interface User {
     role: UserRole;
     slug: string;
+    isPremium: boolean;
   }
 }
 
@@ -36,6 +37,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.slug = token.slug as string;
       }
 
+      if (token.isPremium && session.user) {
+        session.user.isPremium = token.isPremium as boolean;
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -47,6 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       token.role = existingUser.role;
       token.slug = existingUser.slug;
+      token.isPremium = existingUser.isPremium;
 
       return token;
     },

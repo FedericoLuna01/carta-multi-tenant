@@ -6,16 +6,16 @@ import Main from "@/components/main";
 import UserInfo from "@/components/user-info";
 import prismadb from "@/lib/prismadb";
 import BackToTop from "@/components/back-to-top";
-import { getUserBySlug } from "@/utils/user";
 import Navbar from "./_components/navbar";
 import WhatsAppButton from "@/components/whatsapp-button";
 import UserNotFound from "@/components/user-not-found";
 import { UserRole } from "@prisma/client";
+import { getUserNoPassBySlug } from "@/utils/user";
 
 export default async function Home({ params }: { params: { slug: string } }) {
   noStore();
 
-  const user = await getUserBySlug(params.slug);
+  const user = await getUserNoPassBySlug(params.slug);
 
   if (!user || !user.isActive || user.role !== UserRole.USER) {
     return <UserNotFound />;
@@ -63,7 +63,7 @@ export default async function Home({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <Navbar products={products} slug={params.slug} userSettings={userSettings} />
+      <Navbar products={products} slug={params.slug} userSettings={userSettings} user={user} />
       <div
         className="pt-24"
         style={{
@@ -78,8 +78,8 @@ export default async function Home({ params }: { params: { slug: string } }) {
         <Header image={userSettings?.image} />
         <div>
           <UserInfo userSettings={userSettings} />
-          {carouselProducts.length > 0 && <Carousel slides={carouselProducts} />}
-          <Main products={products} />
+          {carouselProducts.length > 0 && <Carousel user={user} slides={carouselProducts} />}
+          <Main user={user} products={products} />
         </div>
         {
           userSettings?.phone && <WhatsAppButton number={userSettings.phone} message={`Hola ${user.name}!`} />

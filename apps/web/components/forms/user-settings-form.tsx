@@ -186,197 +186,204 @@ export default function UserSettingsForm({
             </div>
           </div>
         </div>
-        <div>
-          <h3 className="mb-4 text-lg font-medium">Tipos de ordenes</h3>
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="table"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Mesa</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder hacer su orden desde una mesa.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="delivery"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Delivery</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder hacer su orden desde su casa.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="takeaway"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Takeaway</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder retirar su pedido en tu local.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <div>
-          <h3 className="mb-4 text-lg font-medium">Métodos de pago</h3>
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="cash"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Efectivo</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder pagar con efectivo.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="card"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Tarjeta</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder pagar con tarjeta de débito con tu Posnet.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="qr"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Código QR</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder pagar escaneando tu código QR.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {
-              form.watch("qr") && (
-                <FormField
-                  control={form.control}
-                  name="qrImage"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Imagen del código QR</FormLabel>
-                      <FormControl>
-                        <ImageUpload
-                          value={field.value ? [field.value] : []}
-                          onChange={(url) => field.onChange(url)}
-                          onRemove={() => field.onChange("")}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )
-            }
-            <FormField
-              control={form.control}
-              name="transfer"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Transferencia</FormLabel>
-                    <FormDescription>
-                      Tus clientes van a poder pagar con transferencia.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {
-              form.watch("transfer") && (
-                <FormField
-                  control={form.control}
-                  name="cbu"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>CBU o alias</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="Ej: 1234567890123456789012" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )
-            }
-          </div>
-        </div>
+        {
+          user.isPremium && (
+            <>
+
+              <div>
+                <h3 className="mb-4 text-lg font-medium">Tipos de ordenes</h3>
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="table"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Mesa</FormLabel>
+                          <FormDescription>
+                            Tus clientes van a poder hacer su orden desde una mesa.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="delivery"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Delivery</FormLabel>
+                          <FormDescription>
+                            Tus clientes van a poder hacer su orden desde su casa.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="takeaway"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Takeaway</FormLabel>
+                          <FormDescription>
+                            Tus clientes van a poder retirar su pedido en tu local.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+              <div>
+                <h3 className="mb-4 text-lg font-medium">Métodos de pago</h3>
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="cash"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Efectivo</FormLabel>
+                          <FormDescription>
+                            Tus clientes van a poder pagar con efectivo.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="card"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Tarjeta</FormLabel>
+                          <FormDescription>
+                            Tus clientes van a poder pagar con tarjeta de débito con tu Posnet.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="qr"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Código QR</FormLabel>
+                          <FormDescription>
+                            Tus clientes van a poder pagar escaneando tu código QR.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {
+                    form.watch("qr") && (
+                      <FormField
+                        control={form.control}
+                        name="qrImage"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col">
+                            <FormLabel>Imagen del código QR</FormLabel>
+                            <FormControl>
+                              <ImageUpload
+                                value={field.value ? [field.value] : []}
+                                onChange={(url) => field.onChange(url)}
+                                onRemove={() => field.onChange("")}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )
+                  }
+                  <FormField
+                    control={form.control}
+                    name="transfer"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                          <FormLabel>Transferencia</FormLabel>
+                          <FormDescription>
+                            Tus clientes van a poder pagar con transferencia.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {
+                    form.watch("transfer") && (
+                      <FormField
+                        control={form.control}
+                        name="cbu"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col">
+                            <FormLabel>CBU o alias</FormLabel>
+                            <FormControl>
+                              <Input {...field} placeholder="Ej: 1234567890123456789012" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )
+                  }
+                </div>
+              </div>
+            </>
+          )
+        }
         <div>
           <h3 className="mb-4 text-lg font-medium">Logo de tu local</h3>
           <FormField

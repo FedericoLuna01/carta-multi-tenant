@@ -4,13 +4,14 @@ import useEmblaCarousel, { EmblaOptionsType } from "embla-carousel-react";
 
 import Autoplay from "embla-carousel-autoplay";
 import ProductCard from "../ui/product-card";
-import { FullProduct } from "@/types/types";
+import { FullProduct, UserNoPass } from "@/types/types";
 
 type PropType = {
   slides: FullProduct[];
+  user?: UserNoPass
 };
 
-const Carousel: React.FC<PropType> = ({ slides }) => {
+const Carousel: React.FC<PropType> = ({ slides, user }) => {
   const options: EmblaOptionsType = { loop: true };
   const autoPlayOptions = { delay: 3000, stopOnInteraction: false };
   const [emblaRef] = useEmblaCarousel(options, [Autoplay(autoPlayOptions)]);
@@ -20,7 +21,7 @@ const Carousel: React.FC<PropType> = ({ slides }) => {
         <div className="embla__container ">
           {slides.map((product, index) => (
             <div className="embla__slide" key={index}>
-              <ProductCard product={product} />
+              <ProductCard user={user} product={product} />
             </div>
           ))}
         </div>

@@ -12,10 +12,11 @@ import {
   CommandItem,
   CommandList,
 } from "./ui/command";
-import { FullData } from "@/types/types";
+import { FullData, UserNoPass } from "@/types/types";
 import useProductModal from "@/hooks/use-product-modal";
+import { DialogTitle } from "./ui/dialog";
 
-const CommandSearch = ({ products }: { products: FullData[] }) => {
+const CommandSearch = ({ products, user }: { products: FullData[], user: UserNoPass }) => {
   const [open, setOpen] = useState(false);
   const { onOpen } = useProductModal();
 
@@ -42,6 +43,7 @@ const CommandSearch = ({ products }: { products: FullData[] }) => {
         <Search className="w-5 h-5" />
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
+        <DialogTitle className="sr-only">Buscar productos</DialogTitle>
         <CommandInput placeholder="Lomito completo..." />
         <CommandList>
           <CommandEmpty>No se encontraron resultados.</CommandEmpty>
@@ -51,7 +53,7 @@ const CommandSearch = ({ products }: { products: FullData[] }) => {
                 key={product.id}
                 value={product.name}
                 onSelect={() => {
-                  onOpen(product);
+                  onOpen(product, user);
                 }}
                 className="flex items-center justify-between"
               >

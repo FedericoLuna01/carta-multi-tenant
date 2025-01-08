@@ -14,23 +14,26 @@ import {
   CardHeader,
   CardTitle,
 } from "./card";
-import { FullProduct } from "@/types/types";
+import { FullProduct, UserNoPass } from "@/types/types";
 
 interface ProductCardProps {
   product: FullProduct;
   isAdmin?: boolean;
+  user?: UserNoPass
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   isAdmin = false,
+  user
 }) => {
   const productModal = useProductModal();
+  if (!user) return null;
 
   return (
     <Card
       className="p-1 bg-slate-100 flex flex-col lg:flex-row h-full w-auto lg:w-full group hover:cursor-pointer mx-auto lg:mx-0 relative overflow-hidden"
-      onClick={() => productModal.onOpen(product)}
+      onClick={() => productModal.onOpen(product, user)}
     >
       {product.isPromo && (
         <div className="absolute top-0 right-0 bg-green-600 text-white text-xs px-12 py-2 translate-y-1 translate-x-8 rotate-[30deg] z-10 font-semibold shadow-sm">
@@ -87,7 +90,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </div>
             ) : (
               <Button onClick={() => productModal.onOpen(product)} size="lg">
-                Agregar
+                {
+                  user.isPremium
+                    ? "Agregar al carrito"
+                    : "Ver detalles"
+                }
               </Button>
             )}
           </div>

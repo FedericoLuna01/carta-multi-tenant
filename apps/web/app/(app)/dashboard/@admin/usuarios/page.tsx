@@ -25,6 +25,7 @@ export default async function UsersPage() {
       isActive: true,
       updatedAt: true,
       createdAt: true,
+      isPremium: true,
     },
   })
 

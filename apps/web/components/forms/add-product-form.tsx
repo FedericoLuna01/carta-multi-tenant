@@ -61,11 +61,11 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
   const existingItem = items.find((item) => item.id === data.id);
   const updatedInfo = existingItem
     ? {
-        quantity: existingItem.quantity,
-        options: existingItem.options,
-        size: existingItem.size,
-        extras: existingItem.extras,
-      }
+      quantity: existingItem.quantity,
+      options: existingItem.options,
+      size: existingItem.size,
+      extras: existingItem.extras,
+    }
     : undefined;
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -238,10 +238,10 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ data }) => {
                                 return checked
                                   ? field.onChange([...field.value, item])
                                   : field.onChange(
-                                      field.value?.filter(
-                                        (value) => value.name !== item.name
-                                      )
-                                    );
+                                    field.value?.filter(
+                                      (value) => value.name !== item.name
+                                    )
+                                  );
                               }}
                             />
                           </FormControl>

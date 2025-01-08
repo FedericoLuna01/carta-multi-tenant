@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { UserNoPass } from "@/types/types";
 import { UserRole } from "@prisma/client";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
@@ -69,4 +70,29 @@ export const checkAdminAccess = async (user: Session) => {
   }
 
   return true;
+}
+
+export const getUserNoPassBySlug = async (slug: string): Promise<UserNoPass> => {
+  try {
+    const user = await prismadb.user.findUnique({
+      where: {
+        slug
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        slug: true,
+        isActive: true,
+        updatedAt: true,
+        createdAt: true,
+        isPremium: true,
+      },
+    })
+    return user
+  } catch (error) {
+    // console.error(error);
+    return null;
+  }
 }

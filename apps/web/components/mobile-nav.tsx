@@ -19,6 +19,9 @@ const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false)
   const session = useSession();
   const pathname = usePathname();
+
+  if (!session) return null;
+
   const items = session?.data.user.role === UserRole.ADMIN ? adminNavItems : userNavItems;
 
   const handleClick = () => {
