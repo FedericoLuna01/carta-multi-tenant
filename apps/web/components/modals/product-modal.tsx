@@ -63,7 +63,7 @@ const ModalProductDetails = ({ data }: { data: FullProduct }) => {
   return (
     <div>
       {
-        data.sizes && (
+        data.sizes.length !== 0 && (
           <div>
             <p className="text-black font-semibold">Tamaños</p>
             {
@@ -79,7 +79,7 @@ const ModalProductDetails = ({ data }: { data: FullProduct }) => {
         )
       }
       {
-        data.extras && (
+        data.extras.length !== 0 && (
           <div>
             <p className="text-black font-semibold">Extras</p>
             {
@@ -95,7 +95,7 @@ const ModalProductDetails = ({ data }: { data: FullProduct }) => {
         )
       }
       {
-        data.sizes.length === 2 && (
+        data.sizes.length === 0 && (
           <div className="flex gap-2 mt-2">
             <p className={cn("font-bold text-xl", data.isPromo && "text-gray-500 line-through")}>
               {formatter.format(data.price)}
