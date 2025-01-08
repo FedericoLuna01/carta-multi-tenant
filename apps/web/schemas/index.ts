@@ -21,6 +21,7 @@ export const EditUserSchema = z.object({
   role: z.enum(["USER", "ADMIN"]),
   slug: z.string().min(1, { message: "Link es requerido" }).regex(/^\S*$/, "El link no debe contener espacios"),
   isActive: z.boolean(),
+  isPremium: z.boolean(),
 })
 
 export const UserSettingsSchema = z.object({
