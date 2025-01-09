@@ -14,7 +14,7 @@ const Sidebar = () => {
   const session = useSession();
   const pathname = usePathname();
 
-  if (!session) return null;
+  if (!session || !session.data.user) return null;
 
   const items = session?.data.user.role === UserRole.ADMIN ? adminNavItems : userNavItems;
 

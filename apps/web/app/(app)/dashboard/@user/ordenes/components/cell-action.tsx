@@ -25,6 +25,7 @@ interface CellActionProps {
 }
 
 const CellAction: React.FC<CellActionProps> = ({ data }) => {
+  const [dropOpen, setDropOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -54,7 +55,10 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onConfirm={onDelete}
         loading={loading}
       />
-      <DropdownMenu>
+      <DropdownMenu
+        open={dropOpen}
+        onOpenChange={setDropOpen}
+      >
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Open menu</span>
@@ -80,7 +84,10 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              setIsOpen(true)
+              setDropOpen(false)
+            }}
             className="text-red-500 hover:bg-red-500 hover:text-white"
           >
             <Trash className="w-5 h-5 mr-2" />

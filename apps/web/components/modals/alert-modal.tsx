@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,10 +43,12 @@ export const AlertModal: React.FC<AlertModalProps> = ({
             ¡Cuidado!
           </DialogTitle>
           <DialogDescription className="text-center">
-            La accion que estás a punto de realizar es irreversible.
+            La acción que estás a punto de realizar es irreversible.
           </DialogDescription>
           <div className="flex justify-center mt-4 space-x-4">
-            <Button variant="secondary" onClick={onClose}>
+            <Button variant="secondary"
+              onClick={onClose}
+            >
               Cancelar
             </Button>
             <Button

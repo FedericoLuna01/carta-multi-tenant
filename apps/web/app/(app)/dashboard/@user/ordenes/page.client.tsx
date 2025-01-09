@@ -1,33 +1,21 @@
 "use client"
 
-import socket, { joinUserRoom } from "@/lib/socketio";
-import { useState, useEffect } from "react";
-import { useUser } from "@/utils/user";
 import { columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
-import { FullOrder } from "@/types/types";
+import { useOrders } from "@/contexts/orders-context";
 
-export function OrdersPageClient({ orders }: { orders: FullOrder[] }) {
-  const [data, setData] = useState<FullOrder[]>(orders);
-  const user = useUser();
+export function OrdersPageClient() {
+  const { orders, isLoading } = useOrders();
 
-  useEffect(() => {
-    if (user && user.id) {
-      joinUserRoom(user.id);
-
-      const handleNewOrder = (newOrder: FullOrder) => {
-        setData((prevOrders) => [{ ...newOrder, key: newOrder.id }, ...prevOrders]);
-      };
-
-      socket.on('receiveOrder', handleNewOrder);
-
-      return () => {
-        socket.off('receiveOrder', handleNewOrder);
-      };
-    }
-  }, [user]);
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+      </div>
+    );
+  }
 
   return (
-    <DataTable data={data} columns={columns} visibility order />
+    <DataTable data={orders} columns={columns} visibility order />
   );
 }
