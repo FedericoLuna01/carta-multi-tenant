@@ -25,7 +25,7 @@ export const deleteUser = async (user: UserNoPass) => {
     return { success: "Usuario eliminado correctamente" }
 
   } catch (error: any) {
-    // console.log("[DELETE_USER]", error)
+    console.log("[DELETE_USER]", error)
     return { error: "Algo salió mal" }
   }
 

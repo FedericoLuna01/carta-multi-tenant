@@ -89,7 +89,7 @@ model Product {
   sort          Int
   lastChange    Json?
   userId        String
-  user          User        @relation("ProductToUser", fields: [userId], references: [id])
+  user          User        @relation("ProductToUser", fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -128,7 +128,7 @@ model Category {
   subcategories Subcategory[] @relation("SubcategoryToCategory")
   sort          Int
   userId        String
-  user          User          @relation("CategoryToUser", fields: [userId], references: [id])
+  user          User          @relation("CategoryToUser", fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -140,11 +140,11 @@ model Subcategory {
   id         String    @id @default(uuid())
   name       String
   categoryId String
-  category   Category  @relation("SubcategoryToCategory", fields: [categoryId], references: [id])
+  category   Category  @relation("SubcategoryToCategory", fields: [categoryId], references: [id], onDelete: Cascade)
   products   Product[] @relation("SubcategoryToProduct")
   sort       Int
   userId     String
-  user       User      @relation("SubcategoryToUser", fields: [userId], references: [id])
+  user       User      @relation("SubcategoryToUser", fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -163,7 +163,7 @@ model Order {
   status        OrderStatus        @default(PENDING)
   products      OrderItem[]        @relation("OrderItemToOrder")
   userId        String
-  user          User               @relation("OrderToUser", fields: [userId], references: [id])
+  user          User               @relation("OrderToUser", fields: [userId], references: [id], onDelete: Cascade)
   payment       OrderPayment       @default(CASH)
   paymentStatus OrderPaymentStatus @default(PENDING)
 

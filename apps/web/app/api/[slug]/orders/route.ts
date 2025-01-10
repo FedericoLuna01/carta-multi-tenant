@@ -8,7 +8,6 @@ import { auth } from "@/auth";
 export async function POST(req: Request, { params }: { params: { slug: string } }) {
   const origin = req.headers.get('origin');
   const isAllowedOrigin = origin && (
-    // TODO: Cambiar por el dominio original
     origin.includes("localhost") ||
     origin.endsWith('.platomenu.com') ||
     origin === "https://platomenu.com"
@@ -130,7 +129,6 @@ export async function OPTIONS(req: Request) {
   const origin = req.headers.get('origin');
   // Verifica si el origen termina con tu dominio principal
   const isAllowedOrigin = origin && (
-    // TODO: Cambiar por el dominio original
     origin.endsWith('.platomenu.com') ||
     origin === "https://platomenu.com" ||
     origin.includes("localhost")
