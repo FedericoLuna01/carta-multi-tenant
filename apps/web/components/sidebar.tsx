@@ -6,22 +6,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { adminNavItems, userNavItems } from "@/data/data";
-import {
-  LineChart,
-} from "lucide-react";
+import { LineChart } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
-  const session = useSession();
+  const { data: session, status } = useSession();
   const pathname = usePathname();
+  const [navigationItems, setNavigationItems] = useState([]);
 
-  if (!session || !session.data.user) return null;
+  useEffect(() => {
+    if (session?.user) {
+      const items = session.user.role === UserRole.ADMIN ? adminNavItems : userNavItems;
+      setNavigationItems(items);
+    }
+  }, [session, status]);
 
-  const items = session?.data.user.role === UserRole.ADMIN ? adminNavItems : userNavItems;
+  // Si la sesión está cargando, mostramos null
+  if (status === 'loading') {
+    return null;
+  }
 
   return (
     <div className="flex-1">
       <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-        <a href="/dashboard"
+        <Link
+          href="/dashboard"
           className={cn(
             "flex items-center gap-3 rounded-lg px-3 py-2 text-primary transition-all hover:text-primary",
             pathname === "/dashboard"
@@ -30,8 +39,8 @@ const Sidebar = () => {
           )}
         >
           <LineChart className="h-4 w-4" /> Dashboard
-        </a>
-        {items.map((item) => (
+        </Link>
+        {navigationItems.map((item) => (
           <Link
             key={item.id}
             href={item.href}

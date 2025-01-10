@@ -12,17 +12,26 @@ import {
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Logo from "./logo";
 
 const MobileNav = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const session = useSession();
+  const [isOpen, setIsOpen] = useState(false);
+  const [navigationItems, setNavigationItems] = useState([]);
+  const { data: session, status } = useSession();
   const pathname = usePathname();
 
-  if (!session) return null;
+  useEffect(() => {
+    if (session?.user) {
+      const items = session.user.role === UserRole.ADMIN ? adminNavItems : userNavItems;
+      setNavigationItems(items);
+    }
+  }, [session, status]);
 
-  const items = session?.data.user.role === UserRole.ADMIN ? adminNavItems : userNavItems;
+  // Si la sesión está cargando, mostramos null
+  if (status === 'loading') {
+    return null;
+  }
 
   const handleClick = () => {
     setIsOpen(false)
@@ -47,7 +56,8 @@ const MobileNav = () => {
         <div className="flex-1">
           <nav className="grid gap-2 font-medium">
             <Logo size='sm' />
-            <a href="/dashboard"
+            <Link
+              href="/dashboard"
               className={cn(
                 "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
                 pathname === "/dashboard"
@@ -57,8 +67,8 @@ const MobileNav = () => {
               onClick={handleClick}
             >
               <LineChart className="h-4 w-4" /> Dashboard
-            </a>
-            {items.map((item) => (
+            </Link>
+            {navigationItems.map((item) => (
               <Link
                 key={item.id}
                 href={item.href}

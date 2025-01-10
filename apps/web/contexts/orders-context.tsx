@@ -22,45 +22,46 @@ export function OrdersProvider({ children }: { children: ReactNode }) {
   // Efecto para cargar órdenes iniciales
   useEffect(() => {
     async function loadOrders() {
-      if (user?.slug) {
-        try {
-          const response = await fetch(`/api/${user.slug}/orders`);
-          if (response.ok) {
-            const data = await response.json();
-            setOrders(data);
-          }
-        } catch (error) {
-          console.error('Error al cargar órdenes:', error);
-        } finally {
-          setIsLoading(false);
+      if (!user?.slug) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/${user.slug}/orders`);
+        if (response.ok) {
+          const data = await response.json();
+          setOrders(data);
         }
+      } catch (error) {
+        console.error('Error al cargar órdenes:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
-    if (user) {
-      loadOrders();
-    }
+    loadOrders();
   }, [user]);
 
   // Efecto para manejar socket
   useEffect(() => {
-    if (user && user.id) {
-      joinUserRoom(user.id);
+    if (!user?.id) return;
 
-      const handleNewOrder = (newOrder: FullOrder) => {
-        setOrders((prevOrders) => [{ ...newOrder, key: newOrder.id }, ...prevOrders]);
-        toast.success('¡Nueva orden recibida!', {
-          duration: 5000,
-          position: 'top-right',
-        });
-      };
+    joinUserRoom(user.id);
 
-      socket.on('receiveOrder', handleNewOrder);
+    const handleNewOrder = (newOrder: FullOrder) => {
+      setOrders((prevOrders) => [{ ...newOrder, key: newOrder.id }, ...prevOrders]);
+      toast.success('¡Nueva orden recibida!', {
+        duration: 5000,
+        position: 'top-right',
+      });
+    };
 
-      return () => {
-        socket.off('receiveOrder', handleNewOrder);
-      };
-    }
+    socket.on('receiveOrder', handleNewOrder);
+
+    return () => {
+      socket.off('receiveOrder', handleNewOrder);
+    };
   }, [user]);
 
   return (

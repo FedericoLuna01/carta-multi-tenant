@@ -36,6 +36,10 @@ const LoginForm = () => {
       setLoading(true);
       login(data).then((res) => {
         setError(res?.error)
+        if (!res?.error) {
+          toast.success("Inicio de sesión correcto");
+          window.location.href = "/dashboard";
+        }
       });
     } catch (error: any) {
       toast.error(error.response.data);
