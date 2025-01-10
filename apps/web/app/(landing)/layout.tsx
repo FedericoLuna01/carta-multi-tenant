@@ -1,3 +1,4 @@
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import { Inter } from "next/font/google"
 import "../globals.css"
 import Navbar from "./_components/navbar"
@@ -24,6 +25,8 @@ export default function RootLayout({
         {children}
         <Footer />
       </body>
+      <GoogleAnalytics gaId="G-ZJS69X2GCB" />
+      <GoogleTagManager gtmId="GTM-WRJNZ489" />
     </html>
   )
 }
