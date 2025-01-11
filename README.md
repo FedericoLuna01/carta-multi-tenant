@@ -1,6 +1,6 @@
-# Carta
+# Plato menu
 
-Carta es un menú digital donde los restaurants o bares van a poder mostrar su productos y los clientes van a poder verlos y  
+Plato es un menú digital donde los restaurants o bares van a poder mostrar su productos y los clientes van a poder verlos y  
 hacer pedidos. La aplicación cuenta con un panel de administración donde los dueños de los locales van a poder gestionar sus productos,  
 categorías, y pedidos en tiempo real.
 
@@ -38,11 +38,3 @@ Actualmente está en desarrollo, aunque el lanzamiento.
 - [ ] Migrar react-hot-toast a toast de ShadCN
 - [ ] Agregar posibilidad de pagar en la app
 - [ ] Agregar analytics de user y admin
-
-# Env
-
-```
-  DATABASE_URL=
-  DIRECT_URL=
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME =
-```
