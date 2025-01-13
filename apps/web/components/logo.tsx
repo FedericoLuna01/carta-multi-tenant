@@ -4,15 +4,21 @@ import Link from "next/link"
 
 interface LogoProps {
   size?: "sm" | "md"
+  color?: "white" | "black" | "red"
 }
 
-const Logo: React.FC<LogoProps> = ({ size = "md" }) => {
+const Logo: React.FC<LogoProps> = ({ size = "md", color = "red" }) => {
+  const logoSrc = {
+    white: "/logoplatoblanco.png",
+    black: "/logoplatonegro.png",
+    red: "/logoplatorojo.png",
+  }
   return (
     <Link
       href="/"
     >
       <Image
-        src="/logo.png"
+        src={logoSrc[color]}
         alt="Plato Menu Logo"
         width={size === "sm" ? 120 : 150}
         height={size === "sm" ? 120 : 150}

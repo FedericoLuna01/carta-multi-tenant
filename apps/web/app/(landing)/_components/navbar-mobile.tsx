@@ -43,6 +43,11 @@ const NavbarMobile = () => {
                   </li>
                 ))
               }
+              <li>
+                <Button>
+                  Cupón de descuento
+                </Button>
+              </li>
             </ul>
           </div>
         </SheetHeader>

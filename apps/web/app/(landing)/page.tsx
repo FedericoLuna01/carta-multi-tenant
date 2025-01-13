@@ -4,6 +4,7 @@ import Faq from "./_components/faq";
 import Features from "./_components/features";
 import Hero from "./_components/hero";
 import Pricing from "./_components/pricing";
+import Distribuidor from "./_components/distribuidor";
 
 export default async function LandingPage() {
   return (
@@ -12,6 +13,7 @@ export default async function LandingPage() {
       <Features />
       <Pricing />
       <Faq />
+      <Distribuidor />
       <Contact />
       <WhatsAppButton number="3413125385" message="hola" />
     </main>

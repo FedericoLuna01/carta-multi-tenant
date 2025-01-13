@@ -1,50 +1,34 @@
 import { cn } from "@/lib/utils"
-import { Settings } from "lucide-react"
+import { CircleCheckIcon } from "lucide-react"
 
 const Features = () => {
   const featuresLeft = [
     {
-      title: "Auto gestión",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, eaque?",
-      icon: Settings
+      title: "Código QR",
+      description: "Los clientes acceden escaneando un código QR sin necesidad de descargar apps.",
     },
     {
-      title: "Auto gestión",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, eaque?",
-      icon: Settings
+      title: "Tienda Online",
+      description: "Permití que tus clientes hagan pedidos de Delivery o Take Away directamente.",
     },
     {
-      title: "Auto gestión",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, eaque?",
-      icon: Settings
-    },
-    {
-      title: "Auto gestión",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, eaque?",
-      icon: Settings
+      title: "Métodos de Pago",
+      description: "Permití pagos con QR, tarjeta, efectivo o transferencia bancaria.",
     },
   ]
 
   const featuresRight = [
     {
-      title: "Auto gestión",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, eaque?",
-      icon: Settings
+      title: "Delivery / TakeAway",
+      description: "Reducí tiempos de espera y mejorá la experiencia de tus clientes.",
     },
     {
-      title: "Auto gestión",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, eaque?",
-      icon: Settings
+      title: "Gestión personalizada",
+      description: "Diseñado para que cualquier usuario pueda manejarlo fácilmente.",
     },
     {
-      title: "Auto gestión",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, eaque?",
-      icon: Settings
-    },
-    {
-      title: "Auto gestión",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, eaque?",
-      icon: Settings
+      title: "Soporte",
+      description: "Cualquier duda o problema que tengas, estamos para ayudarte.",
     },
   ]
   return (
@@ -54,14 +38,14 @@ const Features = () => {
       <div
         className='container flex items-center justify-center flex-col'
       >
-        <div className='text-center max-w-xl'>
-          <h2 className='font-bold text-3xl'>Nuestras modernas caracteristicas</h2>
-          <p className='text-muted-foreground'>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque aut, tenetur accusantium earum rem suscipit porro? Ad perferendis pariatur velit?
+        <div className='text-center flex flex-col gap-2'>
+          <h2 className='font-bold text-3xl xl:text-5xl'>Simplificamos tu día a día</h2>
+          <p className='text-muted-foreground text-xl xl:text-3xl'>
+            Vos encargate de la comida, nosotros resolvemos el resto.
           </p>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-3 justify-items-center mt-8 gap-y-8 md:gap-y-0'>
-          <div className="flex flex-col h-full justify-between space-y-7">
+          <div className="flex flex-col h-full justify-center space-y-12">
             {
               featuresLeft.map((item, index) => (
                 <FeatureCard key={index} item={item} side="left" />
@@ -74,7 +58,7 @@ const Features = () => {
             </div>
           </div>
           <div>
-            <div className="flex flex-col h-full justify-between space-y-7">
+            <div className="flex flex-col h-full justify-center space-y-12">
               {
                 featuresRight.map((item, index) => (
                   <FeatureCard key={index} item={item} side="right" />
@@ -88,7 +72,7 @@ const Features = () => {
   )
 }
 
-const FeatureCard = ({ item, side }: { item: { title: string, description: string, icon: any }, side: "right" | "left" }) => (
+const FeatureCard = ({ item, side }: { item: { title: string, description: string }, side: "right" | "left" }) => (
   <div className={cn("max-w-[400px] flex  flex-col-reverse md:flex-row items-center gap-2 md:gap-5", {
     'md:flex-row-reverse': side === "right",
     'md:flex-row': side === "left"
@@ -97,13 +81,15 @@ const FeatureCard = ({ item, side }: { item: { title: string, description: strin
       'md:text-right': side === "left",
       'md:text-left': side === "right"
     })}>
-      <h3 className="font-semibold text-xl">{item.title}</h3>
+      <div className={cn("flex gap-2 items-center justify-end", {
+        'flex-row-reverse': side === "right",
+      })}>
+        <h3 className="font-semibold text-xl">{item.title}</h3>
+        <CircleCheckIcon className="text-accentLanding/70 w-8 h-8" />
+      </div>
       <p className="text-muted-foreground">
         {item.description}
       </p>
-    </div>
-    <div className="p-5 rounded-full bg-[#ffc9c2]">
-      <item.icon className="text-[#ba1e09] w-8 h-8" />
     </div>
   </div>
 )

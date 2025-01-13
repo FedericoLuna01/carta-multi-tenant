@@ -1,66 +1,51 @@
 import { Button } from "@/components/ui/button"
-import ButtonScroll from "./scroll"
+import { BellRingIcon } from "lucide-react"
+import Image from "next/image"
 
 const Hero = () => {
   return (
     <section id="inicio"
-      className="bg-[url('/hero-bg-mobile.webp')] md:bg-[url('/hero-bg.webp')] bg-no-repeat bg-cover bg-center relative min-h-[calc(100vh-80px)]"
+      className=" min-h-[calc(100vh-80px)]"
     >
-      <div className="container flex pt-[15vh] md:pt-[20vh] justify-center">
-        <div className="max-w-2xl text-center flex items-center justify-start flex-col">
-          <span className="text-[#ba1e09] font-bold">
-            Seguí tus pedidos en tiempo real
-          </span>
-          <p className="text-5xl md:text-6xl font-extrabold">
-            Tu menú digital en un solo click!
-          </p>
-          <p className="text-xl text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur dicta laudantium tempore ratione ullam, aliquam molestias et magni dolorum sed!
-          </p>
-          <div
-            className="mt-8 flex gap-4 items-center justify-center"
-          >
-            <Button
-              size='lg'
-            >
-              Quiero mi menú!
-            </Button>
-            <Button
-              size='lg'
-              variant="outline"
-            >
-              Ver demo
+      <div className="container flex pt-[15vh] md:pt-[20vh] flex-col items-start gap-6">
+        <div className="flex justify-between gap-4 w-full">
+          <div className="flex flex-col gap-6">
+            <div>
+              <div className="flex items-center gap-4 text-3xl mb-2">
+                <BellRingIcon />
+                <p>Es hora de digitalizar tu negocio</p>
+              </div>
+              <div>
+                <h1 className=" text-4xl md:text-5xl font-bold">
+                  Pedidos, Delivery & Menú Digital
+                </h1>
+                <p className=" text-lg md:text-5xl relative w-fit">
+                  <span className="absolute w-full h-2 bg-accentLanding/70 -z-10 -bottom-1 -skew-x-12" />
+                  sin comisiones...
+                </p>
+              </div>
+            </div>
+            <div>
+              <p className="text-3xl uppercase font-bold">
+                Todo en un plato
+              </p>
+            </div>
+            <Button size="lg" className="w-fit">
+              ¿Cómo funciona?
             </Button>
           </div>
-          <ButtonScroll />
+          <div>
+            <Image
+              src="/qrcode.jpg"
+              width={300}
+              height={300}
+              alt="Código qr en una mesa"
+              className="rounded-full aspect-square object-center object-cover"
+            />
+          </div>
         </div>
-        <div className="absolute bg-[#f7270b] text-white xl:w-5/6 2xl:w-3/6 bottom-0 hidden lg:flex justify-center items-center flex-row gap-20 py-5 px-12 rounded-md translate-y-1/2">
-          <div className="flex items-center flex-col text-center">
-            <p className="text-3xl lg:text-5xl font-semibold">
-              200+
-            </p>
-            <p className="text-xl uppercase">
-              Restaurantes
-            </p>
-          </div>
-          <span className="w-[1px] h-[100px] bg-white"></span>
-          <div className="flex items-center flex-col text-center">
-            <p className="text-3xl lg:text-5xl font-semibold">
-              10+
-            </p>
-            <p className="text-xl uppercase">
-              Funcionalidades
-            </p>
-          </div>
-          <span className="w-[1px] h-[100px] bg-white"></span>
-          <div className="flex items-center flex-col text-center">
-            <p className="text-3xl lg:text-5xl font-semibold">
-              30+
-            </p>
-            <p className="text-xl uppercase">
-              Clientes
-            </p>
-          </div>
+        <div className="mx-auto w-5/6 text-center bg-zinc-200 h-[70vh] rounded-lg mt-[10vh] border-accentLanding/70 border-2">
+          Video
         </div>
       </div>
     </section>

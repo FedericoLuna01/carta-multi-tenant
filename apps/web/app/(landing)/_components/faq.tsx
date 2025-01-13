@@ -6,12 +6,9 @@ const Faq = () => {
     <section id="preguntas">
       <div className="container flex justify-center flex-col">
         <div className="text-center">
-          <h2 className="mt-2 text-2xl font-semibold md:text-3xl">
+          <h2 className="mt-2 text-2xl font-semibold md:text-5xl">
             Preguntas frecuentes
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Aquí encontrarás las preguntas más comunes que nos hacen nuestros clientes.
-          </p>
         </div>
         <div className="w-full md:w-[40em] mx-auto">
           <Accordion type="single" collapsible className="w-full">
