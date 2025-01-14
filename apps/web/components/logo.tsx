@@ -9,9 +9,9 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ size = "md", color = "red" }) => {
   const logoSrc = {
-    white: "/logoplatoblanco.png",
-    black: "/logoplatonegro.png",
-    red: "/logoplatorojo.png",
+    white: "/logoplatoblanco.webp",
+    black: "/logoplatonegro.webp",
+    red: "/logoplatorojo.webp",
   }
   return (
     <Link
