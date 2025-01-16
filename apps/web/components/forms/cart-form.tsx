@@ -93,9 +93,9 @@ const CartForm = ({ userSettings }: { userSettings: UserSettings | null }) => {
 
     try {
       setLoading(true);
-      // const url = process.env.DOMAIN_NAME ? `https://${process.env.DOMAIN_NAME}` : "http://localhost:3000";
-      // const res = await axios.post(`${url}/api/${params.slug}/orders`, data)
-      const res = await axios.post(`https://platomenu.com/api/${params.slug}/orders`, data)
+      const url = process.env.DOMAIN_NAME ? `https://${process.env.DOMAIN_NAME}` : "http://localhost:3000";
+      const res = await axios.post(`${url}/api/${params.slug}/orders`, data)
+      // const res = await axios.post(`https://platomenu.com/api/${params.slug}/orders`, data)
       // Guardar la orden en local storage
       localStorage.setItem("orderId", res.data.order.id);
       socket.emit("newOrder", res.data.newOrderWithProducts)

@@ -95,34 +95,54 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
 
 export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
   const { slug } = params;
-  const user = await auth();
+  const searchParams = req.nextUrl.searchParams
+  const page = parseInt(searchParams.get('page') || "1")
+  const pageSize = parseInt(searchParams.get('pageSize') || "10")
+  const skip = (page - 1) * pageSize;
 
+  const user = await auth();
   const hasAccess = await checkUserAccess(slug, user)
   if (!hasAccess) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const orders = await prismadb.order.findMany({
-    where: {
-      user: {
-        slug: user.user.slug,
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      products: {
-        include: {
-          extras: true,
-          size: true,
-          product: true,
+  const [orders, total] = await Promise.all([
+    prismadb.order.findMany({
+      where: {
+        user: {
+          slug: user.user.slug,
         },
       },
-    },
-  });
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        products: {
+          include: {
+            extras: true,
+            size: true,
+            product: true,
+          },
+        },
+      },
+      skip,
+      take: pageSize,
+    }),
+    prismadb.order.count({
+      where: {
+        user: {
+          slug: user.user.slug,
+        },
+      },
+    })
+  ]);
 
-  return NextResponse.json(orders);
+  return NextResponse.json({
+    items: orders,
+    total,
+    page,
+    totalPages: Math.ceil(total / pageSize),
+  });
 }
 
 export async function OPTIONS(req: Request) {

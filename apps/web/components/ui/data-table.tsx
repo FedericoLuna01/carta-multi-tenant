@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import {
   ColumnDef,
   flexRender,
@@ -44,6 +45,8 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   visibility?: boolean;
   order?: boolean;
+  pageCount?: number;
+  onPaginationChange?: (page: number, pageSize: number) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -51,13 +54,39 @@ export function DataTable<TData, TValue>({
   data,
   visibility = false,
   order = false,
+  pageCount,
+  onPaginationChange,
 }: DataTableProps<TData, TValue>) {
+  const searchParams = useSearchParams();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [{ pageIndex, pageSize }, setPagination] = useState({
+    pageIndex: Math.max(0, (parseInt(searchParams.get('page') ?? '1') - 1)),
+    pageSize: parseInt(searchParams.get('pageSize') ?? '10'),
+  });
+
+  useEffect(() => {
+    const newPage = parseInt(searchParams.get('page') ?? '1');
+    const newPageSize = parseInt(searchParams.get('pageSize') ?? '10');
+    
+    setPagination({
+      pageIndex: Math.max(0, newPage - 1),
+      pageSize: newPageSize,
+    });
+  }, [searchParams]);
+
+  const pagination = useCallback(
+    (newPageIndex: number, newPageSize: number) => {
+      setPagination({ pageIndex: newPageIndex, pageSize: newPageSize });
+      onPaginationChange?.(newPageIndex + 1, newPageSize);
+    },
+    [onPaginationChange]
+  );
 
   const table = useReactTable({
     data,
     columns,
+    pageCount: pageCount,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -66,10 +95,23 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedRowModel: getFacetedRowModel(),
+    onPaginationChange: (updater) => {
+      if (typeof updater === 'function') {
+        const newState = updater({ pageIndex, pageSize });
+        pagination(newState.pageIndex, newState.pageSize);
+      } else {
+        pagination(updater.pageIndex, updater.pageSize);
+      }
+    },
     state: {
       columnFilters,
       sorting,
+      pagination: {
+        pageIndex,
+        pageSize,
+      },
     },
+    manualPagination: true,
   });
 
   const isFiltered = table.getState().columnFilters.length > 0;

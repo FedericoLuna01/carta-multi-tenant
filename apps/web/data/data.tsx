@@ -71,7 +71,7 @@ export const userNavItems = [
   {
     id: 5,
     label: "Órdenes",
-    href: "/dashboard/ordenes",
+    href: "/dashboard/ordenes?page=1&pageSize=10",
     icon: ShoppingBasket,
   },
   {

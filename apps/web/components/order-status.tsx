@@ -34,9 +34,9 @@ const OrderStatusVisualizer: React.FC<OrderStatusProps> = ({ orderId, userSettin
   useEffect(() => {
     const getOrder = async () => {
       setLoading(true);
-      // const url = process.env.DOMAIN_NAME ? `https://${process.env.DOMAIN_NAME}` : "http://localhost:3000";
-      // const res = await axios(`${url}/api/${params.slug}/orders/${orderId}`);
-      const res = await axios(`https://platomenu.com/api/${params.slug}/orders/${orderId}`);
+      const url = process.env.DOMAIN_NAME ? `https://${process.env.DOMAIN_NAME}` : "http://localhost:3000";
+      const res = await axios(`${url}/api/${params.slug}/orders/${orderId}`);
+      // const res = await axios(`https://platomenu.com/api/${params.slug}/orders/${orderId}`);
       setOrder(res.data);
       const total = getTotalOrderPrice(res.data)
       setTotal(total);

@@ -47,7 +47,7 @@ const Sidebar = () => {
             prefetch={false}
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-primary transition-all hover:text-primary",
-              pathname === item.href
+              pathname === item.href || pathname === item.href.split("?")[0]
                 ? "bg-muted text-primary"
                 : "text-muted-foreground"
             )}
