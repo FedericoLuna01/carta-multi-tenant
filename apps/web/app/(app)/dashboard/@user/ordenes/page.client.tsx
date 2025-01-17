@@ -2,26 +2,45 @@
 
 import { columns } from "./components/columns";
 import { DataTable } from "@/components/ui/data-table";
-import { useOrders } from "@/contexts/orders-context";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useOrdersStore } from "@/stores/use-orders-store";
+import { useUser } from "@/utils/user";
 
-// Componente interno que maneja la lógica del cliente
 export function OrdersPageClient() {
-  const { orders, isLoading, totalItems, fetchOrders } = useOrders();
+  const { orders, isLoading, totalItems, fetchOrders, initialize, pageSize } = useOrdersStore();
   const searchParams = useSearchParams();
-  const currentPageSize = parseInt(searchParams.get('pageSize') ?? '10');
-  const currentPage = parseInt(searchParams.get('page') ?? '1');
+  const pathname = usePathname();
+  const router = useRouter();
+  const user = useUser();
 
-  // Efecto para hacer el fetch inicial si hay parámetros en la URL
+  // Inicializar el socket y los listeners
   useEffect(() => {
-    if (searchParams.has('page') || searchParams.has('pageSize')) {
-      fetchOrders(currentPage, currentPageSize);
+    if (user?.id) {
+      initialize(user.id);
     }
-  }, []); // Solo se ejecuta una vez al montar el componente
+  }, [user?.id]);
+
+  // Efecto para hacer el fetch inicial y sincronizar con URL params
+  useEffect(() => {
+    if (user?.slug) {
+      const urlPage = parseInt(searchParams.get('page') ?? '1');
+      const urlPageSize = parseInt(searchParams.get('pageSize') ?? '10');
+
+      fetchOrders(user.slug, urlPage, urlPageSize);
+    }
+  }, [user?.slug, searchParams]);
 
   const handlePaginationChange = async (page: number, pageSize: number) => {
-    await fetchOrders(page, pageSize);
+    if (user?.slug) {
+      // Actualizar URL
+      const params = new URLSearchParams();
+      params.set('page', page.toString());
+      params.set('pageSize', pageSize.toString());
+      router.push(`${pathname}?${params.toString()}`);
+
+      await fetchOrders(user.slug, page, pageSize);
+    }
   };
 
   if (isLoading) {
@@ -33,12 +52,12 @@ export function OrdersPageClient() {
   }
 
   return (
-    <DataTable 
-      data={orders} 
-      columns={columns} 
-      visibility 
+    <DataTable
+      data={orders}
+      columns={columns}
+      visibility
       order
-      pageCount={Math.ceil(totalItems / currentPageSize)}
+      pageCount={Math.ceil(totalItems / pageSize)}
       onPaginationChange={handlePaginationChange}
     />
   );

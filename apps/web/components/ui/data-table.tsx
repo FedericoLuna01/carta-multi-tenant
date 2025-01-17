@@ -68,7 +68,7 @@ export function DataTable<TData, TValue>({
   useEffect(() => {
     const newPage = parseInt(searchParams.get('page') ?? '1');
     const newPageSize = parseInt(searchParams.get('pageSize') ?? '10');
-    
+
     setPagination({
       pageIndex: Math.max(0, newPage - 1),
       pageSize: newPageSize,

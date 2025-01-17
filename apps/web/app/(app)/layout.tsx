@@ -6,7 +6,6 @@ import { ToasterProvider } from "@/providers/toaster-provider";
 import ModalsProviders from "@/providers/modals-provider";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
-import { OrdersProvider } from "@/contexts/orders-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,11 +32,9 @@ export default async function RootLayout({
         >
           <ToasterProvider />
           <ModalsProviders />
-          <OrdersProvider>
             <div className="h-full">
               {children}
             </div>
-          </OrdersProvider>
         </body>
       </html>
     </SessionProvider>
