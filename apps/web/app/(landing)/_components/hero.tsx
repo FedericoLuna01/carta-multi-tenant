@@ -7,20 +7,20 @@ const Hero = () => {
     <section id="inicio"
       className=" min-h-[calc(100vh-80px)]"
     >
-      <div className="container flex pt-[15vh] md:pt-[20vh] flex-col items-start gap-6">
-        <div className="flex justify-between gap-4 w-full">
-          <div className="flex flex-col gap-6">
+      <div className="container flex pt-[8vh] md:pt-[10vh] flex-col lg:items-start gap-6">
+        <div className="flex justify-between items-center gap-24 lg:gap-4 w-full flex-col lg:flex-row">
+          <div className="flex flex-col gap-6 text-center lg:text-left items-center lg:items-start">
             <div>
-              <div className="flex items-center gap-4 text-3xl mb-2">
-                <BellRingIcon />
+              <div className="flex items-center justify-center lg:justify-start gap-4 text-lg lg:text-3xl mb-2">
+                <BellRingIcon className="h-5 w-5 lg:h-7 lg:w-7 " />
                 <p>Es hora de digitalizar tu negocio</p>
               </div>
-              <div>
+              <div className="flex flex-col justify-center items-center lg:items-start gap-2">
                 <h1 className=" text-4xl md:text-5xl font-bold">
                   Pedidos, Delivery & Menú Digital
                 </h1>
-                <p className=" text-lg md:text-5xl relative w-fit">
-                  <span className="absolute w-full h-2 bg-accentLanding/70 -z-10 -bottom-1 -skew-x-12" />
+                <p className="text-3xl md:text-5xl relative w-fit">
+                  <span className="absolute w-full h-1 lg:h-2 bg-accentLanding/70 -bottom-0 lg:-z-10 lg:-bottom-1 -skew-x-12" />
                   sin comisiones...
                 </p>
               </div>
@@ -36,11 +36,11 @@ const Hero = () => {
           </div>
           <div>
             <Image
-              src="/qrcode.jpg"
-              width={300}
-              height={300}
+              src="/demo.png"
+              width={600}
+              height={600}
               alt="Código qr en una mesa"
-              className="rounded-full aspect-square object-center object-cover"
+            // className="rounded-full aspect-square object-center object-cover"
             />
           </div>
         </div>

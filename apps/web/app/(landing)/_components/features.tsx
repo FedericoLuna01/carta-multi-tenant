@@ -44,7 +44,7 @@ const Features = () => {
             Vos encargate de la comida, nosotros resolvemos el resto.
           </p>
         </div>
-        <div className='grid grid-cols-1 md:grid-cols-3 justify-items-center mt-8 gap-y-8 md:gap-y-0'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 justify-items-center mt-8 gap-y-8 lg:gap-y-0'>
           <div className="flex flex-col h-full justify-center space-y-12">
             {
               featuresLeft.map((item, index) => (
@@ -73,16 +73,16 @@ const Features = () => {
 }
 
 const FeatureCard = ({ item, side }: { item: { title: string, description: string }, side: "right" | "left" }) => (
-  <div className={cn("max-w-[400px] flex  flex-col-reverse md:flex-row items-center gap-2 md:gap-5", {
-    'md:flex-row-reverse': side === "right",
-    'md:flex-row': side === "left"
+  <div className={cn("max-w-[400px] flex  flex-col-reverse items-center gap-2 lg:gap-5", {
+    'lg:flex-row-reverse': side === "right",
+    'lg:flex-row': side === "left"
   })}>
     <div className={cn("text-balance text-center", {
-      'md:text-right': side === "left",
-      'md:text-left': side === "right"
+      'lg:text-right': side === "left",
+      'lg:text-left': side === "right"
     })}>
-      <div className={cn("flex gap-2 items-center justify-end", {
-        'flex-row-reverse': side === "right",
+      <div className={cn("flex gap-2 items-center justify-center flex-row-reverse lg:flex-row lg:justify-end", {
+        'lg:flex-row-reverse': side === "right",
       })}>
         <h3 className="font-semibold text-xl">{item.title}</h3>
         <CircleCheckIcon className="text-accentLanding/70 w-8 h-8" />
